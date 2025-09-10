@@ -1,0 +1,73 @@
+{% extends 'core/district_admin/base.html' %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="card shadow-lg" style="width: 22rem; border-radius: 1.5rem;">
+    <div class="card-body text-center">
+      
+      <!-- Big Profile Icon on Top -->
+      <div class="mb-4">
+        <div class="mx-auto bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 96px; height: 96px; box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);">
+          <i class="bi bi-person-fill text-white fs-1"></i>
+        </div>
+      </div>
+
+      <h3 class="card-title mb-4 text-primary fw-bold">My Profile</h3>
+
+      <ul class="list-group list-group-flush text-start">
+
+        <li class="list-group-item d-flex align-items-center gap-3">
+          <span class="badge bg-primary rounded-circle p-3 shadow">
+            <i class="bi bi-person-fill text-white fs-5"></i>
+          </span>
+          <div>
+            <small class="text-muted text-uppercase fw-semibold">Username</small><br>
+            <span class="fw-bold text-dark">{{ request.user.username }}</span>
+          </div>
+        </li>
+
+        <li class="list-group-item d-flex align-items-center gap-3">
+          <span class="badge bg-success rounded-circle p-3 shadow">
+            <i class="bi bi-envelope-fill text-white fs-5"></i>
+          </span>
+          <div>
+            <small class="text-muted text-uppercase fw-semibold">Email</small><br>
+            <span class="fw-bold text-dark">{{ request.user.email }}</span>
+          </div>
+        </li>
+
+        <li class="list-group-item d-flex align-items-center gap-3">
+          <span class="badge bg-info rounded-circle p-3 shadow">
+            <i class="bi bi-phone-fill text-white fs-5"></i>
+          </span>
+          <div>
+            <small class="text-muted text-uppercase fw-semibold">Mobile</small><br>
+            <span class="fw-bold text-dark">{{ request.user.mobile_number }}</span>
+          </div>
+        </li>
+
+        <li class="list-group-item d-flex align-items-center gap-3">
+          <span class="badge bg-warning rounded-circle p-3 shadow">
+            <i class="bi bi-geo-alt-fill text-white fs-5"></i>
+          </span>
+          <div>
+            <small class="text-muted text-uppercase fw-semibold">Address</small><br>
+            <span class="fw-bold text-dark">{{ request.user.address }}</span>
+          </div>
+        </li>
+
+        <li class="list-group-item d-flex align-items-center gap-3">
+          <span class="badge bg-danger rounded-circle p-3 shadow">
+            <i class="bi bi-shield-lock-fill text-white fs-5"></i>
+          </span>
+          <div>
+            <small class="text-muted text-uppercase fw-semibold">Role</small><br>
+            <span class="fw-bold text-dark">{{ request.user.role }}</span>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "core/block_admin/base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-screen bg-amber-50 p-6">
+  <!-- Profile icon -->
+  <div class="bg-red-200 rounded-full p-5 mb-8 shadow-md">
+    <svg xmlns="http://www.w3.org/2000/svg" 
+         class="w-20 h-20 text-red-600" fill="none" 
+         stroke="currentColor" stroke-width="2" 
+         stroke-linecap="round" stroke-linejoin="round" 
+         viewBox="0 0 24 24">
+      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/>
+      <path d="M16 16v2H8v-2c0-2.21 3.58-4 4-4s4 1.79 4 4z"/>
+    </svg>
+  </div>
+
+  <!-- User info card -->
+  <div class="bg-white rounded-xl p-8 w-full max-w-md shadow-lg">
+    <h1 class="text-3xl font-bold mb-6 text-center text-red-700">My Profile</h1>
+
+    <div class="space-y-6 text-gray-800">
+      <div>
+        <p class="font-semibold text-lg">Username</p>
+        <p class="text-red-600 font-medium">{{ request.user.username }}</p>
+      </div>
+      <div>
+        <p class="font-semibold text-lg">Full Name</p>
+        <p>{{ request.user.full_name }}</p>
+      </div>
+      <div>
+        <p class="font-semibold text-lg">Email</p>
+        <p>{{ request.user.email }}</p>
+      </div>
+      <div>
+        <p class="font-semibold text-lg">Phone</p>
+        <p>{{ request.user.mobile_number }}</p>
+      </div>
+      <div>
+        <p class="font-semibold text-lg">Role</p>
+        <p>{{ request.user.role.role_name }}</p>
+      </div>
+      <div>
+        <p class="font-semibold text-lg">Address</p>
+        <p>{{ request.user.address }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

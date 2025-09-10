@@ -1,0 +1,273 @@
+{% extends 'core/admin/base.html' %}
+{% block content %}
+
+<style>
+/* Form container */
+form {
+    width: 100%;
+    max-width: 100%;
+    margin: 1rem auto;
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+}
+
+/* Form section */
+.form-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+}
+.form-section h4 {
+    margin-bottom: 1rem;
+    font-weight: 700;
+    color: #3a5795;
+    border-bottom: 2px solid #3a5795;
+    padding-bottom: 0.5rem;
+    text-align: center;
+}
+
+/* Grid layout */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Form group */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+.form-group > label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* Form controls */
+.form-control, select, textarea {
+    width: 100%;
+    padding: 0.45rem 0.5rem;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    border: 1.5px solid #ced4da;
+    box-sizing: border-box;
+}
+.form-control:focus, select:focus, textarea:focus {
+    border-color: #3a5795;
+    box-shadow: 0 0 5px rgba(58,87,149,0.5);
+    outline: none;
+}
+
+/* Error messages */
+.errorlist {
+    color: #d9534f;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Textareas */
+#id_permanent_address, #id_current_address {
+    min-height: 40px;
+    max-height: 50px;
+    resize: vertical;
+}
+
+/* Buttons */
+button.btn {
+    border-radius: 6px;
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+}
+
+/* ---------------- Responsive ---------------- */
+/* Official & Other Details responsive fix */
+@media (max-width: 1024px) {
+    .form-grid.official { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+}
+@media (max-width: 768px) {
+    .form-grid.official { grid-template-columns: 1fr; gap: 0.6rem; }
+}
+
+@media (max-width: 768px) {
+    .form-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+    form { padding: 0 0.5rem; }
+    .form-section { padding: 1rem; }
+    h2 { font-size: 1.4rem; text-align: center; }
+    .form-group > label { font-size: 0.9rem; }
+    .form-control { font-size: 0.9rem; padding: 0.4rem 0.5rem; }
+    button.btn { font-size: 0.9rem; padding: 0.6rem; }
+}
+
+@media (max-width: 480px) {
+    .form-grid { grid-template-columns: 1fr; gap: 0.5rem; }
+    form { padding: 0 0.3rem; }
+    .form-section { padding: 0.8rem; }
+    .form-section h4 { font-size: 1.1rem; }
+    .form-control { font-size: 0.9rem; padding: 0.35rem 0.4rem; }
+    button.btn { font-size: 0.9rem; padding: 0.55rem; }
+}
+</style>
+
+<h2 class="text-center mb-4">Add Party Member</h2>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+{% if form.errors %}
+  <div class="alert alert-danger">
+    <strong>Form validation failed:</strong>
+    <ul>
+      {% for field in form %}
+        {% if field.errors %}
+          <li>{{ field.label }}: {{ field.errors|join:", " }}</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <!-- Section 1: Personal Details -->
+  <div class="form-section">
+    <h4>Personal Details</h4>
+    <div class="form-grid">
+      <div class="form-group">{{ form.username.label_tag }}{{ form.username }}{{ form.username.errors }}</div>
+      <div class="form-group">{{ form.full_name.label_tag }}{{ form.full_name }}{{ form.full_name.errors }}</div>
+      <div class="form-group">{{ form.father_or_mother_name.label_tag }}{{ form.father_or_mother_name }}{{ form.father_or_mother_name.errors }}</div>
+
+      <div class="form-group">
+        <label for="id_date_of_birth">Date of Birth</label>
+        <input type="date" name="date_of_birth" class="form-control" id="id_date_of_birth" value="{{ form.date_of_birth.value|default_if_none:'' }}">
+        {{ form.date_of_birth.errors }}
+      </div>
+      <div class="form-group">{{ form.gender.label_tag }}{{ form.gender }}{{ form.gender.errors }}</div>
+      <div class="form-group">{{ form.mobile_number.label_tag }}{{ form.mobile_number }}{{ form.mobile_number.errors }}</div>
+      <div class="form-group">{{ form.alternate_mobile_number.label_tag }}{{ form.alternate_mobile_number }}{{ form.alternate_mobile_number.errors }}</div>
+      <div class="form-group">{{ form.email.label_tag }}{{ form.email }}{{ form.email.errors }}</div>
+      <div class="form-group">{{ form.aadhar_or_govt_id.label_tag }}{{ form.aadhar_or_govt_id }}{{ form.aadhar_or_govt_id.errors }}</div>
+
+      <div class="form-group">{{ form.permanent_address.label_tag }}{{ form.permanent_address }}{{ form.permanent_address.errors }}</div>
+      <div class="form-group">{{ form.current_address.label_tag }}{{ form.current_address }}{{ form.current_address.errors }}</div>
+
+      <div class="form-group">
+        <label for="id_state">State</label>
+        <input type="text" id="id_state" name="state" class="form-control" value="Bihar" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="id_district">District</label>
+        <select id="id_district" name="district" class="form-control">
+          <option value="" disabled selected>Select District</option>
+          {% for d in districts %}
+            <option value="{{ d }}">{{ d }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="id_block">Block / Tehsil / Taluka</label>
+        <select id="id_block" name="block_tehsil_taluka" class="form-control">
+          <option value="" disabled selected>Select Block</option>
+        </select>
+      </div>
+
+      <div class="form-group">{{ form.village_town_city.label_tag }}{{ form.village_town_city }}{{ form.village_town_city.errors }}</div>
+      <div class="form-group">{{ form.pincode.label_tag }}{{ form.pincode }}{{ form.pincode.errors }}</div>
+    </div>
+  </div>
+
+ <!-- Section 2: Official & Other Details -->
+<div class="form-section">
+  <h4>Official & Other Details</h4>
+  <div class="form-grid official"> <!-- Add class 'official' -->
+    <div class="form-group">{{ form.role.label_tag }}{{ form.role }}{{ form.role.errors }}</div>
+    <div class="form-group">{{ form.location_level.label_tag }}{{ form.location_level }}{{ form.location_level.errors }}</div>
+
+    <div class="form-group">
+      <label for="id_assigned_state">Assigned State</label>
+      <input type="text" name="assigned_state" class="form-control" id="id_assigned_state" value="Bihar" readonly>
+    </div>
+
+    <div class="form-group">
+      <label for="id_assigned_districts">Assigned Districts</label>
+      <input type="text" name="assigned_districts" class="form-control" id="id_assigned_districts" value="{{ form.assigned_districts.value|default_if_none:'' }}">
+      {{ form.assigned_districts.errors }}
+    </div>
+
+    <div class="form-group">{{ form.political_experience_years.label_tag }}{{ form.political_experience_years }}{{ form.political_experience_years.errors }}</div>
+    <div class="form-group">{{ form.photo.label_tag }}{{ form.photo }}{{ form.photo.errors }}</div>
+    <div class="form-group">{{ form.id_proof.label_tag }}{{ form.id_proof }}{{ form.id_proof.errors }}</div>
+    <div class="form-group">{{ form.digital_signature.label_tag }}{{ form.digital_signature }}{{ form.digital_signature.errors }}</div>
+
+    <div class="form-group">
+      <label for="password-display">Password</label>
+      <input type="text" id="password-display" class="form-control" value="{{ form.password.value|default_if_none:'' }}" />
+      {{ form.password.as_hidden }}
+    </div>
+
+    <div class="form-check" style="align-self:center;">
+      {{ form.is_active }} {{ form.is_active.label_tag }}
+    </div>
+  </div>
+</div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary">Add Member</button>
+  </div>
+</form>
+
+<!-- Bihar locations JSON & JS -->
+<script type="application/json" id="bihar-locations">
+[ {% for loc in locations %} { "district_name": "{{ loc.district_name }}", "block_name": "{{ loc.block_name|escapejs }}" }{% if not forloop.last %},{% endif %} {% endfor %} ]
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const biharLocations = JSON.parse(document.getElementById('bihar-locations').textContent);
+    const districtSelect = document.getElementById('id_district');
+    const blockSelect = document.getElementById('id_block');
+    const assignedDistrictsInput = document.getElementById('id_assigned_districts');
+    const locationsMap = {};
+    biharLocations.forEach(loc => { locationsMap[loc.district_name] = loc.block_name.split(',').map(b => b.trim()); });
+    districtSelect.addEventListener('change', function() {
+        blockSelect.innerHTML = '<option value="" disabled selected>Select Block</option>';
+        if(locationsMap[this.value]) { locationsMap[this.value].forEach(block => {
+            const opt=document.createElement('option'); opt.value=block; opt.textContent=block; blockSelect.appendChild(opt);
+        });}
+        assignedDistrictsInput.value=this.value;
+    });
+
+    // Roles & password
+    const rolesData = JSON.parse('{{ roles_json|safe }}');  
+    const levelSelect = document.getElementById('id_location_level');
+    const roleSelect = document.getElementById('id_role');
+    const passwordDisplay = document.getElementById('password-display');
+    const passwordInput = document.getElementById('id_password');
+    function populateRoles(level) {
+        if(!roleSelect) return;
+        roleSelect.innerHTML='<option value="">-- Select Role --</option>';
+        rolesData.filter(r=>r.level===level).forEach(role=>{const opt=document.createElement('option'); opt.value=role.id; opt.textContent=role.name; roleSelect.appendChild(opt);});
+    }
+    async function fetchPassword() {
+        try { const res=await fetch("{% url 'generate_password_api' %}"); if(!res.ok) throw new Error(); const data=await res.json(); passwordDisplay.value=data.password; passwordInput.value=data.password; } catch(e){console.error(e);}
+    }
+    if(levelSelect) { populateRoles(levelSelect.value); levelSelect.addEventListener('change', ()=>populateRoles(levelSelect.value)); }
+    fetchPassword();
+});
+</script>
+
+{% endblock %}

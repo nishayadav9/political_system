@@ -1,0 +1,290 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load translation_tags %}
+{% block content %}
+<div class="container my-5">
+
+    <!-- Header Section -->
+<div class="text-center mb-10">
+
+  <!-- Banner Section with Overlay -->
+<div class="card shadow-lg border-0 mx-auto banner-card position-relative text-center">
+    <!-- Background Image -->
+    <img src="{% static 'core/images/environment.avif' %}" 
+         class="card-img-top banner-img" 
+         alt="Environment Issues">
+
+    <!-- Overlay -->
+    <div class="banner-overlay d-flex flex-column align-items-center justify-content-start text-white p-4 pt-12">
+        <!-- Title with Gradient -->
+       <h1 class="text-4xl md:text-5xl font-extrabold mb-3 text-green-400">
+    {% blocktrans %}Environment Complaints{% endblocktrans %}
+</h1>
+
+
+        <!-- Subtitle -->
+       <!-- Subtitle -->
+<p class="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+    {% blocktrans %}Report environmental issues like pollution deforestation and illegal dumping to build a cleaner & safer community.{% endblocktrans %}
+</p>
+
+
+
+    </div>
+</div>
+
+<!-- Environment Complaints Section -->
+<div class="max-w-6xl mx-auto -mt-16 relative z-10">
+  <div class="bg-gradient-to-r from-green-50 via-teal-50 to-blue-50 shadow-xl rounded-2xl border border-green-400 hover:shadow-2xl transition-all duration-500 px-10 py-6 flex items-start gap-6">
+
+    <!-- Icon Section -->
+    <div class="flex-shrink-0">
+      <div class="h-14 w-14 flex items-center justify-center bg-gradient-to-tr from-green-400 via-teal-300 to-blue-300 text-white text-2xl rounded-full shadow-lg">
+        🌳
+      </div>
+    </div>
+
+    <!-- Text Section -->
+    <div>
+      <h3 class="text-2xl font-extrabold text-black mb-2">
+    {% blocktrans %}What are Environment Complaints?{% endblocktrans %}
+</h3>
+<p class="text-gray-700 text-base leading-relaxed">
+    {% blocktrans %}Environment complaints include issues like air and water pollution, deforestation, illegal dumping, noise pollution, and loss of biodiversity.{% endblocktrans %}
+</p>
+<p class="text-gray-700 text-base leading-relaxed">
+    {% blocktrans %}Reporting these problems helps protect health, wildlife, and community well-being.{% endblocktrans %}
+</p>
+
+
+
+      <!-- Bottom Accent Line -->
+      <div class="mt-4 h-1 w-28 bg-gradient-to-r from-green-500 via-teal-400 to-blue-400 rounded-full"></div>
+    </div>
+  </div>
+</div>
+
+</div> 
+
+<!-- Timeline Section (Why Care) -->
+<section class="my-16 relative bg-green-50 py-16 rounded-2xl shadow-inner">
+  <div class="rounded-3xl p-8 mb-12 max-w-3xl mx-auto text-center">
+   <div>
+    <div class="flex items-center justify-center gap-3">
+        <div class="h-12 w-12 flex items-center justify-center text-white rounded-2xl"></div>
+        <h3>{% blocktrans %}Why Protect Environment?{% endblocktrans %}</h3>
+    </div>
+    <p>{% blocktrans %}A healthy environment ensures safe air, clean water, and a sustainable future for all.{% endblocktrans %}</p>
+</div>
+
+
+  <!-- Vertical Line for Mobile -->
+  <div class="block md:hidden absolute left-1/2 top-0 h-full border-l-2 border-dashed border-green-500 z-0"></div>
+
+  <!-- Timeline Blocks -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 relative z-10">
+
+    <!-- Block 1 -->
+<div class="flex flex-col items-center text-center relative">
+  <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+  <h3 class="text-lg font-bold text-green-700 mt-4">{% blocktrans %}Reduces Pollution{% endblocktrans %}</h3>
+  <p class="text-gray-700 mt-2 text-sm">{% blocktrans %}Reports help authorities take action against pollution sources.{% endblocktrans %}</p>
+</div>
+
+<!-- Block 2 -->
+<div class="flex flex-col items-center text-center relative">
+  <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+  <h3 class="text-lg font-bold text-green-700 mt-4">{% blocktrans %}Protects Wildlife{% endblocktrans %}</h3>
+  <p class="text-gray-700 mt-2 text-sm">{% blocktrans %}Prevent deforestation and illegal activities to save natural habitats.{% endblocktrans %}</p>
+</div>
+
+<!-- Block 3 -->
+<div class="flex flex-col items-center text-center relative">
+  <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+  <h3 class="text-lg font-bold text-green-700 mt-4">{% blocktrans %}Community Health{% endblocktrans %}</h3>
+  <p class="text-gray-700 mt-2 text-sm">{% blocktrans %}Cleaner environment reduces diseases and improves overall health.{% endblocktrans %}</p>
+</div>
+
+<!-- Block 4 -->
+<div class="flex flex-col items-center text-center relative">
+  <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+  <h3 class="text-lg font-bold text-green-700 mt-4">{% blocktrans %}Sustainable Future{% endblocktrans %}</h3>
+  <p class="text-gray-700 mt-2 text-sm">{% blocktrans %}Environmental action ensures resources for future generations.{% endblocktrans %}</p>
+</div>
+
+  </div>
+</section>
+
+<!-- How to File a Complaint Section (Fully Responsive) -->
+<section class="my-16 bg-gradient-to-r from-blue-50 to-blue-100 py-14">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-start gap-10">
+
+    <div class="w-full md:w-7/12 order-1 md:order-1">
+      <img src="{% static 'core/images/complaint1.jpg' %}"
+           class="rounded-3xl shadow-lg w-full object-cover h-64 md:h-96" alt="Public Safety Steps">
+    </div>
+
+    <div class="w-full md:w-5/12 flex flex-col gap-4 order-2 md:order-2">
+      <div class="text-left mb-3">
+        <h2 class="text-3xl font-bold text-blue-900 mb-0.5">
+          {% blocktrans %}How to File a Complaint?{% endblocktrans %}
+        </h2>
+        <p class="text-gray-600 text-base">
+          {% blocktrans %}Follow these steps to report public safety issues efficiently.{% endblocktrans %}
+        </p>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 bg-blue-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+        <div>
+          <h3 class="text-lg font-semibold text-blue-800">
+            {% blocktrans %}Verify Mobile{% endblocktrans %}
+          </h3>
+          <p class="text-gray-700 text-sm">
+            {% blocktrans %}Verify your mobile number for security.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 bg-blue-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+        <div>
+          <h3 class="text-lg font-semibold text-blue-800">
+            {% blocktrans %}Fill Complaint Form{% endblocktrans %}
+          </h3>
+          <p class="text-gray-700 text-sm">
+            {% blocktrans %}Complete the complaint form with accurate details.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 bg-blue-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+        <div>
+          <h3 class="text-lg font-semibold text-blue-800">
+            {% blocktrans %}Attach Evidence{% endblocktrans %}
+          </h3>
+          <p class="text-gray-700 text-sm">
+            {% blocktrans %}Upload any photos or documents supporting your report.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 bg-blue-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+        <div>
+          <h3 class="text-lg font-semibold text-blue-800">
+            {% blocktrans %}Submit Complaint{% endblocktrans %}
+          </h3>
+          <p class="text-gray-700 text-sm">
+            {% blocktrans %}Send your complaint to the system and track its status.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- RJP Party Help Section (Horizontal Timeline Style - Increased Gap) -->
+<section class="my-16">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+
+    <!-- Heading -->
+    <div class="flex items-center gap-4 mb-12 justify-center">
+      <div class="text-white h-12 w-12 flex items-center justify-center rounded-full text-2xl shadow-md"></div>
+      <h3 class="text-2xl md:text-3xl font-extrabold text-gray-900">
+        {% blocktrans %}How RJD Party Ensures Your Complaint is Resolved{% endblocktrans %}
+      </h3>
+    </div>
+
+    <!-- Timeline Container -->
+    <div class="relative flex justify-between items-start space-x-16 md:space-x-24">
+
+      <!-- Horizontal Line -->
+      <div class="absolute top-7 -left-4 md:-left-8 -right-4 md:-right-8 h-1 bg-green-300 z-0 rounded-full"></div>
+
+      <!-- Step 1 -->
+      <div class="flex flex-col items-center z-10">
+        <div class="bg-green-500 text-white h-16 w-16 flex items-center justify-center rounded-full text-4xl shadow-md">🤝</div>
+        <h4 class="text-center text-gray-800 font-semibold mt-6">
+          {% blocktrans %}Trusted & Accountable{% endblocktrans %}
+        </h4>
+        <p class="text-center text-gray-700 text-sm md:text-base mt-3">
+          {% blocktrans %}RJD Party is committed to transparency and integrity, ensuring every complaint is taken seriously.{% endblocktrans %}
+        </p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="flex flex-col items-center z-10">
+        <div class="bg-green-500 text-white h-16 w-16 flex items-center justify-center rounded-full text-4xl shadow-md">🔍</div>
+        <h4 class="text-center text-gray-800 font-semibold mt-6">
+          {% blocktrans %}Thorough Investigation{% endblocktrans %}
+        </h4>
+        <p class="text-center text-gray-700 text-sm md:text-base mt-3">
+          {% blocktrans %}Each complaint is carefully verified and investigated to identify the exact issue and responsible authorities.{% endblocktrans %}
+        </p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="flex flex-col items-center z-10">
+        <div class="bg-green-500 text-white h-16 w-16 flex items-center justify-center rounded-full text-4xl shadow-md">⚡</div>
+        <h4 class="text-center text-gray-800 font-semibold mt-6">
+          {% blocktrans %}Immediate Action{% endblocktrans %}
+        </h4>
+        <p class="text-center text-gray-700 text-sm md:text-base mt-3">
+          {% blocktrans %}Once verified, the party coordinates with officials to ensure fast and effective resolution of the complaint.{% endblocktrans %}
+        </p>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="flex flex-col items-center z-10">
+        <div class="bg-green-500 text-white h-16 w-16 flex items-center justify-center rounded-full text-4xl shadow-md">📣</div>
+        <h4 class="text-center text-gray-800 font-semibold mt-6">
+          {% blocktrans %}Regular Updates{% endblocktrans %}
+        </h4>
+        <p class="text-center text-gray-700 text-sm md:text-base mt-3">
+          {% blocktrans %}Complainants are kept informed at every step, ensuring trust and accountability throughout the process.{% endblocktrans %}
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Back to Home Button -->
+<div class="mt-8 flex justify-center">
+    <a href="{% url 'home' %}" 
+   class="inline-block bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold px-8 py-3 rounded-xl shadow-lg transform transition duration-300 hover:scale-105 hover:from-green-500 hover:to-teal-600 hover:shadow-2xl">
+    {% blocktrans trimmed %}Back to Home{% endblocktrans %}
+</a>
+</div>
+
+<!-- Custom CSS -->
+<style>
+.banner-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+.banner-img {
+    width: 100%;
+    height:560px;
+    object-fit: cover;
+    filter: brightness(65%);
+}
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+</style>
+{% endblock %}

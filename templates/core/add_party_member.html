@@ -1,0 +1,12 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Add Party Member{% endblock %}
+
+{% block content %}
+<h1>Add Party Member</h1>
+<form method="post">
+    {% csrf_token %}
+    <!-- Add your form fields here -->
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

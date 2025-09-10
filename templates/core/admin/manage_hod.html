@@ -1,0 +1,67 @@
+{% extends 'core/admin/base.html' %}
+
+{% block content %}
+<h2>Manage HODs</h2>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th><th>Email</th><th>Phone</th><th>Date Added</th><th>Department</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for hod in hods %}
+  <tr>
+    <td>{{ hod.name }}</td>
+    <td>{{ hod.email }}</td>
+    <td>{{ hod.phone }}</td>
+    <td>{{ hod.created_at|date:"d M Y, H:i" }}</td>
+    <td>{{ hod.department }}</td>
+    <td>
+      <input type="checkbox" class="toggle-active" data-id="{{ hod.id }}" {% if hod.active %}checked{% endif %}>
+    </td>
+    <td>
+      <a href="{% url 'edit_hod' hod.id %}" class="btn btn-sm btn-primary">Edit</a>
+      <form method="POST" action="{% url 'delete_hod' hod.id %}" style="display:inline;" 
+            onsubmit="return confirm('Are you sure you want to delete {{ hod.name }}?');">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+      </form>
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="7">No HODs found.</td></tr>
+  {% endfor %}
+</tbody>
+
+</table>
+
+<script>
+document.querySelectorAll('.toggle-active').forEach(checkbox => {
+  checkbox.addEventListener('change', function() {
+    const hodId = this.dataset.id;
+    const isActive = this.checked;
+
+    fetch(`/toggle-active/hod/${hodId}/`, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': '{{ csrf_token }}',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ active: isActive }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (!data.success) {
+        alert('Failed to update status');
+        this.checked = !isActive; // revert checkbox
+      }
+    })
+    .catch(() => {
+      alert('Error updating status');
+      this.checked = !isActive; // revert checkbox
+    });
+  });
+});
+</script>
+
+{% endblock %}

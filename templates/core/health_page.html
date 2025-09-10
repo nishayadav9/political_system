@@ -1,0 +1,323 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load translation_tags %}
+{% block content %}
+<div class="container my-5">
+
+    <!-- Header Section -->
+    <div class="text-center mb-10">
+
+        <!-- Banner Section with Overlay -->
+        <div class="card shadow-lg border-0 mx-auto banner-card position-relative text-center">
+            <!-- Background Image -->
+            <img src="{% static 'core/images/health.webp' %}"
+                 class="card-img-top banner-img" 
+                 alt="Health Awareness">
+
+            <!-- Overlay -->
+<div class="banner-overlay d-flex flex-column align-items-center justify-content-start text-white p-4 pt-12">
+    <!-- Title -->
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-3 text-black">
+        {% blocktrans trimmed %}Health & Wellness{% endblocktrans %}
+    </h1>
+
+   <!-- Subtitle -->
+<p class="text-white font-semibold text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+    {% blocktrans %}Stay informed about common health issues, and local medical resources for a healthier life.{% endblocktrans %}
+</p>
+
+
+
+</div>
+
+        </div>
+
+    <!-- Info Section -->
+    <div class="max-w-6xl mx-auto -mt-16 relative z-10">
+        <div class="bg-gradient-to-r from-gray-50 via-green-50 to-teal-50 shadow-xl rounded-2xl border border-gray-200 hover:shadow-2xl transition-all duration-500 px-10 py-6 flex items-start gap-6">
+
+            <!-- Icon Section -->
+            <div class="flex-shrink-0">
+                <div class="h-14 w-14 flex items-center justify-center bg-gradient-to-tr from-green-200 via-teal-200 to-gray-200 text-white text-2xl rounded-full shadow-lg">
+                    🩺
+                </div>
+            </div>
+
+            <!-- Text Section -->
+            <div>
+                {% blocktrans %}What are Common Health Concerns?{% endblocktrans %}
+
+                <p class="text-gray-700 text-base leading-relaxed"> 
+    {% blocktrans %}Health concerns include lack of medical facilities, hygiene issues, emergency response delays, and prevalent illnesses. Being aware and proactive helps prevent complications and ensures timely treatment.{% endblocktrans %}
+</p>
+
+
+
+                <!-- Bottom Accent Line -->
+                <div class="mt-4 h-1 w-28 bg-gradient-to-r from-green-200 via-teal-200 to-gray-200 rounded-full"></div>
+            </div>
+        </div>
+    </div>
+
+    </div> 
+
+    <!-- RJD Health Complaint Assistance Section -->
+<section class="relative py-20 bg-white rounded-3xl shadow-xl overflow-hidden my-16">
+  <!-- Decorative Background Shapes -->
+  <div class="absolute -top-20 -left-20 w-72 h-72 bg-green-200 rounded-full opacity-40"></div>
+  <div class="absolute -bottom-20 -right-20 w-72 h-72 bg-green-300 rounded-full opacity-30"></div>
+
+  <div class="relative max-w-5xl mx-auto px-6 text-center z-10">
+    
+    <!-- Icon -->
+    <div class="text-6xl mb-6">🩺</div>
+
+    <!-- Heading -->
+    <h2 class="text-3xl md:text-4xl font-extrabold text-green-700 mb-6">
+    {% blocktrans %}Your Health, Our First Priority{% endblocktrans %}
+</h2>
+
+
+    <!-- Message -->
+    <p class="text-base md:text-lg text-gray-700 leading-relaxed mb-10">
+    {% blocktrans %}We believe that taking care of your health is our most important responsibility. For us, the health of our people always comes first. If you face any health-related problem, this platform is here to support you. Share your complaint with us, and our team will connect with you as quickly as possible to ensure your concerns are addressed without delay.{% endblocktrans %}
+</p>
+
+
+    <!-- Action Button -->
+    <!-- Action Button (Simple Modern Style) -->
+<a href="{% url 'complaint_form' %}" 
+   class="mt-8 inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+  {% blocktrans %}File Your Electricity Complaint{% endblocktrans %}
+</a>
+
+  </div>
+</section>
+
+
+<!-- Timeline Section (Why Care) -->
+<section class="my-16 relative bg-blue-50 py-16 rounded-2xl shadow-inner">
+    <div class="rounded-3xl p-8 mb-8 max-w-3xl mx-auto text-center">
+        <h3 class="text-2xl font-extrabold text-black">{% blocktrans %}Why Prioritize Health?{% endblocktrans %}</h3>
+<p class="text-green-700 mt-3">{% blocktrans %}Healthy habits and timely reporting of health issues improve well-being and community safety.{% endblocktrans %}</p>
+
+    </div>
+
+    <!-- Vertical Dashed Line -->
+    <div class="absolute left-1/2 top-24 h-[calc(100%-6rem)] border-l-2 border-dashed border-blue-500 z-0 hidden md:block"></div>
+
+    <!-- Timeline Blocks -->
+    <div class="relative z-10 max-w-6xl mx-auto px-4 flex flex-col space-y-4">
+
+        <!-- Card 1 (Left) -->
+        <div class="flex flex-col md:flex-row md:items-center">
+            <div class="md:w-1/2 md:pr-8 md:text-right">
+                <div class="inline-block bg-blue-50 rounded-xl shadow-md p-6 w-full md:w-4/6 transform transition hover:scale-105 hover:shadow-xl relative">
+                    <div class="absolute left-full top-1/2 -ml-3 -translate-y-1/2 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg">✔</div>
+                    <h3 class="text-lg font-bold text-black mt-2">{% blocktrans %}Prevent Illness{% endblocktrans %}</h3>
+<p class="text-green-700 mt-1 text-sm">{% blocktrans %}Adopting healthy habits reduces risk of common diseases.{% endblocktrans %}</p>
+
+            </div>
+            <div class="md:w-1/2"></div>
+        </div>
+
+        <!-- Card 2 (Right) -->
+        <div class="flex flex-col md:flex-row md:items-center">
+            <div class="md:w-1/2"></div>
+            <div class="md:w-1/2 md:pl-8 md:text-left">
+                <div class="inline-block bg-blue-50 rounded-xl shadow-md p-6 w-full md:w-4/6 transform transition hover:scale-105 hover:shadow-xl relative">
+                    <div class="absolute -left-6 top-1/2 -translate-y-1/2 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg">✔</div>
+                    <h3 class="text-lg font-bold text-black mt-2">{% blocktrans %}Early Detection{% endblocktrans %}</h3>
+<p class="text-green-700 mt-1 text-sm">{% blocktrans %}Regular check-ups help in detecting health issues early.{% endblocktrans %}</p>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 (Left) -->
+        <div class="flex flex-col md:flex-row md:items-center">
+            <div class="md:w-1/2 md:pr-8 md:text-right">
+                <div class="inline-block bg-blue-50 rounded-xl shadow-md p-6 w-full md:w-4/6 transform transition hover:scale-105 hover:shadow-xl relative">
+                    <div class="absolute left-full top-1/2 -ml-3 -translate-y-1/2 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg">✔</div>
+                    <h3 class="text-lg font-bold text-black mt-2">{% blocktrans %}Access Medical Help{% endblocktrans %}</h3>
+<p class="text-green-700 mt-1 text-sm">{% blocktrans %}Know where to seek treatment for emergencies and routine care.{% endblocktrans %}</p>
+
+                </div>
+            </div>
+            <div class="md:w-1/2"></div>
+        </div>
+
+        <!-- Card 4 (Right) -->
+        <div class="flex flex-col md:flex-row md:items-center">
+            <div class="md:w-1/2"></div>
+            <div class="md:w-1/2 md:pl-8 md:text-left">
+                <div class="inline-block bg-blue-50 rounded-xl shadow-md p-6 w-full md:w-4/6 transform transition hover:scale-105 hover:shadow-xl relative">
+                    <div class="absolute -left-6 top-1/2 -translate-y-1/2 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg">✔</div>
+                    <h3 class="text-lg font-bold text-black mt-2">{% blocktrans %}Educate Community{% endblocktrans %}</h3>
+<p class="text-green-700 mt-1 text-sm">{% blocktrans %}Sharing health knowledge helps protect your family and neighbors.{% endblocktrans %}</p>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+
+<!-- RJD Party Compliments Section - Background Image Style (Light Overlay) -->
+<section class="my-16 relative py-16" style="background-image: url('{% static 'core/images/background.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <div class="absolute inset-0 bg-white bg-opacity-20"></div> <!-- light overlay -->
+
+  <div class="relative max-w-6xl mx-auto px-6 text-center text-gray-900">
+
+    <!-- Heading -->
+   <h2 class="text-3xl md:text-4xl font-extrabold text-black mb-12">{% blocktrans %}Compliments for RJD Party{% endblocktrans %}</h2>
+
+    <!-- Image Split Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- Left Image with 2 Content Blocks -->
+      <div class="relative group rounded-2xl overflow-hidden shadow-lg">
+        <img src="{% static 'core/images/first3.jpg' %}" alt="Public Service" class="w-full h-96 object-cover">
+        <div class="absolute inset-0 flex flex-col justify-end p-6 gap-4">
+          
+          <!-- Content 1 -->
+<div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500">
+    <h4 class="font-bold text-black mb-1">
+        {% blocktrans %}Dedicated to Public Service{% endblocktrans %}
+    </h4>
+    <p class="text-green-700 text-sm">
+        {% blocktrans %}Always committed to listening to the people and resolving their issues efficiently.{% endblocktrans %}
+    </p>
+</div>
+
+<!-- Content 2 -->
+<div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500 delay-100">
+    <h4 class="font-bold text-black mb-1">
+        {% blocktrans %}Transparency & Integrity{% endblocktrans %}
+    </h4>
+    <p class="text-green-700 text-sm">
+        {% blocktrans %}Operates honestly and transparently at every step, building public trust.{% endblocktrans %}
+    </p>
+</div>
+
+
+        </div>
+      </div>
+
+      <!-- Right Image with 2 Content Blocks -->
+      <div class="relative group rounded-2xl overflow-hidden shadow-lg">
+        <img src="{% static 'core/images/first4.jpg' %}" alt="Swift Action" class="w-full h-96 object-cover">
+        <div class="absolute inset-0 flex flex-col justify-end p-6 gap-4">
+          
+          <!-- Content 3 -->
+<div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500">
+    <h4 class="font-bold text-black mb-1">
+        {% blocktrans %}Equality & Justice{% endblocktrans %}
+    </h4>
+    <p class="text-green-700 text-sm">
+        {% blocktrans %}Ensures equal opportunities and justice for every section of society.{% endblocktrans %}
+    </p>
+</div>
+
+<!-- Content 4 -->
+<div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500 delay-100">
+    <h4 class="font-bold text-black mb-1">
+        {% blocktrans %}Proficient in Public Engagement{% endblocktrans %}
+    </h4>
+    <p class="text-green-700 text-sm">
+        {% blocktrans %}Leads in staying connected with the people and bringing their voice to policymakers.{% endblocktrans %}
+    </p>
+</div>
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+    <!-- Health Tips Section -->
+    <section class="my-16 bg-gradient-to-r from-teal-50 via-green-50 to-white py-14">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center gap-10">
+<div class="text-center mb-8">
+    <h2 class="text-3xl font-bold text-black mb-2">
+        {% blocktrans %}Tips for a Healthy Life{% endblocktrans %}
+    </h2>
+    <p class="text-green-700 text-base">
+        {% blocktrans %}Simple actions to maintain good health and prevent common problems:{% endblocktrans %}
+    </p>
+</div>
+
+
+            <div class="flex flex-col md:flex-row justify-between w-full gap-6">
+<div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-start gap-4 flex-1 transform transition duration-300 hover:scale-105 hover:bg-green-100 hover:shadow-2xl">
+    <div class="text-3xl mb-3">💊</div>
+    <h3 class="text-xl font-semibold text-black">{% blocktrans %}Regular Check-ups{% endblocktrans %}</h3>
+    <p class="text-green-700 text-sm">{% blocktrans %}Visit your doctor regularly for early detection.{% endblocktrans %}</p>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-start gap-4 flex-1 transform transition duration-300 hover:scale-105 hover:bg-green-100 hover:shadow-2xl">
+    <div class="text-3xl mb-3">🥗</div>
+    <h3 class="text-xl font-semibold text-black">{% blocktrans %}Eat Healthy{% endblocktrans %}</h3>
+    <p class="text-green-700 text-sm">{% blocktrans %}Maintain a balanced diet rich in vitamins and minerals.{% endblocktrans %}</p>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-start gap-4 flex-1 transform transition duration-300 hover:scale-105 hover:bg-green-100 hover:shadow-2xl">
+    <div class="text-3xl mb-3">🏃‍♂️</div>
+    <h3 class="text-xl font-semibold text-black">{% blocktrans %}Exercise{% endblocktrans %}</h3>
+    <p class="text-green-700 text-sm">{% blocktrans %}Stay active daily to improve immunity and fitness.{% endblocktrans %}</p>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-start gap-4 flex-1 transform transition duration-300 hover:scale-105 hover:bg-green-100 hover:shadow-2xl">
+    <div class="text-3xl mb-3">😴</div>
+    <h3 class="text-xl font-semibold text-black">{% blocktrans %}Rest Well{% endblocktrans %}</h3>
+    <p class="text-green-700 text-sm">{% blocktrans %}Get adequate sleep and manage stress.{% endblocktrans %}</p>
+</div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Home Button -->
+    <div class="mt-8 flex justify-center">
+        <a href="{% url 'home' %}" 
+   class="inline-block bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold px-8 py-3 rounded-xl shadow-lg transform transition duration-300 hover:scale-105 hover:from-green-500 hover:to-teal-600 hover:shadow-2xl">
+    {% blocktrans trimmed %}Back to Home{% endblocktrans %}
+</a>
+    </div>
+
+</div>
+
+<!-- Custom CSS -->
+<style>
+.banner-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+.banner-img {
+    width: 100%;
+    height: 560px;
+    object-fit: cover;
+    filter: brightness(65%);
+}
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+</style>
+
+{% endblock %}

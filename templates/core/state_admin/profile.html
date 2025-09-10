@@ -1,0 +1,55 @@
+{% extends 'core/state_admin/base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-8 p-4 bg-amber-50 rounded-lg shadow-md">
+
+  <!-- Profile Icon -->
+  <div class="flex justify-center mb-8">
+    <div class="bg-red-200 rounded-full p-4 shadow">
+      <svg xmlns="http://www.w3.org/2000/svg" 
+           class="w-16 h-16 text-red-600" fill="none" 
+           stroke="currentColor" stroke-width="2" 
+           stroke-linecap="round" stroke-linejoin="round" 
+           viewBox="0 0 24 24">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/>
+        <path d="M16 16v2H8v-2c0-2.21 3.58-4 4-4s4 1.79 4 4z"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- User Info Card -->
+  <div class="bg-white rounded-lg p-6 shadow">
+    <h1 class="text-2xl font-bold mb-6 text-center text-red-700">My Profile</h1>
+
+    <div class="space-y-4 text-gray-800">
+      <div>
+        <p class="font-semibold text-lg mb-0.5">Username</p>
+        <p class="text-red-600 font-medium truncate">{{ request.user.username }}</p>
+      </div>
+      <div>
+        <p class="font-semibold text-lg mb-0.5">Full Name</p>
+        <p class="truncate">{{ request.user.full_name }}</p>
+      </div>
+      <div>
+        <p class="font-semibold text-lg mb-0.5">Email</p>
+        <p class="truncate">{{ request.user.email }}</p>
+      </div>
+      <div>
+        <p class="font-semibold text-lg mb-0.5">Phone</p>
+        <p class="truncate">{{ request.user.mobile_number }}</p>
+      </div>
+      <div>
+        <p class="font-semibold text-lg mb-0.5">Role</p>
+        <p class="truncate">{{ request.user.role.role_name }}</p>
+      </div>
+      <div>
+        <p class="font-semibold text-lg mb-0.5">Address</p>
+        <p class="truncate">{{ request.user.address }}</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Admin Panel{% endblock %}</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .sidebar {
+            width: 250px;
+            background: #f0f0f0;
+            height: 100vh;
+            position: fixed;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+        .sidebar ul li a.active {
+            font-weight: bold;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+            <li><a href="{% url 'ho_dashboard' %}" class="{% if request.resolver_match.url_name == 'ho_dashboard' %}active{% endif %}">Dashboard</a></li>
+            <li><a href="{% url 'add_party_member' %}" class="{% if request.resolver_match.url_name == 'add_party_member' %}active{% endif %}">Add Party Member</a></li>
+            <li><a href="{% url 'manage_party_member' %}" class="{% if request.resolver_match.url_name == 'manage_party_member' %}active{% endif %}">Manage Party Member</a></li>
+            <li><a href="{% url 'add_core_member' %}" class="{% if request.resolver_match.url_name == 'add_core_member' %}active{% endif %}">Add Core Member</a></li>
+            <li><a href="{% url 'manage_core_member' %}" class="{% if request.resolver_match.url_name == 'manage_core_member' %}active{% endif %}">Manage Core Member</a></li>
+            <li><a href="{% url 'manage_state_complaints' %}" class="{% if request.resolver_match.url_name == 'manage_state_complaints' %}active{% endif %}">State Level Complaint Manage</a></li>
+            <li><a href="{% url 'manage_district_complaints' %}" class="{% if request.resolver_match.url_name == 'manage_district_complaints' %}active{% endif %}">District Level Complaint Manage</a></li>
+            <li><a href="{% url 'manage_block_complaints' %}" class="{% if request.resolver_match.url_name == 'manage_block_complaints' %}active{% endif %}">Block Level Complaint Manage</a></li>
+            <li><a href="{% url 'ho_notifications' %}" class="{% if request.resolver_match.url_name == 'ho_notifications' %}active{% endif %}">Notification</a></li>
+            <li><a href="{% url 'ho_settings' %}" class="{% if request.resolver_match.url_name == 'ho_settings' %}active{% endif %}">Settings</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        {% block content %}
+        <!-- Child templates will inject content here -->
+        {% endblock %}
+    </div>
+</body>
+</html>

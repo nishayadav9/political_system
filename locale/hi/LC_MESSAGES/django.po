@@ -1,0 +1,1654 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 10:23+0530\n"
+"PO-Revision-Date: 2025-08-30 11:15+0530\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\templates\core\base.html:100 .\templates\core\base.html:160
+msgid "Home"
+msgstr "मुख्य पृष्ठ"
+
+#: .\templates\core\base.html:106 .\templates\core\base.html:165
+msgid "Complaint Form"
+msgstr "शिकायत फ़ॉर्म"
+
+#: .\templates\core\base.html:112 .\templates\core\base.html:170
+msgid "Track Complaints"
+msgstr "शिकायतें ट्रैक करें"
+
+#: .\templates\core\base.html:175
+msgid "Login"
+msgstr "लॉगिन"
+
+#: .\templates\core\home.html:14
+msgid "Banner Image"
+msgstr "बैनर इमेज"
+
+#: .\templates\core\home.html:20
+msgid "Common Complaint Categories"
+msgstr "सामान्य शिकायत श्रेणियाँ"
+
+#: .\templates\core\home.html:22
+msgid "Select your area of concern and help improve your community."
+msgstr "अपने क्षेत्र की समस्या चुनें और अपनी समुदाय को बेहतर बनाने में मदद करें।"
+
+#: .\templates\core\home.html:33 .\templates\core\home.html:35
+msgid "Roads"
+msgstr "सड़कें"
+
+#: .\templates\core\home.html:36
+msgid "Potholes, damaged roads, or poor maintenance in your area."
+msgstr "गड्ढे, क्षतिग्रस्त सड़कें, या आपके क्षेत्र में खराब रखरखाव।"
+
+#: .\templates\core\home.html:45 .\templates\core\home.html:47
+msgid "Water Supply"
+msgstr "पानी की आपूर्ति"
+
+#: .\templates\core\home.html:48
+msgid "Report water shortages, contamination, or irregular supply."
+msgstr "पानी की कमी, दूषण, या असमान आपूर्ति की रिपोर्ट करें।"
+
+#: .\templates\core\home.html:56 .\templates\core\home.html:58
+msgid "Electricity"
+msgstr "बिजली"
+
+#: .\templates\core\home.html:59
+msgid "Frequent power cuts, faulty street lights, or overbilling issues."
+msgstr "बार-बार बिजली कट, खराब स्ट्रीट लाइट, या अधिक बिलिंग की समस्याएँ।"
+
+#: .\templates\core\home.html:67 .\templates\core\home.html:69
+msgid "Health"
+msgstr "स्वास्थ्य"
+
+#: .\templates\core\home.html:70
+msgid "Lack of medical facilities, poor hygiene, or emergency response issues."
+msgstr "चिकित्सा सुविधाओं की कमी, खराब स्वच्छता, या आपातकालीन प्रतिक्रिया की समस्याएँ।"
+
+#: .\templates\core\home.html:79 .\templates\core\home.html:81
+msgid "Education"
+msgstr "शिक्षा"
+
+#: .\templates\core\home.html:82
+msgid "School infrastructure, teacher availability, or fee concerns."
+msgstr "विद्यालय की संरचना, शिक्षक उपलब्धता, या शुल्क संबंधित समस्याएँ।"
+
+#: .\templates\core\home.html:91 .\templates\core\home.html:93
+msgid "Corruption"
+msgstr "भ्रष्टाचार"
+
+#: .\templates\core\home.html:94
+msgid "Report any bribery, misuse of power, or lack of transparency."
+msgstr "किसी भी रिश्वत, शक्ति का दुरुपयोग, या पारदर्शिता की कमी की रिपोर्ट करें।"
+
+#: .\templates\core\home.html:103 .\templates\core\home.html:105
+msgid "Public Safety"
+msgstr "सार्वजनिक सुरक्षा"
+
+#: .\templates\core\home.html:106
+msgid "Concerns related to crime, law enforcement, or local safety."
+msgstr "अपराध, कानून प्रवर्तन, या स्थानीय सुरक्षा से संबंधित चिंताएँ।"
+
+#: .\templates\core\home.html:114 .\templates\core\home.html:116
+msgid "Crime"
+msgstr "अपराध"
+
+#: .\templates\core\home.html:117
+msgid ""
+"Crime means breaking the law. It includes theft, violence, and other illegal "
+"activities."
+msgstr ""
+"अपराध का अर्थ है कानून तोड़ना। इसमें चोरी, हिंसा और अन्य अवैध गतिविधियाँ शामिल हैं।"
+
+#: .\templates\core\home.html:125 .\templates\core\home.html:127
+msgid "Transportation"
+msgstr "परिवहन"
+
+#: .\templates\core\home.html:128
+msgid ""
+"Problems with public transit, traffic congestion, or unsafe driving "
+"conditions."
+msgstr "सार्वजनिक परिवहन, ट्रैफिक जाम, या असुरक्षित ड्राइविंग स्थितियों से संबंधित समस्याएँ।"
+
+#: .\templates\core\home.html:136 .\templates\core\home.html:138
+msgid "Environment"
+msgstr "पर्यावरण"
+
+#: .\templates\core\home.html:139
+msgid "Concerns about pollution, deforestation, and conservation efforts."
+msgstr "प्रदूषण, वनों की कटाई, और संरक्षण प्रयासों से संबंधित चिंताएँ।"
+
+#: .\templates\core\home.html:164
+msgid "Your Voice"
+msgstr "आपकी आवाज़"
+
+#: .\templates\core\home.html:164
+msgid "Can Change Things"
+msgstr "बदलाव ला सकती है"
+
+
+
+#: .\templates\core\home.html:196
+msgid "How It Works"
+msgstr "यह कैसे काम करता है"
+
+#: .\templates\core\home.html:210
+msgid "Submit Your Complaint"
+msgstr "अपनी शिकायत दर्ज करें"
+
+#: .\templates\core\home.html:212
+msgid ""
+"Choose your complaint category and give a detailed description with any "
+"supporting images."
+msgstr "अपनी शिकायत श्रेणी चुनें और किसी भी सहायक चित्रों के साथ विस्तृत विवरण दें।"
+
+#: .\templates\core\home.html:226
+msgid "We Forward It"
+msgstr "हम इसे अग्रेषित करते हैं"
+
+#: .\templates\core\home.html:228
+msgid ""
+"Our team verifies the issue and forwards your complaint to the right "
+"authority."
+msgstr ""
+"हमारी टीम समस्या को सत्यापित करती है और आपकी शिकायत को सही प्राधिकारी तक भेजती है।"
+
+#: .\templates\core\home.html:243
+msgid "Track & Get Updates"
+msgstr "ट्रैक करें और अपडेट प्राप्त करें"
+
+#: .\templates\core\home.html:245
+msgid ""
+"Stay informed about the status and resolution progress right from your "
+"dashboard."
+msgstr "अपने डैशबोर्ड से ही स्थिति और समाधान की प्रगति के बारे में सूचित रहें।"
+
+#: .\templates\core\home.html:262
+msgid "Empower Your Voice"
+msgstr "अपनी आवाज़ को सशक्त बनाएं"
+
+#: .\templates\core\home.html:265
+msgid ""
+"Jan Samadhan empowers you with transparency and accountability. Raise your "
+"concerns and track them with ease."
+msgstr ""
+"जन समाधान आपको पारदर्शिता और जवाबदेही के साथ सशक्त बनाता है। अपनी समस्याएं उठाएं और "
+"उन्हें आसानी से ट्रैक करें।"
+
+#: .\templates\core\home.html:268
+msgid "Get Started Now"
+msgstr "अभी शुरू करें"
+
+#: .\templates\core\home.html:315
+msgid "Our Core Values"
+msgstr "हमारे मूल मूल्य"
+
+#: .\templates\core\home.html:327
+msgid "Community First"
+msgstr "समुदाय पहले"
+
+#: .\templates\core\home.html:328
+msgid ""
+"We put people at the heart of everything we do, ensuring every voice is "
+"valued and heard."
+msgstr "हम हर काम में लोगों को केंद्र में रखते हैं, ताकि हर आवाज़ की कद्र और सुनवाई हो।"
+
+#: .\templates\core\home.html:339
+msgid "Integrity & Fairness"
+msgstr "ईमानदारी और निष्पक्षता"
+
+#: .\templates\core\home.html:340
+msgid ""
+"Transparency and honesty guide us in building trust and delivering justice."
+msgstr "पारदर्शिता और ईमानदारी हमें विश्वास बनाने और न्याय देने में मार्गदर्शन करती हैं।"
+
+#: .\templates\core\home.html:351
+msgid "Innovation"
+msgstr "नवाचार"
+
+#: .\templates\core\home.html:352
+msgid ""
+"Constantly evolving with smart solutions to empower citizens and streamline "
+"governance."
+msgstr ""
+"स्मार्ट समाधान के साथ लगातार विकसित होकर नागरिकों को सशक्त बनाना और शासन को सरल "
+"बनाना।"
+
+#: .\templates\core\home.html:375
+msgid "Why Choose Jan Samadhan?"
+msgstr "जन समाधान क्यों चुनें?"
+
+#: .\templates\core\home.html:376
+msgid ""
+"Jan Samadhan bridges the gap between people and politicians. We make it easy "
+"to file complaints, forward them to the right authorities, and keep you "
+"informed every step of the way."
+msgstr ""
+"जन समाधान लोगों और राजनेताओं के बीच की दूरी को पाटता है। हम शिकायत दर्ज करना, सही "
+"अधिकारियों तक पहुँचाना और हर कदम पर आपको सूचित रखना आसान बनाते हैं।"
+
+#: .\templates\core\home.html:380
+msgid "Real-time tracking of your complaint"
+msgstr "आपकी शिकायत का वास्तविक समय में ट्रैकिंग"
+
+#: .\templates\core\home.html:383
+msgid "Verified channels to reach authorities"
+msgstr "अधिकारियों तक पहुँचने के प्रमाणित चैनल"
+
+#: .\templates\core\home.html:386
+msgid "Built for the voice of the people"
+msgstr "लोगों की आवाज़ के लिए बनाया गया"
+
+
+
+
+
+#: .\templates\core\home.html:424
+msgid ""
+"We ensure you have clear visibility on complaint statuses and processes."
+msgstr ""
+"हम सुनिश्चित करते हैं कि आपको शिकायतों की स्थिति और प्रक्रियाओं की स्पष्ट जानकारी मिले।"
+
+#: .\templates\core\home.html:433
+msgid "Privacy"
+msgstr "गोपनीयता"
+
+#: .\templates\core\home.html:434
+msgid "Your data is secure with us, protected under strict privacy policies."
+msgstr "आपका डेटा हमारे पास सुरक्षित है, और कड़ी गोपनीयता नीतियों के तहत संरक्षित है।"
+
+#: .\templates\core\home.html:443
+msgid "Support"
+msgstr "सहायता"
+
+#: .\templates\core\home.html:444
+msgid "Dedicated help and guidance throughout your complaint journey."
+msgstr "आपकी शिकायत की यात्रा में समर्पित मदद और मार्गदर्शन।"
+
+#: .\templates\core\road_complaint.html:25
+msgid "Report road-related issues like"
+msgstr "जैसे कि"
+
+#: .\templates\core\road_complaint.html:26
+msgid "potholes"
+msgstr "गड्ढे"
+
+#: .\templates\core\road_complaint.html:27
+msgid "poor maintenance, and damaged streets to build a"
+msgstr "खराब रख-रखाव और टूट-फूट वाली सड़कों की रिपोर्ट करके एक"
+
+#: .\templates\core\road_complaint.html:28
+msgid "safer community"
+msgstr "सुरक्षित समुदाय"
+
+#: .\templates\core\road_complaint.html:50
+msgid "What are Road Complaints?"
+msgstr "सड़क शिकायतें क्या हैं?"
+
+#: .\templates\core\road_complaint.html:53
+msgid "Road complaints include issues like"
+msgstr " शिकायतों  शामिल हैं"
+
+#: .\templates\core\road_complaint.html:55
+msgid ""
+"potholes, damaged streets, poor lighting, missing speed breakers, "
+"waterlogging during rains"
+msgstr "गड्ढे, टूटी सड़कें, खराब रोशनी, स्पीड ब्रेकर की कमी, बारिश के दौरान जलभराव"
+
+#: .\templates\core\road_complaint.html:57
+msgid ""
+"and unsafe driving conditions. These problems not only cause inconvenience "
+"but also pose serious risks to drivers and pedestrians."
+msgstr ""
+"और असुरक्षित ड्राइविंग की स्थिति। ये समस्याएं केवल असुविधा ही नहीं पैदा करतीं बल्कि "
+"ड्राइवरों और पैदल यात्रियों के लिए गंभीर खतरे भी उत्पन्न करती हैं।"
+
+#: .\templates\core\road_complaint.html:81
+msgid "Facing Road Issues? Send Your Complaints!"
+msgstr " संबंधी समस्याएँ? अपनी  भेजें!"
+
+#: .\templates\core\road_complaint.html:86
+msgid ""
+"If you encounter any road problems, whether your area's MLA belongs to RJD "
+"or another party, you can send your complaint. I or my party members (RJD) "
+"will try our best to resolve it. Your feedback and complaints help us "
+"improve roads and public services."
+msgstr ""
+"यदि आपको किसी भी  समस्या का सामना करना पड़े, चाहे आपके क्षेत्र का विधायक RJD या किसी "
+"अन्य पार्टी का हो, आप अपनी शिकायत भेज सकते हैं। मैं या मेरी पार्टी के सदस्य (RJD) इसे हल "
+"करने की पूरी कोशिश करेंगे। आपकी प्रतिक्रिया और  सड़कों और सार्वजनिक सेवाओं को सुधारने में "
+"मदद करती हैं।"
+
+#: .\templates\core\road_complaint.html:91
+msgid "File Your Complaint Now"
+msgstr "अपनी शिकायत अभी दर्ज करें"
+
+#: .\templates\core\road_complaint.html:105
+msgid "Why Should You Report?"
+msgstr "आपको रिपोर्ट क्यों करनी चाहिए?"
+
+#: .\templates\core\road_complaint.html:123
+msgid "Prevents Accidents"
+msgstr "दुर्घटनाओं को रोकता है"
+
+#: .\templates\core\road_complaint.html:124
+msgid "Fixing potholes reduces road accidents significantly."
+msgstr "गड्ढों को ठीक करने से सड़क दुर्घटनाओं में काफी कमी आती "
+
+#: .\templates\core\road_complaint.html:130
+msgid "Improves Safety"
+msgstr "सुरक्षा में सुधार करता है"
+
+#: .\templates\core\road_complaint.html:131
+msgid "Smooth roads ensure comfortable & safer travel."
+msgstr "स्मूद सड़कें सुरक्षित और आरामदायक यात्रा सुनिश्चित करती हैं।"
+
+#: .\templates\core\road_complaint.html:137
+msgid "Emergency Access"
+msgstr "आपातकालीन पहुंच"
+
+#: .\templates\core\road_complaint.html:138
+msgid "Better roads allow ambulances to reach quickly."
+msgstr "बेहतर सड़कें एम्बुलेंस को तेजी से पहुंचने देती हैं।"
+
+#: .\templates\core\road_complaint.html:144
+msgid "Quick Action"
+msgstr "त्वरित कार्रवाई"
+
+#: .\templates\core\road_complaint.html:145
+msgid "Authorities respond faster with proper reports."
+msgstr "प्राधिकरण सही रिपोर्ट के साथ तेजी से प्रतिक्रिया देते हैं।"
+
+#: .\templates\core\road_complaint.html:161
+msgid "Compliments for RJD Party"
+msgstr "RJD पार्टी के लिए प्रशंसा"
+
+#: .\templates\core\road_complaint.html:169
+msgid "Public Service"
+msgstr "सार्वजनिक सेवा"
+
+
+#: .\templates\core\road_complaint.html:175
+msgid ""
+"Always committed to listening to the people and resolving their issues "
+"efficiently."
+msgstr ""
+"हम हमेशा लोगों की सुनवाई करने और उनकी समस्याओं का कुशलतापूर्वक समाधान करने के लिए "
+"प्रतिबद्ध हैं।"
+
+#: .\templates\core\road_complaint.html:180
+msgid "Transparency & Integrity"
+msgstr "पारदर्शिता और ईमानदारी"
+
+#: .\templates\core\road_complaint.html:181
+msgid ""
+"Operates honestly and transparently at every step, building public trust."
+msgstr ""
+"हम हर कदम पर ईमानदारी और पारदर्शिता से काम करते हैं, जिससे जनता का विश्वास बढ़ता है।"
+
+#: .\templates\core\road_complaint.html:189
+msgid "Swift Action"
+msgstr "त्वरित कार्रवाई"
+
+#: .\templates\core\road_complaint.html:194
+msgid "Equality & Justice"
+msgstr "समानता और न्याय"
+
+#: .\templates\core\road_complaint.html:195
+msgid "Ensures equal opportunities and justice for every section of society."
+msgstr "यह समाज के प्रत्येक वर्ग के लिए समान अवसर और न्याय सुनिश्चित करता है।"
+
+#: .\templates\core\road_complaint.html:200
+msgid "Proficient in Public Engagement"
+msgstr "सार्वजनिक सहभागिता में दक्ष"
+
+#: .\templates\core\road_complaint.html:201
+msgid ""
+"Leads in staying connected with the people and bringing their voice to "
+"policymakers."
+msgstr "यह लोगों के साथ जुड़े रहने और उनकी आवाज़ को नीतिनिर्माताओं तक पहुँचाने में अग्रणी है।"
+
+#: .\templates\core\road_complaint.html:255
+msgid "Complaint Illustration"
+msgstr "शिकायत का चित्र"
+
+#: .\templates\core\road_complaint.html:263
+msgid "How to File a Complaint?"
+msgstr "शिकायत कैसे दर्ज करें?"
+
+#: .\templates\core\road_complaint.html:264
+msgid "Follow these simple steps to submit your complaint easily."
+msgstr "अपनी शिकायत आसानी से दर्ज करने के लिए इन सरल चरणों का पालन करें।"
+
+#: .\templates\core\road_complaint.html:273
+msgid "Verify Mobile"
+msgstr "मोबाइल सत्यापित करें"
+
+#: .\templates\core\road_complaint.html:275
+msgid ""
+"Verify your <span class=\"font-semibold text-blue-600\">mobile number</span> "
+"for security before filing."
+msgstr ""
+"फाइल करने से पहले सुरक्षा के लिए अपना <span class=\"font-semibold text-"
+"blue-600\">मोबाइल नंबर</span> सत्यापित करें।"
+
+#: .\templates\core\road_complaint.html:286
+msgid "Fill Form"
+msgstr "फ़ॉर्म भरें"
+
+#: .\templates\core\road_complaint.html:288
+msgid ""
+"Complete the <span class=\"font-semibold text-blue-600\">complaint form</"
+"span> with accurate details."
+msgstr ""
+"सटीक विवरण के साथ <span class=\"font-semibold text-blue-600\">शिकायत फ़ॉर्म</"
+"span> पूरा करें।"
+
+#: .\templates\core\road_complaint.html:299
+msgid "Upload Images"
+msgstr "इमेज अपलोड करें"
+
+#: .\templates\core\road_complaint.html:300
+msgid "Attach images (if available) to make resolution faster."
+msgstr "समाधान तेज़ करने के लिए यदि उपलब्ध हों तो इमेज संलग्न करें।"
+
+#: .\templates\core\road_complaint.html:310
+msgid "Submit Complaint"
+msgstr "शिकायत जमा करें"
+
+#: .\templates\core\road_complaint.html:311
+msgid "Submit your complaint to the system and track the status."
+msgstr "अपनी शिकायत सिस्टम में जमा करें और स्थिति को ट्रैक करें।"
+
+#: .\templates\core\road_complaint.html:336
+msgid "How RJD Party Ensures Your Complaint is Resolved"
+msgstr "RJD पार्टी आपकी शिकायत के समाधान को सुनिश्चित करती है"
+
+#: .\templates\core\road_complaint.html:350
+msgid "Trusted & Accountable"
+msgstr "विश्वसनीय और जवाबदेह"
+
+#: .\templates\core\road_complaint.html:353
+msgid ""
+"RJD Party is committed to transparency and integrity, ensuring every "
+"complaint is taken seriously."
+msgstr ""
+"RJD पार्टी पारदर्शिता और ईमानदारी के प्रति प्रतिबद्ध है, यह सुनिश्चित करती है कि हर "
+"शिकायत गंभीरता से ली जाए।"
+
+#: .\templates\core\road_complaint.html:361
+msgid "Thorough Investigation"
+msgstr "गहन जांच"
+
+#: .\templates\core\road_complaint.html:364
+msgid ""
+"Each complaint is carefully verified and investigated to identify the exact "
+"issue and responsible authorities."
+msgstr ""
+"प्रत्येक शिकायत को सावधानीपूर्वक सत्यापित और जांचा जाता है ताकि वास्तविक समस्या और "
+"जिम्मेदार अधिकारियों की पहचान हो सके।"
+
+#: .\templates\core\road_complaint.html:372
+msgid "Immediate Action"
+msgstr "तत्काल कार्रवाई"
+
+#: .\templates\core\road_complaint.html:375
+msgid ""
+"Once verified, the party coordinates with officials to ensure fast and "
+"effective resolution of the complaint."
+msgstr ""
+"सत्यापित होने के बाद पार्टी अधिकारियों के साथ समन्वय करती है ताकि शिकायत का तेज़ और "
+"प्रभावी समाधान हो सके।"
+
+#: .\templates\core\road_complaint.html:383
+msgid "Regular Updates"
+msgstr "नियमित अपडेट"
+
+#: .\templates\core\road_complaint.html:386
+msgid ""
+"Complainants are kept informed at every step, ensuring trust and "
+"accountability throughout the process."
+msgstr ""
+"शिकायतकर्ताओं को हर चरण में सूचित रखा जाता है, जिससे पूरे प्रक्रिया में विश्वास और जवाबदेही "
+"बनी रहती है।"
+#=============================water======================================
+#: templates/core/water.html:10
+msgid "Water Supply Complaints"
+msgstr "पानी की आपूर्ति शिकायतें"
+
+
+
+
+#: templates/core/water.html:13
+msgid "Report problems like water shortage, contaminated water, or irregular supply to ensure safe and reliable water access."
+msgstr "पानी की कमी, प्रदूषित पानी, या अनियमित आपूर्ति जैसी समस्याओं की रिपोर्ट करें ताकि सुरक्षित और भरोसेमंद पानी सुनिश्चित किया जा सके।"
+
+
+msgid "Water supply issues include shortage, contamination, irregular supply, pipeline leaks, and low water pressure. These affect daily life, health, and sanitation. Reporting them helps authorities take timely corrective action."
+msgstr "पानी की आपूर्ति से संबंधित समस्याओं में कमी, प्रदूषण, अनियमित आपूर्ति, पाइपलाइन रिसाव और कम जल दबाव शामिल हैं। ये दैनिक जीवन, स्वास्थ्य और स्वच्छता को प्रभावित करती हैं। इन्हें रिपोर्ट करने से अधिकारियों को समय पर सुधारात्मक कार्रवाई करने में मदद मिलती है।"
+#: templates/core/water.html:10
+msgid "What are Water Supply Complaints?"
+msgstr "पानी की आपूर्ति शिकायतें क्या हैं?"
+
+
+#: templates/core/water.html:10
+msgid "Facing Water Supply Issues? Send Your Complaints!"
+msgstr "आप पानी की आपूर्ति में समस्याओं का सामना कर रहे हैं? अपनी शिकायतें भेजें!"
+
+#: templates/core/water.html:14
+msgid "If there is any problem with water supply in your area — such as shortage, leaks, contamination, or irregular supply, even if your area's MLA belongs to another party, you can send your complaint. I or my party members (RJD) will verify it and coordinate with local authorities to ensure the problem is resolved quickly. Your feedback helps improve local water supply and public services."
+msgstr "यदि आपके क्षेत्र में पानी की आपूर्ति में कोई समस्या है — जैसे कमी, रिसाव, प्रदूषण, या अनियमित आपूर्ति, भले ही आपके क्षेत्र के MLA किसी अन्य पार्टी से हों, आप अपनी शिकायत भेज सकते हैं। मैं या मेरी पार्टी के सदस्य (RJD) इसे सत्यापित करेंगे और स्थानीय अधिकारियों के साथ समन्वय करेंगे ताकि समस्या जल्दी हल हो। आपकी प्रतिक्रिया स्थानीय जल आपूर्ति और सार्वजनिक सेवाओं को सुधारने में मदद करती है।"
+
+
+
+#: templates/core/water.html:21
+msgid "Apni complaint online ya offline jaldi se bhej sakte hain."
+msgstr "अपनी शिकायत ऑनलाइन या ऑफलाइन जल्दी से भेज सकते हैं।"
+
+
+#: templates/core/water.html:31
+msgid "RJD members local authorities ke saath coordinate karke problem solve karte hain."
+msgstr "RJD सदस्य स्थानीय अधिकारियों के साथ समन्वय करके समस्याओं को हल करते हैं।"
+
+
+
+#: templates/core/water.html:55
+msgid "File Your Water Complaint Now"
+msgstr "अपनी पानी की आपूर्ति शिकायत अभी दर्ज करें"
+
+#: templates/core/water.html:70
+msgid "Why Report Water Issues?"
+msgstr "पानी की समस्याओं की रिपोर्ट क्यों करें?"
+
+#: templates/core/water.html:80
+msgid "Ensure Clean Water"
+msgstr "साफ पानी सुनिश्चित करें"
+
+#: templates/core/water.html:81
+msgid "Reports help fix contamination and maintain water quality."
+msgstr "रिपोर्ट्स प्रदूषण को ठीक करने और पानी की गुणवत्ता बनाए रखने में मदद करती हैं।"
+
+#: templates/core/water.html:90
+msgid "Continuous Supply"
+msgstr "लगातार पानी की आपूर्ति"
+
+#: templates/core/water.html:91
+msgid "Highlighting irregular supply ensures authorities address shortages promptly."
+msgstr "अनियमित आपूर्ति को उजागर करने से अधिकारी तुरंत कमियों को संबोधित करते हैं।"
+
+#: templates/core/water.html:96
+msgid "Prevent Wastage"
+msgstr "बर्बादी रोकें"
+
+#: templates/core/water.html:97
+msgid "Leaky pipelines and wastage can be fixed quickly with proper reports."
+msgstr "लीकी पाइपलाइन और बर्बादी को सही रिपोर्ट के साथ जल्दी ठीक किया जा सकता है।"
+
+#: templates/core/water.html:102
+msgid "Quick Response"
+msgstr "त्वरित प्रतिक्रिया"
+
+#: templates/core/water.html:103
+msgid "Authorities respond faster when citizens actively report issues."
+msgstr "जब नागरिक सक्रिय रूप से समस्याओं की रिपोर्ट करते हैं, तो अधिकारी तेजी से प्रतिक्रिया देते हैं।"
+
+#: templates/core/about.html:10
+msgid "RJD: Committed to Social Justice & Equality"
+msgstr "RJD: सामाजिक न्याय और समानता के प्रति प्रतिबद्ध"
+
+#: templates/core/about.html:14
+msgid "The Rashtriya Janata Dal (RJD) is dedicated to empowering every citizen, promoting social justice, and ensuring equal opportunities for all. The party works tirelessly to uplift marginalized communities, strengthen local governance, and foster inclusive growth across the nation."
+msgstr "राष्ट्रीय जनता दल (RJD) हर नागरिक को सशक्त बनाने, सामाजिक न्याय को बढ़ावा देने और सभी के लिए समान अवसर सुनिश्चित करने के लिए प्रतिबद्ध है। यह दल हाशिए पर रहे समुदायों को उन्नत करने, स्थानीय प्रशासन को मजबूत करने और पूरे देश में समावेशी विकास को बढ़ावा देने के लिए निरंतर काम करता है।"
+
+#: templates/core/water.html:10
+msgid "Understanding Water Supply Issues"
+msgstr "जल आपूर्ति की समस्याओं को समझना"
+
+#: templates/core/water.html:11
+msgid "Water is essential for daily life. Issues like contamination, irregular supply, and leakage affect our health and convenience. Reporting these problems ensures a clean and reliable water supply in your area."
+msgstr "जल दैनिक जीवन के लिए आवश्यक है। प्रदूषण, अनियमित आपूर्ति और रिसाव जैसी समस्याएँ हमारे स्वास्थ्य और सुविधा को प्रभावित करती हैं। इन समस्याओं की रिपोर्ट करने से आपके क्षेत्र में साफ और भरोसेमंद पानी सुनिश्चित होता है।"
+
+#: templates/core/water.html:XX
+msgid "Tips for Safe Water Usage"
+msgstr "सुरक्षित पानी उपयोग के लिए सुझाव"
+
+#: templates/core/water.html:XX
+msgid "Ensure the water you use is clean and safe. Follow these simple tips to protect your health and save water:"
+msgstr "सुनिश्चित करें कि आप जो पानी इस्तेमाल करते हैं वह साफ और सुरक्षित हो। अपने स्वास्थ्य की रक्षा और पानी बचाने के लिए इन सरल सुझावों का पालन करें:"
+
+#: templates/core/water.html:XX
+msgid "Boil or Filter Water"
+msgstr "पानी को उबालें या फ़िल्टर करें"
+
+#: templates/core/water.html:XX
+msgid "Always boil or filter water before drinking to ensure safety."
+msgstr "पानी पीने से पहले हमेशा उबालें या फ़िल्टर करें ताकि यह सुरक्षित रहे।"
+
+#: templates/core/water.html:XX
+msgid "Report Leaks"
+msgstr "लीकेज रिपोर्ट करें"
+
+msgid "Report leaks and broken pipelines immediately to prevent wastage."
+msgstr "जल बर्बादी रोकने के लिए लीकेज और टूटे पाइप तुरंत रिपोर्ट करें।"
+
+msgid "Store Clean Water"
+msgstr "साफ पानी संग्रहित करें"
+
+msgid "Store water in clean, covered containers to maintain hygiene."
+msgstr "साफ़ और ढके हुए कंटेनरों में पानी संग्रहित करें ताकि स्वच्छता बनी रहे।"
+
+msgid "Use Water Wisely"
+msgstr "पानी का समझदारी से उपयोग करें"
+
+msgid "Use water efficiently and avoid wastage."
+msgstr "पानी का कुशलतापूर्वक उपयोग करें और बर्बादी से बचें।"
+
+msgid "Educate Others"
+msgstr "दूसरों को शिक्षित करें"
+
+msgid "Educate your family and neighbors about water safety."
+msgstr "अपने परिवार और पड़ोसियों को पानी की सुरक्षा के बारे में शिक्षित करें।"
+
+#: templates/core/your_template.html:XX
+msgid "Back to Home"
+msgstr "मुख्य पृष्ठ पर वापस जाएँ"
+
+#------------------------------------------------------------------------------------------------------------------
+#: templates/core/electricity.html:XX
+msgid "Electricity Complaints"
+msgstr "बिजली शिकायतें"
+
+#: templates/core/your_template.html:XX
+msgid "Report problems like <span class=\"font-semibold text-green-500\">frequent power cuts</span>, <span class=\"font-semibold text-green-500\">faulty street lights</span>, or <span class=\"underline decoration-green-400\">overbilling issues</span> to ensure reliable electricity supply."
+msgstr "लगातार बिजली कटौती, खराब स्ट्रीट लाइट्स, या अधिक बिलिंग जैसी समस्याओं की रिपोर्ट करें ताकि विश्वसनीय बिजली आपूर्ति सुनिश्चित हो सके।"
+
+#: templates/core/electricity.html:10
+msgid "What are Electricity Complaints?"
+msgstr "बिजली की शिकायतें क्या हैं?"
+
+#: templates/core/electricity.html:XX
+msgid "How RJD Can Improve Electricity Supply"
+msgstr "आरजेडी बिजली आपूर्ति को कैसे सुधार सकता है"
+
+msgid ""
+"Electricity issues include power outages, faulty wiring, meter issues, "
+"overbilling, and streetlight problems. Reporting them helps authorities take "
+"corrective action quickly, ensuring safe and reliable electricity for all."
+msgstr ""
+"बिजली की समस्याओं में बिजली कटौती, खराब वायरिंग, मीटर की समस्याएँ, अधिक बिलिंग "
+"और स्ट्रीट लाइट की समस्याएँ शामिल हैं। इन्हें रिपोर्ट करने से अधिकारी जल्दी "
+"सुधारात्मक कार्रवाई कर सकते हैं, जिससे सभी के लिए सुरक्षित और भरोसेमंद बिजली "
+"सुनिश्चित होती है।"
+
+#: templates/core/electricity.html:10
+msgid "Facing Electricity Issues? Send Your Complaints!"
+msgstr "बिजली की समस्याओं का सामना कर रहे हैं? अपनी शिकायत भेजें!"
+
+#: templates/core/electricity.html:13
+msgid "This platform is made to help you with electricity complaints. Your problem is our problem — RJD party takes it seriously. All complaints reach our party members quickly for faster resolution and better electricity services in your area."
+msgstr "यह प्लेटफ़ॉर्म आपकी बिजली शिकायतों में मदद करने के लिए बनाया गया है। आपकी समस्या हमारी समस्या है — RJD पार्टी इसे गंभीरता से लेती है। सभी शिकायतें जल्दी हमारी पार्टी के सदस्यों तक पहुँचती हैं ताकि आपके क्षेत्र में तेज़ समाधान और बेहतर बिजली सेवाएँ सुनिश्चित की जा सकें।"
+
+#: templates/core/electricity.html:5
+msgid "File Your Electricity Complaint"
+msgstr "अपनी बिजली शिकायत दर्ज करें"
+
+#: templates/core/electricity.html:10
+msgid "Quick Reporting"
+msgstr "त्वरित रिपोर्टिंग"
+
+#: templates/core/electricity.html:11
+msgid "Easily submit your electricity complaint via this platform."
+msgstr "इस प्लेटफ़ॉर्म के माध्यम से अपनी बिजली शिकायत आसानी से दर्ज करें।"
+
+#: templates/core/electricity.html:16
+msgid "Problem Solving"
+msgstr "समस्या समाधान"
+
+#: templates/core/electricity.html:17
+msgid "RJD members coordinate with local authorities for fast resolution."
+msgstr "आरजेडी सदस्य त्वरित समाधान के लिए स्थानीय अधिकारियों के साथ समन्वय करते हैं।"
+
+#: templates/core/electricity.html:22
+msgid "Stay Updated"
+msgstr "नियमित सूचनाएँ प्राप्त करें"
+
+#: templates/core/electricity.html:23
+msgid "Receive updates at every step until your complaint is resolved."
+msgstr "जब तक आपकी शिकायत का समाधान नहीं हो जाता, हर कदम पर अपडेट प्राप्त करें।"
+
+#: templates/core/electricity.html:30
+msgid "Why Report Electricity Issues?"
+msgstr "बिजली समस्याओं की रिपोर्ट क्यों करें?"
+
+#: templates/core/electricity.html:45
+msgid "Quick Power Restoration"
+msgstr "बिजली की त्वरित बहाली"
+
+#: templates/core/electricity.html:46
+msgid "Authorities act faster when outages are reported promptly."
+msgstr "जब बिजली कटौती की तुरंत रिपोर्ट की जाती है तो अधिकारी तेजी से कार्रवाई करते हैं।"
+
+#: templates/core/electricity.html:52
+msgid "Prevent Overbilling"
+msgstr "गलत बिलिंग रोकें"
+
+#: templates/core/electricity.html:53
+msgid "Reporting meter issues helps prevent incorrect billing."
+msgstr "मीटर की समस्याओं की रिपोर्ट करने से गलत बिलिंग रोकी जा सकती है।"
+
+#: templates/core/electricity.html:59
+msgid "Improve Street Safety"
+msgstr "सड़क सुरक्षा सुधारें"
+
+#: templates/core/electricity.html:60
+msgid "Faulty streetlights can be fixed faster with proper reporting."
+msgstr "सही रिपोर्टिंग से खराब स्ट्रीटलाइट्स को तेजी से ठीक किया जा सकता है।"
+
+#: templates/core/electricity.html:66
+msgid "Safe Wiring"
+msgstr "सुरक्षित वायरिंग"
+
+#: templates/core/electricity.html:67
+msgid "Highlighting electrical hazards reduces risk of accidents."
+msgstr "बिजली के खतरों को उजागर करने से दुर्घटना का जोखिम कम होता है।"
+
+#: templates/core/electricity.html:45
+msgid "RJD is committed to ensuring reliable and safe electricity for every household. Focus on infrastructure, rapid complaint response, and energy-saving initiatives."
+msgstr "आरजेडी प्रत्येक घर के लिए भरोसेमंद और सुरक्षित बिजली सुनिश्चित करने के लिए प्रतिबद्ध है। अवसंरचना, त्वरित शिकायत प्रतिक्रिया और ऊर्जा-बचत पहलों पर ध्यान केंद्रित करता है।"
+
+#: templates/core/electricity.html:5
+msgid "Improve Power Distribution"
+msgstr "बिजली वितरण सुधारें"
+
+#: templates/core/electricity.html:6
+msgid "Upgrade electricity infrastructure to reduce outages and ensure stable power supply."
+msgstr "बिजली की अवसंरचना को उन्नत करें ताकि बिजली कटौती कम हो और स्थिर बिजली आपूर्ति सुनिश्चित हो।"
+
+#: templates/core/electricity.html:12
+msgid "Faulty Meter Fixes"
+msgstr "खराब मीटर सुधारें"
+
+#: templates/core/electricity.html:13
+msgid "Quickly resolve meter and billing issues to prevent overcharging and ensure transparency."
+msgstr "मीटर और बिलिंग समस्याओं को जल्दी हल करें ताकि अधिक शुल्क न लगे और पारदर्शिता सुनिश्चित हो।"
+
+#: templates/core/electricity.html:19
+msgid "Streetlight Repairs"
+msgstr "सड़क लाइट सुधारें"
+
+#: templates/core/electricity.html:20
+msgid "Ensure streets are well-lit by repairing faulty streetlights and improving public safety."
+msgstr "खराब स्ट्रीटलाइट को ठीक करके सड़कों को अच्छी तरह रोशन करें और सार्वजनिक सुरक्षा बढ़ाएँ।"
+
+#: templates/core/electricity.html:26
+msgid "Promote Safe Wiring"
+msgstr "सुरक्षित वायरिंग को बढ़ावा दें"
+
+#: templates/core/electricity.html:27
+msgid "Conduct regular checks and awareness campaigns to prevent electrical accidents."
+msgstr "बिजली दुर्घटनाओं को रोकने के लिए नियमित जांच और जागरूकता अभियान चलाएँ।"
+
+#: templates/core/electricity.html:33
+msgid "Smart Meter Deployment"
+msgstr "स्मार्ट मीटर लगाना"
+
+#: templates/core/electricity.html:34
+msgid "Implement smart meters to monitor electricity usage and encourage energy conservation."
+msgstr "बिजली के उपयोग पर निगरानी रखने और ऊर्जा संरक्षण को बढ़ावा देने के लिए स्मार्ट मीटर लागू करें।"
+
+#: templates/core/electricity.html:40
+msgid "Renewable Energy Support"
+msgstr "नवीकरणीय ऊर्जा का समर्थन"
+
+#: templates/core/electricity.html:41
+msgid "Promote solar panels and renewable energy sources to ensure sustainable electricity supply."
+msgstr "सौर पैनल और नवीकरणीय ऊर्जा स्रोतों को बढ़ावा दें ताकि स्थायी बिजली आपूर्ति सुनिश्चित हो।"
+
+#: templates/core/electricity.html:XX
+msgid "Understanding Electricity Issues"
+msgstr "बिजली की समस्याओं को समझना"
+
+#: templates/core/electricity.html:XX
+msgid "Electricity is essential for homes, businesses, and safety. Issues like power cuts, faulty wiring, overbilling, or streetlight problems affect daily life. Reporting these issues helps authorities take timely action and ensure reliable electricity supply."
+msgstr "बिजली घरों, व्यवसायों और सुरक्षा के लिए आवश्यक है। बिजली कटौती, खराब वायरिंग, अधिक बिलिंग या स्ट्रीट लाइट की समस्याएँ दैनिक जीवन को प्रभावित करती हैं। इन समस्याओं की रिपोर्ट करने से अधिकारी समय पर कार्रवाई कर सकते हैं और भरोसेमंद बिजली आपूर्ति सुनिश्चित कर सकते हैं।"
+
+#: templates/core/electricity.html:XX
+msgid "Smart & Safe Electricity Tips"
+msgstr "स्मार्ट और सुरक्षित बिजली के टिप्स"
+
+#: templates/core/electricity.html:XX
+msgid "Learn how to use electricity safely, save energy, and protect your home from hazards."
+msgstr "जानें कि बिजली का सुरक्षित उपयोग कैसे करें, ऊर्जा बचाएं और अपने घर को खतरों से सुरक्षित रखें।"
+
+#: templates/core/electricity.html:5
+msgid "Avoid Overloading Sockets"
+msgstr "सॉकेट ओवरलोड करने से बचें"
+
+#: templates/core/electricity.html:6
+msgid "Do not plug multiple high-power devices into a single socket to prevent fire hazards and equipment damage."
+msgstr "आग लगने के खतरे और उपकरणों को नुकसान से बचने के लिए एक ही सॉकेट में कई हाई-पावर डिवाइस न लगाएँ।"
+
+#: templates/core/electricity.html:12
+msgid "Inspect Wiring Regularly"
+msgstr "वायरिंग का नियमित निरीक्षण करें"
+
+#: templates/core/electricity.html:13
+msgid "Check your home wiring and plugs periodically to avoid short circuits and electrical shocks."
+msgstr "शॉर्ट सर्किट और इलेक्ट्रिक शॉक से बचने के लिए अपने घर की वायरिंग और प्लग्स की समय-समय पर जाँच करें।"
+
+#: templates/core/electricity.html:19
+msgid "Use Energy-Saving Lights"
+msgstr "ऊर्जा-बचत वाली लाइट का उपयोग करें"
+
+#: templates/core/electricity.html:20
+msgid "Switch to LED bulbs and smart lighting to reduce energy consumption and bills."
+msgstr "ऊर्जा की खपत और बिल कम करने के लिए LED बल्ब और स्मार्ट लाइटिंग का उपयोग करें।"
+
+#: templates/core/electricity.html:26
+msgid "Install Safety Devices"
+msgstr "सुरक्षा उपकरण स्थापित करें"
+
+#: templates/core/electricity.html:27
+msgid "Use circuit breakers, surge protectors, and RCDs to prevent damage and accidents."
+msgstr "क्षति और दुर्घटनाओं को रोकने के लिए सर्किट ब्रेकर, सर्ज प्रोटेक्टर और RCD का उपयोग करें।"
+
+#: templates/core/electricity.html:33
+msgid "Educate Everyone at Home"
+msgstr "घर में सभी को शिक्षित करें"
+
+#: templates/core/electricity.html:34
+msgid "Teach your family members, especially kids, safe electricity practices to avoid accidents."
+msgstr "अपनी फैमिली के सदस्यों, विशेष रूप से बच्चों को, सुरक्षित बिजली प्रथाओं के बारे में सिखाएँ ताकि दुर्घटनाएँ न हों।"
+
+#: templates/core/electricity.html:40
+msgid "Monitor Usage with Smart Meters"
+msgstr "स्मार्ट मीटर के साथ उपयोग की निगरानी करें"
+
+#: templates/core/electricity.html:41
+msgid "Smart meters help track electricity consumption and avoid unnecessary usage."
+msgstr "स्मार्ट मीटर बिजली की खपत को ट्रैक करने और अनावश्यक उपयोग से बचने में मदद करते हैं।"
+
+
+#: templates/core/electricity.html:XX
+msgid "Electricity issues include <span class='font-semibold text-green-600'>power outages, faulty wiring, meter issues, overbilling, and streetlight problems</span>. Reporting them helps authorities take corrective action quickly, ensuring safe and reliable electricity for all."
+msgstr "बिजली की समस्याओं में <span class='font-semibold text-green-600'>बिजली कटौती, खराब वायरिंग, मीटर समस्याएँ, अधिक बिलिंग और स्ट्रीटलाइट की समस्याएँ</span> शामिल हैं। इन्हें रिपोर्ट करने से अधिकारी जल्दी सुधारात्मक कार्रवाई कर सकते हैं, जिससे सभी के लिए सुरक्षित और भरोसेमंद बिजली सुनिश्चित होती है।"
+
+#----------------------------------------health----------------------------------------------------------------
+#: templates/core/health.html:XX
+msgid "Health & Wellness"
+msgstr "स्वास्थ्य और कल्याण"
+
+#: templates/core/health.html:8
+msgid "Stay informed about common health issues, and local medical resources for a healthier life."
+msgstr "स्वस्थ जीवन के लिए सामान्य स्वास्थ्य समस्याओं और स्थानीय चिकित्सा संसाधनों के बारे में जानकारी रखें।"
+
+
+#: templates/core/health.html:10
+msgid "What are Common Health Concerns?"
+msgstr "सामान्य स्वास्थ्य समस्याएँ क्या हैं?"
+
+#: templates/core/health.html:12
+msgid "Health concerns include lack of medical facilities, hygiene issues, emergency response delays, and prevalent illnesses. Being aware and proactive helps prevent complications and ensures timely treatment."
+msgstr "स्वास्थ्य समस्याओं में चिकित्सा सुविधाओं की कमी, स्वच्छता संबंधी समस्याएँ, आपातकालीन प्रतिक्रिया में देरी और आम बीमारियाँ शामिल हैं। सतर्क और सक्रिय रहने से जटिलताओं को रोका जा सकता है और समय पर उपचार सुनिश्चित किया जा सकता है।"
+
+
+#: templates/core/health.html:5
+msgid "Your Health, Our First Priority"
+msgstr "आपका स्वास्थ्य, हमारी प्राथमिकता"
+
+#: templates/core/health.html:10
+msgid "We believe that taking care of your health is our most important responsibility. For us, the health of our people always comes first. If you face any health-related problem, this platform is here to support you. Share your complaint with us, and our team will connect with you as quickly as possible to ensure your concerns are addressed without delay."
+msgstr "हम मानते हैं कि आपके स्वास्थ्य की देखभाल करना हमारी सबसे महत्वपूर्ण जिम्मेदारी है। हमारे लिए, हमारे लोगों का स्वास्थ्य हमेशा पहले आता है। यदि आपको किसी स्वास्थ्य-संबंधी समस्या का सामना करना पड़ता है, तो यह प्लेटफ़ॉर्म आपकी मदद के लिए यहां है। अपनी शिकायत साझा करें, और हमारी टीम जल्द से जल्द आपसे संपर्क करेगी ताकि आपकी चिंताओं का समय पर समाधान हो सके।"
+
+#: templates/core/health.html:10
+msgid "Prevent Illness"
+msgstr "बीमारियों को रोकें"
+
+#: templates/core/health.html:11
+msgid "Adopting healthy habits reduces risk of common diseases."
+msgstr "स्वस्थ आदतें अपनाने से आम बीमारियों का जोखिम कम होता है।"
+
+#: templates/core/health.html:50
+msgid "Why Prioritize Health?"
+msgstr "स्वास्थ्य को प्राथमिकता क्यों दें?"
+
+#: templates/core/health.html:51
+msgid "Healthy habits and timely reporting of health issues improve well-being and community safety."
+msgstr "स्वस्थ आदतें और स्वास्थ्य समस्याओं की समय पर रिपोर्टिंग से कल्याण और समुदाय की सुरक्षा बेहतर होती है।"
+
+#: templates/core/health.html:20
+msgid "Early Detection"
+msgstr "जल्दी पहचान"
+
+#: templates/core/health.html:21
+msgid "Regular check-ups help in detecting health issues early."
+msgstr "नियमित जांच से स्वास्थ्य समस्याओं की जल्दी पहचान में मदद मिलती है।"
+
+#: templates/core/health.html:30
+msgid "Access Medical Help"
+msgstr "चिकित्सा सहायता तक पहुँच"
+
+#: templates/core/health.html:31
+msgid "Know where to seek treatment for emergencies and routine care."
+msgstr "आपातकालीन और सामान्य देखभाल के लिए कहाँ इलाज प्राप्त करना है, यह जानें।"
+
+#: templates/core/health.html:40
+msgid "Educate Community"
+msgstr "समुदाय को शिक्षित करें"
+
+#: templates/core/health.html:41
+msgid "Sharing health knowledge helps protect your family and neighbors."
+msgstr "स्वास्थ्य ज्ञान साझा करने से आपके परिवार और पड़ोसियों की सुरक्षा में मदद मिलती है।"
+
+
+#: templates/core/electricity.html:5
+msgid "Dedicated to Public Service"
+msgstr "जन सेवा के प्रति समर्पित"
+
+#: templates/core/health.html:5
+msgid "Tips for a Healthy Life"
+msgstr "स्वस्थ जीवन के लिए सुझाव"
+
+#: templates/core/health.html:6
+msgid "Simple actions to maintain good health and prevent common problems:"
+msgstr "अच्छे स्वास्थ्य को बनाए रखने और सामान्य समस्याओं को रोकने के लिए सरल उपाय:"
+
+#: templates/core/health.html:5
+msgid "Regular Check-ups"
+msgstr "नियमित जांच"
+
+#: templates/core/health.html:6
+msgid "Visit your doctor regularly for early detection."
+msgstr "जल्दी पता लगाने के लिए अपने डॉक्टर से नियमित रूप से जांच कराएँ।"
+
+#: templates/core/health.html:12
+msgid "Eat Healthy"
+msgstr "संतुलित आहार लें"
+
+#: templates/core/health.html:13
+msgid "Maintain a balanced diet rich in vitamins and minerals."
+msgstr "विटामिन और खनिज से भरपूर संतुलित आहार बनाए रखें।"
+
+#: templates/core/health.html:19
+msgid "Exercise"
+msgstr "व्यायाम करें"
+
+#: templates/core/health.html:20
+msgid "Stay active daily to improve immunity and fitness."
+msgstr "इम्युनिटी और फिटनेस बढ़ाने के लिए रोज़ सक्रिय रहें।"
+
+#: templates/core/health.html:26
+msgid "Rest Well"
+msgstr "अच्छी नींद लें"
+
+#: templates/core/health.html:27
+msgid "Get adequate sleep and manage stress."
+msgstr "पर्याप्त नींद लें और तनाव को नियंत्रित करें।"
+
+#------------------------------------education------------------------------------------------------------------
+#: templates/core/education.html:5
+msgid "Education Awareness"
+msgstr "शिक्षा जागरूकता"
+
+#: templates/core/education.html:8
+msgid "Learn about the education system, school types, and student tips to empower your future."
+msgstr "शिक्षा प्रणाली, स्कूल के प्रकार और छात्र सुझावों के बारे में जानें ताकि आप अपने भविष्य को सशक्त बना सकें।"
+
+#: templates/core/education.html:5
+msgid "What is Education?"
+msgstr "शिक्षा क्या है?"
+#: templates/core/education.html:10
+msgid ""
+"Education is the process of acquiring knowledge, skills, values, and habits. "
+"It includes schooling, college, vocational training, and digital learning. "
+"A strong education empowers individuals and strengthens communities."
+msgstr ""
+"शिक्षा ज्ञान, कौशल, मूल्यों और आदतों को प्राप्त करने की प्रक्रिया है। "
+"इसमें स्कूलिंग, कॉलेज, व्यावसायिक प्रशिक्षण और डिजिटल सीखना शामिल है। "
+"मजबूत शिक्षा व्यक्तियों को सशक्त बनाती है और समुदायों"
+
+#: templates/core/education.html:5
+msgid "Education for Every Village, Every Child"
+msgstr "हर गाँव, हर बच्चे के लिए शिक्षा"
+
+#: templates/core/education.html:6
+msgid "Ensuring quality education for every student in schools, colleges, and universities."
+msgstr "स्कूलों, कॉलेजों और विश्वविद्यालयों में हर छात्र के लिए गुणवत्तापूर्ण शिक्षा सुनिश्चित करना।"
+
+#: templates/core/education.html:10
+msgid "Education is the foundation of a strong society. Every son and daughter in every village deserves the right to study, whether in schools, colleges, or universities."
+msgstr "शिक्षा मजबूत समाज की नींव है। हर गाँव का हर बेटा और बेटी पढ़ाई का अधिकार रखता है, चाहे वह स्कूल, कॉलेज या विश्वविद्यालय में हो।"
+
+#: templates/core/education.html:14
+msgid "If you are facing problems related to teachers, classes, fees, facilities, or admissions, you can register your complaint here."
+msgstr "यदि आप शिक्षकों, कक्षाओं, फीस, सुविधाओं या प्रवेश से संबंधित समस्याओं का सामना कर रहे हैं, तो आप यहाँ अपनी शिकायत दर्ज कर सकते हैं।"
+
+msgid "The aim of the RJD party is to ensure that every student gets quality education and that no child's learning is stopped due to any reason. Your issues are our priority."
+msgstr "आरजेडी पार्टी का उद्देश्य यह सुनिश्चित करना है कि हर छात्र को गुणवत्तापूर्ण शिक्षा मिले और किसी भी कारण से किसी बच्चे की पढ़ाई रोकी न जाए। आपकी समस्याएँ हमारी प्राथमिकता हैं।"
+
+msgid "By connecting through this platform, you can raise your voice. We will make sure that your problem is resolved as quickly as possible."
+msgstr "इस प्लेटफ़ॉर्म के माध्यम से जुड़कर आप अपनी आवाज़ उठा सकते हैं। हम सुनिश्चित करेंगे कि आपकी समस्या यथासंभव जल्दी हल हो।"
+
+#: templates/core/education.html:XX
+msgid "File Your Education Complaint"
+msgstr "अपनी शिक्षा संबंधी शिकायत दर्ज करें"
+
+#: templates/core/education.html:XX
+msgid "Why Prioritize Education?"
+msgstr "शिक्षा को प्राथमिकता क्यों दें?"
+
+#: templates/core/education.html:XX
+msgid "Enhances Knowledge"
+msgstr "ज्ञान में वृद्धि"
+
+msgid "Provides essential skills for personal and professional growth."
+msgstr "व्यक्तिगत और व्यावसायिक विकास के लिए आवश्यक कौशल प्रदान करता है।"
+
+msgid "Career Opportunities"
+msgstr "करियर के अवसर"
+
+msgid "Education opens doors to better job prospects and advancement."
+msgstr "शिक्षा बेहतर नौकरी और उन्नति के अवसर खोलती है।"
+
+msgid "Community Development"
+msgstr "सामुदायिक विकास"
+
+msgid "Educated citizens contribute positively to society and decision-making."
+msgstr "शिक्षित नागरिक समाज और निर्णय लेने में सकारात्मक योगदान देते हैं।"
+
+msgid "Lifelong Learning"
+msgstr "आजीवन सीखना"
+
+msgid "Promotes curiosity and continuous improvement throughout life."
+msgstr "जिज्ञासा और जीवन भर सतत सुधार को बढ़ावा देता है।"
+
+#: templates/core/education.html:5
+msgid "How to Improve Education?"
+msgstr "शिक्षा को कैसे सुधारें?"
+
+#: templates/core/education.html:6
+msgid "Follow these steps for better learning outcomes."
+msgstr "बेहतर सीखने के परिणामों के लिए इन कदमों का पालन करें।"
+
+#: templates/core/education.html:11
+msgid "Attend Classes Regularly"
+msgstr "कक्षाओं में नियमित रूप से उपस्थित रहें"
+
+#: templates/core/education.html:12
+msgid "Regular attendance ensures consistent learning and understanding."
+msgstr "नियमित उपस्थिति लगातार सीखने और समझ को सुनिश्चित करती है।"
+
+#: templates/core/education.html:18
+msgid "Complete Assignments"
+msgstr "असाइनमेंट समय पर पूरा करें"
+
+#: templates/core/education.html:19
+msgid "Timely submission of homework reinforces concepts learned in class."
+msgstr "होमवर्क का समय पर सबमिशन कक्षा में सीखी गई अवधारणाओं को मजबूत करता है।"
+
+#: templates/core/education.html:25
+msgid "Participate in Activities"
+msgstr "गतिविधियों में भाग लें"
+
+#: templates/core/education.html:26
+msgid "Engaging in extracurricular activities develops skills beyond academics."
+msgstr "सह-पाठ्यक्रम गतिविधियों में भाग लेने से शैक्षणिक ज्ञान से परे कौशल विकसित होते हैं।"
+
+#: templates/core/education.html:32
+msgid "Use Online Resources"
+msgstr "ऑनलाइन संसाधनों का उपयोग करें"
+
+#: templates/core/education.html:33
+msgid "Leverage digital tools and tutorials for additional learning support."
+msgstr "अतिरिक्त सीखने के समर्थन के लिए डिजिटल टूल और ट्यूटोरियल का लाभ उठाएं।"
+
+#: templates/core/corruption.html:5
+msgid "Corruption Complaints"
+msgstr "भ्रष्टाचार की शिकायतें"
+
+#: templates/core/corruption.html:10
+msgid "Report cases of bribery, misuse of power, or lack of transparency in government or organizations."
+msgstr "सरकार या संगठनों में रिश्वत, शक्ति के दुरुपयोग, या पारदर्शिता की कमी के मामलों की रिपोर्ट करें।"
+
+#: templates/core/corruption.html:12
+msgid "What is Corruption?"
+msgstr "भ्रष्टाचार क्या है?"
+
+#: templates/core/corruption.html:13
+msgid "Corruption includes bribery embezzlement favoritism fraud and misuse of authority. Reporting helps authorities maintain accountability and transparency in institutions."
+msgstr "भ्रष्टाचार में रिश्वतखोरी हेराफेरी पक्षपात धोखाधड़ी और अधिकार का दुरुपयोग शामिल है। रिपोर्ट करने से संस्थानों में जवाबदेही और पारदर्शिता बनी रहती है।"
+#: templates/core/corruption.html:20
+msgid "Why Report Corruption?"
+msgstr "भ्रष्टाचार की रिपोर्ट क्यों करें?"
+
+msgid "Reporting corruption ensures fair governance, accountability, and strengthens public trust. Citizens' participation helps prevent misuse of power and promotes transparency."
+msgstr "भ्रष्टाचार की रिपोर्ट करने से न्यायपूर्ण शासन, जवाबदेही सुनिश्चित होती है और जनता का विश्वास मजबूत होता है। नागरिकों की भागीदारी अधिकार के दुरुपयोग को रोकने और पारदर्शिता को बढ़ावा देने में मदद करती है।"
+
+#: templates/core/corruption.html:10
+msgid "Promote Accountability"
+msgstr "जवाबदेही बढ़ाएँ"
+
+#: templates/core/corruption.html:11
+msgid "Ensure officials are responsible for their actions."
+msgstr "सुनिश्चित करें कि अधिकारी अपने कार्यों के लिए जिम्मेदार हैं।"
+
+#: templates/core/corruption.html:16
+msgid "Prevent Fraud"
+msgstr "धोखाधड़ी रोकें"
+
+#: templates/core/corruption.html:17
+msgid "Reporting misuse of funds or authority reduces fraudulent activities."
+msgstr "धन या अधिकार के दुरुपयोग की रिपोर्ट करने से धोखाधड़ी गतिविधियाँ कम होती हैं।"
+
+#: templates/core/corruption.html:22
+msgid "Encourage Transparency"
+msgstr "पारदर्शिता को बढ़ावा दें"
+
+#: templates/core/corruption.html:23
+msgid "Transparency builds trust between citizens and institutions."
+msgstr "पारदर्शिता नागरिकों और संस्थानों के बीच विश्वास बनाती है।"
+
+#: templates/core/corruption.html:28
+msgid "Protect Public Interest"
+msgstr "सार्वजनिक हित की सुरक्षा करें"
+
+#: templates/core/corruption.html:29
+msgid "Reduce misuse of public resources and safeguard citizens’ rights."
+msgstr "सार्वजनिक संसाधनों के दुरुपयोग को कम करें और नागरिकों के अधिकारों की रक्षा करें।"
+
+#: templates/core/corruption.html:10
+msgid "Tips for Reporting Corruption"
+msgstr "भ्रष्टाचार की रिपोर्टिंग के लिए सुझाव"
+
+#: templates/core/corruption.html:11
+msgid "Follow these steps to report corruption safely and effectively:"
+msgstr "भ्रष्टाचार की सुरक्षित और प्रभावी रिपोर्टिंग के लिए इन चरणों का पालन करें:"
+
+#: templates/core/corruption.html:10
+msgid "Document Evidence"
+msgstr "साक्ष्य दस्तावेज़ करना"
+
+#: templates/core/corruption.html:11
+msgid "Keep records of corrupt activities before reporting."
+msgstr "रिपोर्ट करने से पहले भ्रष्ट गतिविधियों के रिकॉर्ड रखें।"
+
+#: templates/core/corruption.html:17
+msgid "Report to Authorities"
+msgstr "प्राधिकरण को रिपोर्ट करें"
+
+#: templates/core/corruption.html:18
+msgid "Use official channels for lodging complaints."
+msgstr "शिकायत दर्ज करने के लिए आधिकारिक चैनलों का उपयोग करें।"
+
+#: templates/core/corruption.html:24
+msgid "Stay Safe"
+msgstr "सुरक्षित रहें"
+
+#: templates/core/corruption.html:25
+msgid "Protect your identity if reporting sensitive cases."
+msgstr "संवेदनशील मामलों की रिपोर्ट करते समय अपनी पहचान सुरक्षित रखें।"
+
+#: templates/core/corruption.html:31
+msgid "Follow Up"
+msgstr "अनुसरण करें"
+
+#: templates/core/corruption.html:32
+msgid "Check on the progress of your complaint regularly."
+msgstr "अपनी शिकायत की प्रगति नियमित रूप से देखें।"
+
+#: templates/core/public_safety.html:10
+msgid "Public Safety Complaints"
+msgstr "सार्वजनिक सुरक्षा शिकायतें"
+
+#: templates/core/public_safety.html:5
+msgid "Report concerns related to crime, law enforcement, or local safety issues to help build a secure community."
+msgstr "अपराध कानून प्रवर्तन या स्थानीय सुरक्षा से संबंधित चिंताओं की रिपोर्ट करें ताकि एक सुरक्षित समुदाय का निर्माण किया जा सके।"
+
+#: templates/core/public_safety.html:10
+msgid "Public safety complaints include concerns such as crime incidents, unsafe neighborhoods, traffic hazards, or lack of law enforcement presence. Reporting these issues helps authorities respond quickly, maintain order, and protect the community."
+msgstr "सार्वजनिक सुरक्षा शिकायतों में अपराध की घटनाएँ असुरक्षित पड़ोस यातायात खतरे या कानून प्रवर्तन की अनुपस्थिति जैसी चिंताएँ शामिल हैं। इन समस्याओं की रिपोर्ट करने से अधिकारियों को जल्दी प्रतिक्रिया देने व्यवस्था बनाए रखने और समुदाय की सुरक्षा सुनिश्चित करने में मदद मिलती है।"
+
+#: templates/core/public_safety.html:3
+msgid "Why Report Public Safety Issues?"
+msgstr "सार्वजनिक सुरक्षा से जुड़ी समस्याओं की रिपोर्ट क्यों करें?"
+
+#: templates/core/public_safety.html:10
+msgid "Safer Neighborhoods"
+msgstr "सुरक्षित पड़ोस"
+
+#: templates/core/public_safety.html:11
+msgid "Reporting crimes helps authorities prevent incidents and keep neighborhoods safe."
+msgstr "अपराध की रिपोर्ट करने से अधिकारियों को घटनाओं को रोकने और पड़ोस को सुरक्षित रखने में मदद मिलती है।"
+
+#: templates/core/public_safety.html:18
+msgid "Quick Law Enforcement"
+msgstr "तेज़ कानून प्रवर्तन"
+
+#: templates/core/public_safety.html:19
+msgid "Authorities can respond faster to urgent safety concerns."
+msgstr "अधिकारियों को तत्काल सुरक्षा चिंताओं पर तेजी से प्रतिक्रिया करने में सक्षम बनाता है।"
+
+#: templates/core/public_safety.html:26
+msgid "Prevent Crime"
+msgstr "अपराध रोकें"
+
+#: templates/core/public_safety.html:27
+msgid "Active reporting helps prevent future criminal activities."
+msgstr "सक्रिय रिपोर्टिंग भविष्य में अपराध गतिविधियों को रोकने में मदद करती है।"
+
+#: templates/core/public_safety.html:34
+msgid "Community Trust"
+msgstr "समुदाय का विश्वास"
+
+#: templates/core/public_safety.html:35
+msgid "Transparency in handling complaints builds trust between citizens and authorities."
+msgstr "शिकायतों को संभालने में पारदर्शिता नागरिकों और अधिकारियों के बीच विश्वास बनाती है।"
+
+
+
+#: templates/core/public_safety.html:101
+msgid "Follow these steps to report public safety issues efficiently."
+msgstr "सार्वजनिक सुरक्षा समस्याओं की प्रभावी रिपोर्टिंग के लिए ये कदम अपनाएँ।"
+
+
+#: templates/core/public_safety.html:106
+msgid "Verify your mobile number for security."
+msgstr "सुरक्षा के लिए अपना मोबाइल नंबर सत्यापित करें।"
+
+#: templates/core/public_safety.html:112
+msgid "Fill Complaint Form"
+msgstr "शिकायत फ़ॉर्म भरें"
+
+#: templates/core/public_safety.html:113
+msgid "Complete the complaint form with accurate details."
+msgstr "सही जानकारी के साथ शिकायत फ़ॉर्म भरें।"
+
+#: templates/core/public_safety.html:119
+msgid "Attach Evidence"
+msgstr "सबूत संलग्न करें"
+
+#: templates/core/public_safety.html:120
+msgid "Upload any photos or documents supporting your report."
+msgstr "अपनी रिपोर्ट का समर्थन करने वाले किसी भी फोटो या दस्तावेज़ अपलोड करें।"
+
+#---------------------------------------------------------------------------------------------------
+#: templates/core/crime.html:3
+msgid "Understanding Crime"
+msgstr "अपराध को समझना"
+
+#: templates/core/crime.html:7
+msgid "Learn what crime is how to report it and how to stay safe"
+msgstr "जानें कि अपराध क्या है, इसे कैसे रिपोर्ट करें और सुरक्षित कैसे रहें"
+
+#: templates/core/crime.html:10
+msgid "What is Crime?"
+msgstr "अपराध क्या है?"
+
+#: templates/core/crime.html:11
+msgid "Crime refers to actions that break the law and are punishable by the government. This includes theft fraud assault violence cybercrime and other illegal activities."
+msgstr "अपराध वे कृत्य हैं जो कानून तोड़ते हैं और सरकार द्वारा दंडनीय हैं। इसमें चोरी, धोखाधड़ी, हमला, हिंसा, साइबर अपराध और अन्य अवैध गतिविधियाँ शामिल हैं।"
+
+#: templates/core/crime.html:10
+msgid "Report Crime in Your Area"
+msgstr "अपने क्षेत्र में अपराध की रिपोर्ट करें"
+
+#: templates/core/crime.html:12
+msgid "Safety and security are rights of every citizen. Your voice matters."
+msgstr "सुरक्षा और सुरक्षा हर नागरिक का अधिकार है। आपकी आवाज़ मायने रखती है।"
+
+#: templates/core/crime.html:24
+msgid "Safety is the right of every individual. If you witness or experience any criminal activity in your area, it is crucial to report it immediately to prevent further harm."
+msgstr "सुरक्षा हर व्यक्ति का अधिकार है। यदि आप अपने क्षेत्र में किसी अपराध की घटना देखते हैं या अनुभव करते हैं, तो आगे नुकसान से बचने के लिए इसे तुरंत रिपोर्ट करना महत्वपूर्ण है।"
+
+#: templates/core/crime.html:28
+msgid "You can report thefts, assaults, harassment, or any other illegal activities here. Your report helps authorities take prompt action."
+msgstr "आप यहाँ चोरी, हमले, उत्पीड़न या अन्य किसी भी अवैध गतिविधियों की रिपोर्ट कर सकते हैं। आपकी रिपोर्ट अधिकारियों को त्वरित कार्रवाई में मदद करती है।"
+
+#: templates/core/crime.html:40
+msgid "The RJD party ensures that every citizen lives safely and securely. Every complaint is taken seriously, and immediate action is taken."
+msgstr "आरजेडी पार्टी यह सुनिश्चित करती है कि हर नागरिक सुरक्षित और सुरक्षित रूप से रहे। हर शिकायत को गंभीरता से लिया जाता है और तुरंत कार्रवाई की जाती है।"
+
+#: templates/core/crime.html:44
+msgid "By reporting crimes through this platform, you help make your community safer and ensure that justice is served as quickly as possible."
+msgstr "इस प्लेटफ़ॉर्म के माध्यम से अपराधों की रिपोर्ट करके, आप अपने समुदाय को सुरक्षित बनाने में मदद करते हैं और सुनिश्चित करते हैं कि न्याय यथासंभव जल्दी प्रदान किया जाए।"
+
+#: templates/core/crime.html:56
+msgid "File Your Crime Complaint"
+msgstr "अपनी अपराध शिकायत दर्ज करें"
+
+#: templates/core/crime.html:70
+msgid "Types of Crime"
+msgstr "अपराध के प्रकार"
+
+#: templates/core/crime.html:73
+msgid "Theft"
+msgstr "चोरी"
+
+#: templates/core/crime.html:74
+msgid "Unlawfully taking someone else's property without permission."
+msgstr "अनुमति के बिना किसी अन्य की संपत्ति का अवैध रूप से लेना।"
+
+#: templates/core/crime.html:81
+msgid "Violence"
+msgstr "हिंसा"
+
+#: templates/core/crime.html:82
+msgid "Physical harm or threats to people, including assault and abuse."
+msgstr "लोगों को शारीरिक हानि या धमकी, जिसमें हमला और दुरुपयोग शामिल है।"
+
+#: templates/core/crime.html:89
+msgid "Cybercrime"
+msgstr "साइबर अपराध"
+
+#: templates/core/crime.html:90
+msgid "Illegal activities conducted online like hacking, fraud, or identity theft."
+msgstr "ऑनलाइन किए गए अवैध कार्य जैसे हैकिंग, धोखाधड़ी, या पहचान की चोरी।"
+
+#: templates/core/crime_prevention.html:3
+msgid "How to Stay Safe & Prevent Crime"
+msgstr "कैसे सुरक्षित रहें और अपराध रोकें"
+
+#: templates/core/crime_prevention.html:7
+msgid "Personal Safety"
+msgstr "व्यक्तिगत सुरक्षा"
+
+#: templates/core/crime_prevention.html:8
+msgid "Always be aware of your surroundings, avoid isolated areas, and travel with trusted companions."
+msgstr "हमेशा अपने आसपास से अवगत रहें, सुनसान क्षेत्रों से बचें और भरोसेमंद साथी के साथ यात्रा करें।"
+
+#: templates/core/crime_prevention.html:12
+msgid "Home & Property Safety"
+msgstr "घर और संपत्ति की सुरक्षा"
+
+#: templates/core/crime_prevention.html:13
+msgid "Lock doors and windows, install alarms or CCTV, and avoid sharing personal info publicly."
+msgstr "दरवाजे और खिड़कियां बंद करें, अलार्म या CCTV लगाएं, और व्यक्तिगत जानकारी सार्वजनिक रूप से साझा करने से बचें।"
+
+#: templates/core/crime_prevention.html:17
+msgid "Online Safety"
+msgstr "ऑनलाइन सुरक्षा"
+
+#: templates/core/crime_prevention.html:18
+msgid "Use strong passwords, avoid clicking unknown links, and never share sensitive information online."
+msgstr "मजबूत पासवर्ड का उपयोग करें, अज्ञात लिंक पर क्लिक करने से बचें, और संवेदनशील जानकारी कभी ऑनलाइन साझा न करें।"
+
+#: templates/core/crime_prevention.html:22
+msgid "Community Awareness"
+msgstr "सामुदायिक जागरूकता"
+
+#: templates/core/crime_prevention.html:23
+msgid "Participate in neighborhood watch programs and report suspicious activities immediately."
+msgstr "पड़ोस निगरानी कार्यक्रमों में भाग लें और संदिग्ध गतिविधियों की तुरंत रिपोर्ट करें।"
+
+#: templates/core/report_crime.html:7
+msgid "How to Report Crime via RJD Platform"
+msgstr "आरजेडी प्लेटफ़ॉर्म के माध्यम से अपराध कैसे रिपोर्ट करें"
+
+#: templates/core/report_crime.html:11
+msgid "Contact your local RJD community office or representative to report any crime or unsafe activity in your area."
+msgstr "अपने क्षेत्र में किसी भी अपराध या असुरक्षित गतिविधि की रिपोर्ट करने के लिए अपने स्थानीय आरजेडी सामुदायिक कार्यालय या प्रतिनिधि से संपर्क करें।"
+
+#: templates/core/report_crime.html:15
+msgid "Use the official RJD online complaint platform to submit details of the incident safely and securely."
+msgstr "घटना का विवरण सुरक्षित और संरक्षित तरीके से सबमिट करने के लिए आधिकारिक आरजेडी ऑनलाइन शिकायत प्लेटफ़ॉर्म का उपयोग करें।"
+
+#: templates/core/report_crime.html:19
+msgid "Provide clear and accurate information, including location, time, and description of the crime for faster action."
+msgstr "तेज़ कार्रवाई के लिए अपराध के स्थान, समय और विवरण सहित स्पष्ट और सटीक जानकारी प्रदान करें।"
+
+#: templates/core/report_crime.html:23
+msgid "If available, attach any evidence such as photos, videos, or documents to support your complaint."
+msgstr "यदि उपलब्ध हो, तो अपनी शिकायत का समर्थन करने के लिए कोई भी सबूत जैसे फ़ोटो, वीडियो या दस्तावेज़ संलग्न करें।"
+
+#: templates/core/transportation.html:4
+msgid "Transportation & Traffic Issues"
+msgstr "परिवहन और यातायात समस्याएँ"
+
+#: templates/core/transportation.html:8
+msgid "Stay informed about traffic congestion public transit problems and road safety measures to ensure smooth and safe travel."
+msgstr "सुरक्षित और सुगम यात्रा सुनिश्चित करने के लिए ट्रैफ़िक जाम सार्वजनिक परिवहन की समस्याओं और सड़क सुरक्षा उपायों के बारे में जानकारी रखें।"
+
+#: templates/core/transportation.html:15
+msgid "Common Transportation Concerns"
+msgstr "सामान्य परिवहन समस्याएँ"
+
+#: templates/core/transportation.html:18
+msgid "Issues include traffic jams, unsafe roads, delayed public transport, and poor infrastructure. Reporting problems and following traffic rules helps improve commute safety and efficiency."
+msgstr "सामान्य समस्याओं में ट्रैफ़िक जाम, असुरक्षित सड़कें, देरी से चलने वाला सार्वजनिक परिवहन और खराब अवसंरचना शामिल हैं। समस्याओं की रिपोर्टिंग और यातायात नियमों का पालन यात्रा की सुरक्षा और दक्षता को बढ़ाता है।"
+
+#: templates/core/transportation.html:40
+msgid "Why Address Transportation Issues?"
+msgstr "परिवहन समस्याओं का समाधान क्यों आवश्यक है?"
+
+#: templates/core/transportation.html:41
+msgid "Better traffic management and safer roads reduce accidents and improve daily commute efficiency."
+msgstr "बेहतर यातायात प्रबंधन और सुरक्षित सड़कें दुर्घटनाओं को कम करती हैं और दैनिक यात्रा की दक्षता बढ़ाती हैं।"
+
+#: templates/core/transportation.html:50
+msgid "Reduce Traffic Congestion"
+msgstr "यातायात जाम कम करें"
+
+#: templates/core/transportation.html:51
+msgid "Plan routes efficiently and report blocked roads to authorities."
+msgstr "मार्गों की योजना कुशलता से बनाएं और अवरुद्ध सड़कों की रिपोर्ट अधिकारियों को दें।"
+
+#: templates/core/transportation.html:61
+msgid "Improve Public Transit"
+msgstr "सार्वजनिक परिवहन में सुधार करें"
+
+#: templates/core/transportation.html:62
+msgid "Report delays or issues to help authorities optimize schedules and routes."
+msgstr "देर या समस्याओं की रिपोर्ट करें ताकि अधिकारी समय सारिणी और मार्गों को बेहतर बना सकें।"
+
+#: templates/core/transportation.html:72
+msgid "Ensure Road Safety"
+msgstr "सड़क सुरक्षा सुनिश्चित करें"
+
+#: templates/core/transportation.html:73
+msgid "Identify dangerous zones and encourage safe driving practices."
+msgstr "खतरनाक क्षेत्रों की पहचान करें और सुरक्षित ड्राइविंग प्रथाओं को बढ़ावा दें।"
+
+#: templates/core/transportation.html:83
+msgid "Promote Sustainable Travel"
+msgstr "सतत यात्रा को बढ़ावा दें"
+
+#: templates/core/transportation.html:84
+msgid "Encourage cycling, walking, and public transport to reduce pollution."
+msgstr "साइक्लिंग, पैदल चलना और सार्वजनिक परिवहन को बढ़ावा दें ताकि प्रदूषण कम हो।"
+
+#: templates/core/transportation_tips.html:5
+msgid "Tips for Smooth Travel"
+msgstr "सुलह सफर के लिए सुझाव"
+
+#: templates/core/transportation_tips.html:6
+msgid "Simple actions to improve commuting and ensure safety:"
+msgstr "यात्रा को बेहतर और सुरक्षित बनाने के लिए सरल कदम:"
+
+#: templates/core/transportation_tips.html:12
+msgid "Use Public Transport"
+msgstr "सार्वजनिक परिवहन का उपयोग करें"
+
+#: templates/core/transportation_tips.html:13
+msgid "Prefer buses and trains to reduce congestion."
+msgstr "भीड़ कम करने के लिए बस और रेल का उपयोग करें।"
+
+#: templates/core/transportation_tips.html:17
+msgid "Follow Traffic Rules"
+msgstr "ट्रैफिक नियमों का पालन करें"
+
+#: templates/core/transportation_tips.html:18
+msgid "Obey signals, speed limits, and road signs to ensure safety."
+msgstr "सुरक्षा सुनिश्चित करने के लिए सिग्नल, गति सीमा और सड़क संकेतों का पालन करें।"
+
+#: templates/core/transportation_tips.html:22
+msgid "Consider Eco-Friendly Travel"
+msgstr "पर्यावरण अनुकूल यात्रा पर ध्यान दें"
+
+#: templates/core/transportation_tips.html:23
+msgid "Walk or cycle for short distances to reduce pollution."
+msgstr "छोटी दूरी के लिए पैदल या साइकिल का उपयोग करके प्रदूषण कम करें।"
+
+#: templates/core/transportation_tips.html:27
+msgid "Report Road Issues"
+msgstr "सड़क समस्याओं की सूचना दें"
+
+#: templates/core/transportation_tips.html:28
+msgid "Inform authorities about potholes or accidents promptly."
+msgstr "गड्ढे या दुर्घटनाओं की जानकारी तुरंत प्राधिकरण को दें।"
+
+#-------------------------------env--------------------------------
+#: templates/core/environment.html:5
+msgid "Environment Complaints"
+msgstr "पर्यावरण शिकायतें"
+
+#: templates/core/environment.html:5
+msgid "Report environmental issues like pollution deforestation and illegal dumping to build a cleaner & safer community."
+msgstr "प्रदूषण, वनों की कटाई और अवैध कचरा फेंकने जैसी पर्यावरणीय समस्याओं की रिपोर्ट करें ताकि एक स्वच्छ और सुरक्षित समुदाय बन सके।"
+
+#: templates/core/environment.html:4
+msgid "What are Environment Complaints?"
+msgstr "पर्यावरण शिकायतें क्या हैं?"
+
+#: templates/core/environment.html:8
+msgid "Environment complaints include issues like air and water pollution, deforestation, illegal dumping, noise pollution, and loss of biodiversity."
+msgstr "पर्यावरण शिकायतों में वायु और जल प्रदूषण, वनों की कटाई, अवैध कचरा फेंकना, ध्वनि प्रदूषण और जैव विविधता का नुकसान जैसी समस्याएं शामिल हैं।"
+
+#: templates/core/environment.html:9
+msgid "Reporting these problems helps protect health, wildlife, and community well-being."
+msgstr "इन समस्याओं की रिपोर्ट करने से स्वास्थ्य, वन्यजीवन और समुदाय की भलाई की सुरक्षा होती है।"
+
+#: templates/core/environment.html:4
+msgid "Why Protect Environment?"
+msgstr "पर्यावरण की सुरक्षा क्यों करें?"
+
+#: templates/core/environment.html:7
+msgid "A healthy environment ensures safe air, clean water, and a sustainable future for all."
+msgstr "एक स्वस्थ पर्यावरण सुरक्षित वायु, स्वच्छ जल और सभी के लिए स्थायी भविष्य सुनिश्चित करता है।"
+
+#: templates/core/environment_blocks.html:5
+msgid "Reduces Pollution"
+msgstr "प्रदूषण को कम करता है"
+
+#: templates/core/environment_blocks.html:6
+msgid "Reports help authorities take action against pollution sources."
+msgstr "रिपोर्ट्स अधिकारियों को प्रदूषण स्रोतों के खिलाफ कार्रवाई करने में मदद करती हैं।"
+
+#: templates/core/environment_blocks.html:11
+msgid "Protects Wildlife"
+msgstr "वन्यजीवों की सुरक्षा करता है"
+
+#: templates/core/environment_blocks.html:12
+msgid "Prevent deforestation and illegal activities to save natural habitats."
+msgstr "प्राकृतिक आवासों को बचाने के लिए वनों की कटाई और अवैध गतिविधियों को रोकें।"
+
+#: templates/core/environment_blocks.html:17
+msgid "Community Health"
+msgstr "सामुदायिक स्वास्थ्य"
+
+#: templates/core/environment_blocks.html:18
+msgid "Cleaner environment reduces diseases and improves overall health."
+msgstr "स्वच्छ वातावरण रोगों को कम करता है और समग्र स्वास्थ्य में सुधार करता है।"
+
+#: templates/core/environment_blocks.html:23
+msgid "Sustainable Future"
+msgstr "सतत भविष्य"
+
+#: templates/core/environment_blocks.html:24
+msgid "Environmental action ensures resources for future generations."
+msgstr "पर्यावरणीय कार्य भविष्य की पीढ़ियों के लिए संसाधनों को सुनिश्चित करता है।"
+
+#: templates/core/environment_complaint.html:3
+msgid "How to File an Environment Complaint?"
+msgstr "एक पर्यावरण शिकायत कैसे दर्ज करें?"
+
+
+
+#: templates/core/your_template.html:5
+msgid "Our Commitment to You"
+msgstr "आपके प्रति हमारी प्रतिबद्धता"
+
+#: templates/core/your_template.html:LINE_NUMBER
+msgid "Transparency"
+msgstr "पारदर्शिता"
+
+#**********************************************************
+#: path/to/your/template.html:XX
+msgid "Every complaint you raise helps create a better system. By speaking up, you contribute to improvements in local services, infrastructure, and safety. Your feedback empowers authorities to make informed decisions and act on community concerns."
+msgstr "आपके द्वारा दर्ज की गई प्रत्येक शिकायत बेहतर सिस्टम बनाने में मदद करती है। अपनी आवाज़ उठाकर, आप स्थानीय सेवाओं, बुनियादी ढांचे और सुरक्षा में सुधार में योगदान देते हैं। आपकी प्रतिक्रिया अधिकारियों को सूचित निर्णय लेने और सामुदायिक चिंताओं पर कार्रवाई करने में सशक्त बनाती है।"
+#**************************************************************
+
+#----------------footer----------------------------------------
+#: templates/core/footer.html:6
+msgid "Jan Samadhan"
+msgstr "जन समाधान"
+
+#: templates/core/footer.html:10
+msgid "Empowering citizens with transparency and streamlined complaint tracking to make a difference."
+msgstr "पारदर्शिता और सुव्यवस्थित शिकायत ट्रैकिंग के माध्यम से नागरिकों को सशक्त बनाना।"
+
+#: templates/core/footer.html:13
+msgid "“Your voice, our mission.”"
+msgstr "“आपकी आवाज़, हमारा मिशन।”"
+
+#: templates/core/footer.html:18
+msgid "Quick Links"
+msgstr "त्वरित लिंक"
+
+#: templates/core/footer.html:23
+msgid "Track Complaint"
+msgstr "शिकायत ट्रैक करें"
+
+#: templates/core/footer.html:24
+msgid "Admin Login (Superuser)"
+msgstr "एडमिन लॉगिन (सुपरयूज़र)"
+
+#: templates/core/footer.html:29
+msgid "Contact"
+msgstr "संपर्क"
+
+#: templates/core/footer.html:30
+msgid "Bihar, India"
+msgstr "बिहार, भारत"
+
+#: templates/core/footer.html:33
+msgid "support@samadhan.in"
+msgstr "support@samadhan.in"
+
+#: templates/core/footer.html:37
+msgid "+91 9876543210"
+msgstr "+91 9876543210"
+
+#: templates/core/footer.html:40
+msgid "Office Hours: Mon-Fri, 9 AM - 6 PM"
+msgstr "कार्यालय समय: सोमवार-शुक्रवार, सुबह 9 बजे - शाम 6 बजे"
+
+#: templates/core/footer.html:45
+msgid "Subscribe to Newsletter"
+msgstr "न्यूज़लेटर की सदस्यता लें"
+
+#: templates/core/footer.html:46
+msgid "Get the latest updates and news delivered directly to your inbox."
+msgstr "ताज़ा अपडेट और समाचार सीधे आपके इनबॉक्स में प्राप्त करें।"
+
+#: templates/core/footer.html:50
+msgid "Your email address"
+msgstr "आपका ईमेल पता"
+
+#: templates/core/footer.html:53
+msgid "Subscribe"
+msgstr "सदस्यता लें"
+
+#: templates/core/footer.html:61
+msgid "All rights reserved."
+msgstr "सर्वाधिकार सुरक्षित।"
+
+#: templates/core/complaint.html:XX
+msgid "Send your complaint to the system and track its status."
+msgstr "अपनी शिकायत सिस्टम में भेजें और उसकी स्थिति ट्रैक करें।"

@@ -1,0 +1,21 @@
+{% extends 'core/admin/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-primary fw-bold">Edit Message</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Receiver Username</label>
+            {{ form.receiver_username }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Message</label>
+            {{ form.message }}
+        </div>
+        <button type="submit" class="btn btn-primary">Update Message</button>
+        <a href="{% url 'send_message' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

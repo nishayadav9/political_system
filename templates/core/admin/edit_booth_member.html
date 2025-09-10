@@ -1,0 +1,227 @@
+{% extends 'core/admin/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+  <h2 class="mb-4">Edit Booth Member</h2>
+
+  <form method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% if messages %}
+      <div>
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Personal Details Card -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-primary text-white">
+        Personal Details
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" value="{{ member.username }}" required />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-control" name="full_name" value="{{ member.full_name }}" required />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Father’s/Mother’s Name</label>
+            <input type="text" class="form-control" name="father_or_mother_name" value="{{ member.father_or_mother_name }}" required />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" name="date_of_birth" value="{{ member.date_of_birth|date:'Y-m-d' }}" required />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Gender</label>
+            <select class="form-select" name="gender" required>
+              <option value="Male" {% if member.gender == "Male" %}selected{% endif %}>Male</option>
+              <option value="Female" {% if member.gender == "Female" %}selected{% endif %}>Female</option>
+              <option value="Other" {% if member.gender == "Other" %}selected{% endif %}>Other</option>
+            </select>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Mobile Number</label>
+            <input type="tel" class="form-control" name="mobile_number" value="{{ member.mobile_number }}" required />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Alternate Mobile Number</label>
+            <input type="tel" class="form-control" name="alternate_mobile_number" value="{{ member.alternate_mobile_number }}" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" value="{{ member.email }}" required />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Aadhar / Govt ID</label>
+            <input type="text" class="form-control" name="aadhar_or_govt_id" value="{{ member.aadhar_or_govt_id }}" required />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Permanent Address</label>
+            <textarea class="form-control" name="permanent_address">{{ member.permanent_address }}</textarea>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Current Address</label>
+            <textarea class="form-control" name="current_address">{{ member.current_address }}</textarea>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">State</label>
+            <input type="text" class="form-control" name="state" value="{{ member.state }}" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">District</label>
+            <input type="text" class="form-control" name="district" value="{{ member.district }}" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Block / Tehsil / Taluka</label>
+            <input type="text" class="form-control" name="block_tehsil_taluka" value="{{ member.block_tehsil_taluka }}" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Village / Town / City</label>
+            <input type="text" class="form-control" name="village_town_city" value="{{ member.village_town_city }}" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Pincode</label>
+            <input type="text" class="form-control" name="pincode" value="{{ member.pincode }}" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Official Details Card -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-success text-white">
+        Official Details
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Booth Number / ID</label>
+            <input type="text" class="form-control" name="booth_number" value="{{ member.booth_number }}" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Ward / Panchayat Name</label>
+            <input type="text" class="form-control" name="ward_name" value="{{ member.ward_name }}" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Assigned Area / Street</label>
+            <input type="text" class="form-control" name="assigned_area" value="{{ member.assigned_area }}" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Voter ID Number</label>
+            <input type="text" class="form-control" name="voter_id_number" value="{{ member.voter_id_number }}" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Door-to-Door Campaign?</label>
+            <select class="form-select" name="door_to_door" required>
+              <option value="Yes" {% if member.door_to_door == "Yes" %}selected{% endif %}>Yes</option>
+              <option value="No" {% if member.door_to_door == "No" %}selected{% endif %}>No</option>
+            </select>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Availability</label>
+            <select class="form-select" name="availability" required>
+              <option value="Full-Time" {% if member.availability == "Full-Time" %}selected{% endif %}>Full-Time</option>
+              <option value="Part-Time" {% if member.availability == "Part-Time" %}selected{% endif %}>Part-Time</option>
+            </select>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Assigned State</label>
+            <input type="text" class="form-control" name="assigned_state" value="{{ member.assigned_state }}" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Assigned District</label>
+            <input type="text" class="form-control" name="assigned_district" value="{{ member.assigned_district }}" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Assigned Block / Tehsil / Taluka</label>
+            <input type="text" class="form-control" name="assigned_block" value="{{ member.assigned_block }}" />
+          </div>
+
+          <!-- File Uploads -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Photo</label>
+            {% if member.photo %}
+              <img src="{{ member.photo.url }}" height="80" class="mb-2"><br>
+            {% endif %}
+            <input type="file" class="form-control" name="photo" accept="image/*" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">ID Proof</label>
+            {% if member.id_proof %}
+              <a href="{{ member.id_proof.url }}" target="_blank">View Existing</a><br>
+            {% endif %}
+            <input type="file" class="form-control" name="id_proof" accept="image/*,application/pdf" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Address Proof</label>
+            {% if member.address_proof %}
+              <a href="{{ member.address_proof.url }}" target="_blank">View Existing</a><br>
+            {% endif %}
+            <input type="file" class="form-control" name="address_proof" accept="image/*,application/pdf" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Digital Signature</label>
+            {% if member.digital_signature %}
+              <a href="{{ member.digital_signature.url }}" target="_blank">View Existing</a><br>
+            {% endif %}
+            <input type="file" class="form-control" name="digital_signature" accept="image/*,application/pdf" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <label class="form-label">Designation / Role</label>
+            <select class="form-select" name="designation" required>
+              {% for role in booth_roles %}
+                <option value="{{ role.id }}" {% if member.role and member.role.id == role.id %}selected{% endif %}>{{ role.role_name }}</option>
+              {% empty %}
+                <option disabled>No roles available</option>
+              {% endfor %}
+            </select>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary btn-lg">Update Booth Member</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

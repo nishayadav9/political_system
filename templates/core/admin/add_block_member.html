@@ -1,0 +1,279 @@
+{% extends 'core/admin/base.html' %}
+
+{% block content %}
+
+<style>
+  body { background-color: #f9fafb; }
+  h2 { font-weight: 700; color: #1f2937; font-size: 1.6rem; margin-bottom: 1.5rem; }
+  .section-badge { display: inline-block; background-color: #6366f1; color: #fff; font-weight: 600; padding: 0.35rem 0.75rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; }
+  .form-card { background-color: #ffffff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 2rem; border: 1px solid #e5e7eb; }
+  .form-card label { font-weight: 500; color: #374151; }
+  .form-control, .form-select, textarea { border-radius: 8px; border: 1px solid #d1d5db; padding: 0.5rem 0.75rem; }
+  .btn-primary, .btn-secondary { border-radius: 8px; min-width: 150px; }
+  .form-card .row > div { margin-bottom: 1rem; }
+</style>
+
+<h2>➕ Add Block Level Party Member</h2>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <!-- PERSONAL DETAILS -->
+  <div class="form-card">
+    <span class="section-badge">Personal Details</span>
+    <div class="row">
+
+      <div class="col-6 col-md-4">
+        <label>Username</label>
+        <input type="text" name="username" class="form-control" required autocomplete="off" />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Full Name</label>
+        <input type="text" name="full_name" class="form-control" required autocomplete="off" />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Father's/Mother's Name</label>
+        <input type="text" name="father_or_mother_name" class="form-control" required autocomplete="off" />
+      </div>
+
+      <div class="col-6 col-md-3">
+        <label>Date of Birth</label>
+        <input type="date" name="date_of_birth" class="form-control" required />
+      </div>
+
+      <div class="col-6 col-md-3">
+        <label>Gender</label>
+        <select name="gender" class="form-select" required>
+          <option value="">-- Select Gender --</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <label>Mobile Number</label>
+        <input type="text" name="mobile_number" class="form-control" required />
+      </div>
+
+      <div class="col-6 col-md-3">
+        <label>Alternate Mobile</label>
+        <input type="text" name="alternate_mobile_number" class="form-control" />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Email Address</label>
+        <input type="email" name="email" class="form-control" required />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Aadhar / Govt. ID</label>
+        <input type="text" name="aadhar_or_govt_id" class="form-control" required />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Permanent Address</label>
+        <textarea name="permanent_address" class="form-control" rows="2" required></textarea>
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Current Address</label>
+        <textarea name="current_address" class="form-control" rows="2"></textarea>
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>State</label>
+        <input type="text" name="state_name" id="state" class="form-control" value="Bihar" readonly />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>District</label>
+        <select name="district" id="district" class="form-select" required>
+          <option value="">-- Select District --</option>
+          {% for district in districts %}
+            <option value="{{ district }}">{{ district }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Block / Tehsil / Taluka</label>
+        <select name="block_tehsil_taluka" id="block" class="form-select" required>
+          <option value="">-- Select Block --</option>
+        </select>
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Village / Town / City</label>
+        <input type="text" name="village_town_city" class="form-control" required />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Pincode</label>
+        <input type="text" name="pincode" class="form-control" required />
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OFFICIAL DETAILS -->
+  <div class="form-card">
+    <span class="section-badge" style="background-color:#10b981;">Official Details</span>
+    <div class="row">
+
+      <div class="col-6 col-md-4">
+        <label>Location Level</label>
+        <select name="location_level" class="form-select" required>
+          <option value="">-- Select Level --</option>
+          <option value="state">State</option>
+          <option value="district">District</option>
+          <option value="block">Block</option>
+        </select>
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Assigned State</label>
+        <input type="text" name="assigned_state" class="form-control" />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Assigned District</label>
+        <input type="text" name="assigned_district" class="form-control" />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Assigned Block</label>
+        <input type="text" name="assigned_block" class="form-control" />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Role</label>
+        <select name="role" class="form-select" required>
+          <option value="">-- Select Role --</option>
+          {% for role in roles %}
+            <option value="{{ role.id }}">{{ role.role_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Designation</label>
+        <input type="text" name="designation" class="form-control" placeholder="e.g., Block President" />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Booths Handled</label>
+        <input type="number" name="booths_handled" class="form-control" min="0" />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Volunteer Experience</label>
+        <textarea name="volunteer_experience" class="form-control" rows="2"></textarea>
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Reference Person</label>
+        <input type="text" name="reference_person" class="form-control" />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Upload Photo</label>
+        <input type="file" name="photo" accept="image/*" class="form-control" />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Upload Address Proof</label>
+        <input type="file" name="address_proof" accept=".pdf,image/*" class="form-control" />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <label>Password</label>
+        <input type="text" name="password" id="password" class="form-control" readonly />
+        <button type="button" onclick="generatePassword()" class="btn btn-secondary mt-2">Generate Password</button>
+      </div>
+
+      <div class="col-6 col-md-4 d-flex align-items-center mt-4">
+        <input type="checkbox" name="is_active" class="form-check-input me-2" id="is_active" checked>
+        <label class="form-check-label" for="is_active">Active</label>
+      </div>
+
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary mt-3">Add Member</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function(){
+
+    generatePassword();
+
+    const districtSelect = $('#district');
+    const blockSelect = $('#block');
+    const officialDistrictInput = $('input[name="assigned_district"]');
+    const officialBlockInput = $('input[name="assigned_block"]');
+    const officialStateInput = $('input[name="assigned_state"]');
+
+    function autofillOfficialDetails() {
+        officialStateInput.val('Bihar');
+        officialDistrictInput.val(districtSelect.val());
+        officialBlockInput.val(blockSelect.val());
+    }
+
+    districtSelect.on('change', function(){
+        let districtName = $(this).val().trim();
+        blockSelect.empty().append('<option value="">-- Loading --</option>');
+
+        if(districtName){
+            $.ajax({
+                url: "{% url 'ajax_get_blocks' %}",
+                data: { 'district': districtName },
+                success: function(data){
+                    blockSelect.empty().append('<option value="">-- Select Block --</option>');
+                    if(data.blocks && data.blocks.length > 0){
+                        data.blocks.sort().forEach(function(b){
+                            blockSelect.append('<option value="'+b+'">'+b+'</option>');
+                        });
+                    } else {
+                        blockSelect.append('<option value="">-- No Blocks Found --</option>');
+                    }
+                    autofillOfficialDetails();
+                },
+                error: function(){
+                    blockSelect.empty().append('<option value="">-- Select Block --</option>');
+                    autofillOfficialDetails();
+                }
+            });
+        } else {
+            blockSelect.empty().append('<option value="">-- Select Block --</option>');
+            autofillOfficialDetails();
+        }
+    });
+
+    blockSelect.on('change', function(){
+        autofillOfficialDetails();
+    });
+
+    function generatePassword(length = 10){
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$!";
+        let password = "";
+        for(let i=0;i<length;i++){
+            password += chars.charAt(Math.floor(Math.random()*chars.length));
+        }
+        $('#password').val(password);
+    }
+
+});
+</script>
+
+{% endblock %}

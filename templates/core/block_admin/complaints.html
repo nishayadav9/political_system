@@ -1,0 +1,180 @@
+{% extends "core/block_admin/base.html" %}
+
+{% block title %}Complaints{% endblock %}
+
+{% block content %}
+<h2 class="mb-4 text-primary fw-bold">Complaints</h2>
+
+<div class="table-responsive shadow-sm border rounded p-3">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <table class="table table-bordered table-hover align-middle">
+    <thead class="table-dark text-center">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Issue Type</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Address</th>
+        <th>State</th>
+        <th>District</th>
+        <th>Block</th>
+        <th>Pincode</th>
+        <th>Status</th>
+        <th>Photo</th>
+        <th>Upload Photo</th>
+        <th>Upload Video</th>
+        <th>Created At</th>
+        <th>Forwarded To</th>
+        <th>Forward Reason</th>
+        <th>Actions / Forward</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for complaint in complaints %}
+      <tr class="text-center">
+        <td>{{ forloop.counter }}</td>
+        <td>{{ complaint.name }}</td>
+        <td>{{ complaint.mobile }}</td>
+        <td class="text-capitalize">{{ complaint.issue_type }}</td>
+        <td>{{ complaint.title }}</td>
+        <td class="text-start" style="max-width: 200px;">{{ complaint.description|truncatechars:80 }}</td>
+        <td>{{ complaint.address }}</td>
+        <td>{{ complaint.state }}</td>
+        <td>{{ complaint.district }}</td>
+        <td>{{ complaint.block }}</td>
+        <td>{{ complaint.pincode }}</td>
+
+        <!-- STATUS -->
+<td>
+  {% if complaint.status == "Solved" %}
+    <span class="badge bg-info text-dark">Solved</span>
+  {% elif complaint.status == "Accepted" %}
+    <span class="badge bg-success">Accepted</span>
+  {% elif complaint.status == "Rejected" %}
+    <span class="badge bg-warning text-dark">Rejected</span>
+  {% elif complaint.status == "Forwarded" %}
+    <span class="badge bg-secondary text-dark">Forwarded</span>
+  {% else %}
+    <span class="badge bg-secondary">Pending</span>
+  {% endif %}
+</td>
+
+
+        <!-- Photo -->
+        <td>
+          {% if complaint.photo %}
+            <a href="{{ complaint.photo.url }}" target="_blank">
+              <img src="{{ complaint.photo.url }}" alt="Photo" class="img-thumbnail" style="height: 40px; width: 60px; object-fit: cover;">
+            </a>
+          {% else %}
+            <span class="text-muted">No Photo</span>
+          {% endif %}
+        </td>
+
+        <td>
+          {% if complaint.upload_photo %}
+            <a href="{{ complaint.upload_photo.url }}" target="_blank">
+              <img src="{{ complaint.upload_photo.url }}" alt="Upload Photo" class="img-thumbnail" style="height: 40px; width: 60px; object-fit: cover;">
+            </a>
+          {% else %}
+            <span class="text-muted">No Photo</span>
+          {% endif %}
+        </td>
+
+        <td>
+          {% if complaint.upload_video %}
+            <a href="{{ complaint.upload_video.url }}" target="_blank" class="btn btn-sm btn-outline-primary">&#128249; View</a>
+          {% else %}
+            <span class="text-muted">No Video</span>
+          {% endif %}
+        </td>
+
+        <td>{{ complaint.created_at|date:"d M Y, H:i" }}</td>
+
+        <!-- Forwarded To / Reason -->
+        <td>{{ complaint.forward_to|default:"-" }}</td>
+        <td style="max-width:200px; white-space: pre-wrap;">{{ complaint.forward_reason|default:"-" }}</td>
+
+        <!-- Actions / Forward -->
+        <td class="text-start">
+          <div class="d-flex flex-column gap-1">
+
+            <form action="{% url 'block_complaints_delete' complaint.id %}" method="POST" style="display:inline;" onsubmit="return confirm('Delete this complaint?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-danger mb-1">Delete</button>
+            </form>
+
+            {% if complaint.status != 'Accepted' %}
+            <form action="{% url 'block_complaints_accept' complaint.id %}" method="POST" style="display:inline;" onsubmit="return confirm('Accept this complaint?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-success mb-1">Accept</button>
+            </form>
+            {% endif %}
+
+            {% if complaint.status != 'Rejected' %}
+            <form action="{% url 'block_complaints_reject' complaint.id %}" method="POST" style="display:inline;" onsubmit="return confirm('Reject this complaint?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-warning mb-1">Reject</button>
+            </form>
+            {% endif %}
+
+            {% if complaint.status == 'Accepted' and not complaint.resolved_at %}
+            <form action="{% url 'block_complaints_solve' complaint.id %}" method="POST" style="display:inline;" onsubmit="return confirm('Mark as solved?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-info mb-1">Solve</button>
+            </form>
+            {% endif %}
+
+            <!-- Forward Modal Button -->
+            <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#forwardModal{{ complaint.id }}">
+              Forward
+            </button>
+
+            <!-- Forward Modal -->
+            <div class="modal fade" id="forwardModal{{ complaint.id }}" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <form method="POST" action="{% url 'block_complaints_forward' complaint.id %}">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                      <h5 class="modal-title">Forward Complaint #{{ complaint.id }}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="mb-3">
+                        <label class="form-label">Forward To (District Admin Username)</label>
+                        <input type="text" name="username" class="form-control" required>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Forward Reason</label>
+                        <textarea name="reason" class="form-control" rows="3" required></textarea>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button type="submit" class="btn btn-primary">Save & Forward</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="19" class="text-center text-muted py-4">No complaints found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

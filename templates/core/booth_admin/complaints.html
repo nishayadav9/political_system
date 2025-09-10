@@ -1,0 +1,248 @@
+{% extends 'core/booth_admin/booth_admin_base.html' %}
+
+{% block content %}
+<h2>📄 View Complaints</h2>
+<hr>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<table class="table table-bordered table-striped table-hover align-middle shadow-sm">
+    <thead class="table-dark text-center">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Father Name</th>
+            <th>Mobile</th>
+            <th>Gender</th>
+            <th>Photo</th>
+            <th>Voter ID Image</th>
+            <th>Address</th>
+            <th>State</th>
+            <th>District</th>
+            <th>Block</th>
+            <th>Panchayat</th>
+            <th>Village</th>
+            <th>Pincode</th>
+            <th>Issue Type</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Upload Photo</th>
+            <th>Upload Video</th>
+            <th>Status</th>
+            <th>Actions</th>
+            <th>Forwarded To (username)</th>
+            <th>Forward Reason</th>
+                        <th>Forward History</th>
+
+            <th>Public Notice</th>
+            <th>Forward</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if complaints %}
+            {% for complaint in complaints %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ complaint.name }}</td>
+                    <td>{{ complaint.father_name }}</td>
+                    <td>{{ complaint.mobile }}</td>
+                    <td class="text-capitalize">{{ complaint.gender }}</td>
+                    <td>
+                        {% if complaint.photo %}
+                            <img src="{{ complaint.photo.url }}" alt="Photo" style="max-width: 80px; max-height: 80px;">
+                        {% else %}-{% endif %}
+                    </td>
+                    <td>
+                        {% if complaint.voter_id_image %}
+                            <img src="{{ complaint.voter_id_image.url }}" alt="Voter ID" style="max-width: 80px; max-height: 80px;">
+                        {% else %}-{% endif %}
+                    </td>
+                    <td>{{ complaint.address }}</td>
+                    <td>{{ complaint.state }}</td>
+                    <td>{{ complaint.district }}</td>
+                    <td>{{ complaint.block }}</td>
+                    <td>{{ complaint.panchayat }}</td>
+                    <td>{{ complaint.village }}</td>
+                    <td>{{ complaint.pincode }}</td>
+                    <td class="text-capitalize">{{ complaint.issue_type }}</td>
+                    <td>{{ complaint.title }}</td>
+                    <td>{{ complaint.description|truncatechars:50 }}</td>
+                    <td>
+                        {% if complaint.upload_photo %}
+                            <img src="{{ complaint.upload_photo.url }}" alt="Upload Photo" style="max-width: 80px; max-height: 80px;">
+                        {% else %}-{% endif %}
+                    </td>
+                    <td>
+                        {% if complaint.upload_video %}
+                            <a href="{{ complaint.upload_video.url }}" target="_blank">View Video</a>
+                        {% else %}-{% endif %}
+                    </td>
+                    <td>
+                        <span class="badge 
+                            {% if complaint.status == 'Accepted' %}bg-success
+                            {% elif complaint.status == 'Rejected' %}bg-danger
+                            {% elif complaint.status == 'Solved' %}bg-info
+                            {% elif complaint.status == 'Forwarded' %}bg-primary
+                            {% else %}bg-secondary
+                            {% endif %}">
+                            {{ complaint.status|default:"Pending" }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="d-flex flex-wrap gap-1">
+                            <form action="{% url 'booth_complaints_delete' complaint.pk %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this complaint?');">Delete</button>
+                            </form>
+
+                            {% if complaint.status != 'Accepted' %}
+                            <form action="{% url 'booth_complaints_accept' complaint.pk %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-success">Accept</button>
+                            </form>
+                            {% endif %}
+
+                            {% if complaint.status != 'Rejected' %}
+                            <form action="{% url 'booth_complaints_reject' complaint.pk %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-warning">Reject</button>
+                            </form>
+                            {% endif %}
+
+                            {% if complaint.status == 'Accepted' and not complaint.resolved_at %}
+                            <form action="{% url 'booth_complaints_solve' complaint.pk %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-info">Solve</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </td>
+
+                    <td>{{ complaint.forward_to|default:"-" }}</td>
+                    <td>{{ complaint.forward_reason|default:"-" }}</td>
+
+
+                    <!-- Forward History Column -->
+<td class="text-center">
+  {% if complaint.forward_chain %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#forwardHistoryModal{{ complaint.id }}">
+      View History
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="forwardHistoryModal{{ complaint.id }}" tabindex="-1" aria-labelledby="forwardHistoryModalLabel{{ complaint.id }}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="forwardHistoryModalLabel{{ complaint.id }}">Forward History for {{ complaint.name }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <ul class="list-unstyled mb-0 p-0">
+              {% for step in complaint.forward_chain %}
+                <li style="padding:4px 0;">
+                  <div>
+                    {% if step.from == "booth" %}Booth{% elif step.from == "block" %}Block{% elif step.from == "district_admin" %}District{% else %}{{ step.from|capfirst }}{% endif %}
+                     → 
+                    {% if step.to == "booth" %}Booth{% elif step.to == "block" %}Block{% elif step.to == "district_admin" %}District{% else %}{{ step.to|capfirst }}{% endif %}
+                  </div>
+                  <div style="color:gray; font-size:0.85em;">
+                    Date: {{ step.date }}
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    -
+  {% endif %}
+</td>
+
+
+
+
+                    <!-- Public Notice Column -->
+                    <td class="text-center">
+                        {% if complaint.public_notice %}
+                            <span class="badge bg-info text-dark">{{ complaint.public_notice|truncatechars:30 }}</span>
+                        {% endif %}
+                        <button type="button" class="btn btn-sm btn-info mt-1" data-bs-toggle="modal" data-bs-target="#publicNoticeModal{{ complaint.pk }}">
+                            {% if complaint.public_notice %}Edit{% else %}Add{% endif %} Notice
+                        </button>
+
+                        <div class="modal fade" id="publicNoticeModal{{ complaint.pk }}" tabindex="-1" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <form method="POST" action="{% url 'booth_complaints_public_notice' complaint.pk %}">
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Public Notice for Complaint #{{ complaint.pk }}</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <textarea name="public_notice" class="form-control" rows="4" placeholder="Write notice for public..." required>{{ complaint.public_notice }}</textarea>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                  <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                    </td>
+
+                    <td class="text-center">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#forwardModal{{ complaint.pk }}">
+                            Forward
+                        </button>
+                        <div class="modal fade" id="forwardModal{{ complaint.pk }}" tabindex="-1" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <form method="POST" action="{% url 'booth_complaints_forward' complaint.pk %}">
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Forward Complaint #{{ complaint.pk }}</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="mb-3">
+                                    <label class="form-label">Username</label>
+                                    <input type="text" name="username" class="form-control" required>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label class="form-label">Forward Reason</label>
+                                    <textarea name="reason" class="form-control" rows="3" required></textarea>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                  <button type="submit" class="btn btn-primary">Save & Forward</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="26" class="text-center">No complaints found.</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}

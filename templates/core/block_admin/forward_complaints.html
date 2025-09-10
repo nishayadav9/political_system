@@ -1,0 +1,237 @@
+{% extends 'core/block_admin/base.html' %}
+
+{% block title %}Forwarded Complaints{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Forwarded Complaints</h2>
+
+{% if complaints %}
+<div class="overflow-x-auto">
+  <table class="table-auto w-full border-collapse border border-gray-300">
+<thead>
+  <tr class="bg-gray-200 text-center">
+    <th class="border px-4 py-2">#</th>
+    <th class="border px-4 py-2">Name</th>
+    <th class="border px-4 py-2">Father Name</th>
+    <th class="border px-4 py-2">Mobile</th>
+    <th class="border px-4 py-2">Gender</th>
+    <th class="border px-4 py-2">Voter ID Image</th>
+    <th class="border px-4 py-2">Issue Type</th>
+    <th class="border px-4 py-2">Title</th>
+    <th class="border px-4 py-2">Description</th>
+    <th class="border px-4 py-2">Address</th>
+    <th class="border px-4 py-2">State</th>
+    <th class="border px-4 py-2">District</th>
+    <th class="border px-4 py-2">Block</th>
+    <th class="border px-4 py-2">Panchayat</th>
+    <th class="border px-4 py-2">Village</th>
+    <th class="border px-4 py-2">Pincode</th>
+    <th class="border px-4 py-2">Status</th>
+    <th class="border px-4 py-2">Photo</th>
+    <th class="border px-4 py-2">Upload Photo</th>
+    <th class="border px-4 py-2">Upload Video</th>
+    <th class="border px-4 py-2">Created At</th>
+    <th class="border px-4 py-2">Forwarded To</th>   
+    <th class="border px-4 py-2">Forward Reason</th>
+        <th class="border px-4 py-2">Forward History</th>
+
+    <th class="border px-4 py-2">Latest Notice (PUBLIC)</th>
+    <th class="border px-4 py-2">Public Notice</th>
+    <th class="border px-4 py-2">Feedback</th>
+    <th class="border px-4 py-2">Actions</th>
+  </tr>
+</thead>
+<tbody class="text-center">
+  {% for complaint in complaints %}
+  <tr>
+    <td class="border px-4 py-2">{{ forloop.counter }}</td>
+    <td class="border px-4 py-2">{{ complaint.name }}</td>
+    <td class="border px-4 py-2">{{ complaint.father_name }}</td>
+    <td class="border px-4 py-2">{{ complaint.mobile }}</td>
+    <td class="border px-4 py-2 text-capitalize">{{ complaint.gender }}</td>
+    <td class="border px-4 py-2">
+      {% if complaint.voter_id_image %}
+        <img src="{{ complaint.voter_id_image.url }}" alt="Voter ID" class="h-10 w-16 object-cover">
+      {% else %}
+        <span class="text-gray-500">No Voter ID</span>
+      {% endif %}
+    </td>
+    <td class="border px-4 py-2">{{ complaint.issue_type|capfirst }}</td>
+    <td class="border px-4 py-2">{{ complaint.title }}</td>
+    <td class="border px-4 py-2 text-start" style="max-width:200px;">{{ complaint.description|truncatechars:80 }}</td>
+    <td class="border px-4 py-2">{{ complaint.address }}</td>
+    <td class="border px-4 py-2">{{ complaint.state }}</td>
+    <td class="border px-4 py-2">{{ complaint.district }}</td>
+    <td class="border px-4 py-2">{{ complaint.block }}</td>
+    <td class="border px-4 py-2">{{ complaint.panchayat }}</td>
+    <td class="border px-4 py-2">{{ complaint.village }}</td>
+    <td class="border px-4 py-2">{{ complaint.pincode }}</td>
+    <td class="border px-4 py-2">
+      {% if complaint.status == "Solved" %}
+        <span class="bg-blue-200 text-blue-800 px-2 py-1 rounded">Solved</span>
+      {% elif complaint.status == "Accepted" %}
+        <span class="bg-green-200 text-green-800 px-2 py-1 rounded">Accepted</span>
+      {% elif complaint.status == "Rejected" %}
+        <span class="bg-yellow-200 text-yellow-800 px-2 py-1 rounded">Rejected</span>
+      {% else %}
+        <span class="bg-gray-200 text-gray-800 px-2 py-1 rounded">Pending</span>
+      {% endif %}
+    </td>
+    <td class="border px-4 py-2">
+      {% if complaint.photo %}
+        <img src="{{ complaint.photo.url }}" alt="Photo" class="h-10 w-16 object-cover">
+      {% else %}
+        <span class="text-gray-500">No Photo</span>
+      {% endif %}
+    </td>
+    <td class="border px-4 py-2">
+      {% if complaint.upload_photo %}
+        <img src="{{ complaint.upload_photo.url }}" alt="Upload Photo" class="h-10 w-16 object-cover">
+      {% else %}
+        <span class="text-gray-500">No Photo</span>
+      {% endif %}
+    </td>
+    <td class="border px-4 py-2">
+      {% if complaint.upload_video %}
+        <a href="{{ complaint.upload_video.url }}" target="_blank" class="text-blue-600 underline">&#128249; View</a>
+      {% else %}
+        <span class="text-gray-500">No Video</span>
+      {% endif %}
+    </td>
+    <td class="border px-4 py-2">{{ complaint.created_at|date:"d M Y, H:i" }}</td>
+
+    <td class="border px-4 py-2">{{ complaint.forward_to|default:"-" }}</td>
+    <td class="border px-4 py-2 text-start" style="max-width:200px;">{{ complaint.forward_reason|default:"-" }}</td>
+
+
+
+
+    <td class="border px-4 py-2 text-start" style="max-width:200px;">
+  {% if complaint.forward_chain %}
+    <ul class="list-disc pl-5 text-sm">
+      {% for step in complaint.forward_chain %}
+        <li>{{ step.from }} → {{ step.to }} | Date: {{ step.date|date:"d M Y" }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    -
+  {% endif %}
+</td>
+
+
+
+
+    <td class="border px-4 py-2 text-start" style="max-width:200px;">
+      {{ complaint.public_notice|default:"-" }}
+    </td>
+
+    <td class="border px-4 py-2">
+      <div x-data="{ open: false }">
+        <button @click="open = !open" class="bg-blue-500 text-white px-2 py-1 rounded">
+          Notice
+        </button>
+        <div x-show="open" class="mt-2">
+          <form action="{% url 'update_public_notice' complaint.pk %}" method="POST">
+            {% csrf_token %}
+            <textarea name="public_notice" rows="2" class="w-full border rounded px-2 py-1" placeholder="Write new notice..."></textarea>
+            <button type="submit" class="bg-green-500 text-white px-2 py-1 mt-1 rounded w-full">Send</button>
+          </form>
+        </div>
+      </div>
+    </td>
+
+    <!-- Feedback Column -->
+<td class="border px-4 py-2 text-center">
+  {% if complaint.status == "Solved" and complaint.feedback %}
+    <div x-data="{ open: false }">
+      <button @click="open = !open" class="bg-indigo-500 text-white px-2 py-1 rounded text-sm">
+        
+      </button>
+      <div x-show="open" x-cloak class="mt-2 bg-gray-100 p-2 rounded text-left text-sm">
+        {{ complaint.feedback }}
+      </div>
+    </div>
+  {% else %}
+    <span class="text-gray-500">-</span>
+  {% endif %}
+</td>
+
+
+
+    <!-- Actions & Forward Column -->
+<td class="border px-4 py-2 space-y-1 text-center">
+
+  <!-- Forward Button & Modal -->
+  <button type="button" class="btn btn-sm btn-secondary w-full mb-1" data-bs-toggle="modal" data-bs-target="#forwardModal{{ complaint.id }}">
+    Forward
+  </button>
+
+  <div class="modal fade" id="forwardModal{{ complaint.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="POST" action="{% url 'block_complaints_forward' complaint.id %}">
+          {% csrf_token %}
+          <div class="modal-header">
+            <h5 class="modal-title">Forward Complaint #{{ complaint.id }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Forward To (District Admin Username)</label>
+              <input type="text" name="username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Forward Reason</label>
+              <textarea name="reason" class="form-control" rows="3" required></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save & Forward</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Other Actions -->
+  <form action="{% url 'block_complaint_delete' complaint.pk %}" method="POST" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded w-full mb-1">Delete</button>
+  </form>
+
+  <form action="{% url 'block_complaint_pending' complaint.pk %}" method="POST" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="bg-gray-500 text-white px-2 py-1 rounded w-full mb-1">Pending</button>
+  </form>
+
+  <form action="{% url 'block_complaint_accept' complaint.pk %}" method="POST" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="bg-green-500 text-white px-2 py-1 rounded w-full mb-1">Accept</button>
+  </form>
+
+  <form action="{% url 'block_complaints_reject' complaint.pk %}" method="POST" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="bg-yellow-500 text-white px-2 py-1 rounded w-full mb-1">Reject</button>
+  </form>
+
+  <form action="{% url 'block_complaints_solve' complaint.pk %}" method="POST" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded w-full">Solve</button>
+  </form>
+
+</td>
+
+  </tr>
+  {% endfor %}
+</tbody>
+  </table>
+</div>
+{% else %}
+  <p>No forwarded complaints found.</p>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="//unpkg.com/alpinejs" defer></script>
+{% endblock %}

@@ -1,0 +1,9 @@
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <label>Upload Files:</label>
+    <input type="file" name="files" multiple>  <!-- ✅ yeh part handle karega -->
+
+    <button type="submit">Submit</button>
+</form>

@@ -1,0 +1,273 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load translation_tags %}
+{% block content %}
+<div class="container mx-auto my-12 px-4">
+<!-- Hero Section -->
+<div class="card shadow-lg border-0 mx-auto banner-card position-relative text-center">
+    <!-- Background Image -->
+    <img src="{% static 'core/images/crime.jpg' %}" 
+         class="card-img-top banner-img" 
+         alt="Crime Banner">
+
+    <!-- Overlay -->
+    <div class="banner-overlay d-flex flex-column align-items-center justify-center text-white p-4 pt-12">
+        <!-- Title -->
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-3 text-white">
+    {% blocktrans %}Understanding Crime{% endblocktrans %}
+</h1>
+
+<!-- Subtitle -->
+<p class="text-white text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+    {% blocktrans %}Learn what crime is how to report it and how to stay safe{% endblocktrans %}
+</p>
+
+    </div>
+</div>
+
+<!-- What is Crime Section -->
+<section class="mb-16 max-w-[98%] mx-auto px-4">
+    <div class="bg-gradient-to-r from-red-50 via-yellow-50 to-green-50 shadow-xl rounded-2xl border border-gray-200 hover:shadow-2xl transition-all duration-500 p-8 flex flex-col md:flex-row items-center gap-6">
+
+        <!-- Left Content -->
+       <div class="flex-1">
+    <h2 class="text-3xl font-bold text-red-600 mb-4">
+        {% blocktrans %}What is Crime?{% endblocktrans %}
+    </h2>
+    <p class="text-gray-800 text-lg leading-relaxed">
+        {% blocktrans %}Crime refers to actions that break the law and are punishable by the government. This includes theft fraud assault violence cybercrime and other illegal activities.{% endblocktrans %}
+    </p>
+</div>
+
+        <!-- Right Image -->
+        <div class="flex-1 flex justify-center">
+            <img src="{% static 'core/images/crime_definition.jpg' %}" 
+                 alt="Crime Definition" 
+                 class="rounded-2xl shadow-lg w-full md:w-[800px] h-80 object-cover">
+        </div>
+
+    </div>
+</section>
+
+
+<!-- RJD Crime Complaint Section - Side Icon Card Style (Blue-Yellow Theme) -->
+<section class="py-24 bg-blue-50 text-gray-900 my-16">
+  <div class="max-w-6xl mx-auto px-6">
+    
+    <!-- Section Heading -->
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-extrabold text-blue-900 mb-4">
+        {% blocktrans %}Report Crime in Your Area{% endblocktrans %}
+      </h2>
+      <p class="text-blue-700 text-lg md:text-xl">
+        {% blocktrans %}Safety and security are rights of every citizen. Your voice matters.{% endblocktrans %}
+      </p>
+      <div class="w-24 h-1 bg-red-400 mx-auto mt-4 rounded-full"></div>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="grid md:grid-cols-2 gap-12">
+      
+      <!-- Card 1 -->
+      <div class="flex items-start bg-blue-100 rounded-3xl shadow-xl border-l-8 border-red-400 p-6 hover:shadow-2xl transition duration-300">
+        <!-- Icon -->
+        <div class="flex-shrink-0 w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center text-blue-900 text-3xl font-bold mr-6">
+          1
+        </div>
+        <!-- Content -->
+        <div>
+          <p class="text-blue-900 text-lg leading-relaxed mb-3">
+            {% blocktrans %}Safety is the right of every individual. If you witness or experience any criminal activity in your area, it is crucial to report it immediately to prevent further harm.{% endblocktrans %}
+          </p>
+          <p class="text-blue-900 text-lg leading-relaxed">
+            {% blocktrans %}You can report thefts, assaults, harassment, or any other illegal activities here. Your report helps authorities take prompt action.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="flex items-start bg-blue-100 rounded-3xl shadow-xl border-l-8 border-red-400 p-6 hover:shadow-2xl transition duration-300">
+        <!-- Icon -->
+        <div class="flex-shrink-0 w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center text-blue-900 text-3xl font-bold mr-6">
+          2
+        </div>
+        <!-- Content -->
+        <div>
+          <p class="text-blue-900 text-lg leading-relaxed mb-3">
+            {% blocktrans %}The RJD party ensures that every citizen lives safely and securely. Every complaint is taken seriously, and immediate action is taken.{% endblocktrans %}
+          </p>
+          <p class="text-blue-900 text-lg leading-relaxed">
+            {% blocktrans %}By reporting crimes through this platform, you help make your community safer and ensure that justice is served as quickly as possible.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Action Button -->
+    <div class="text-center mt-16">
+      <a href="{% url 'complaint_form' %}" 
+         class="inline-block bg-gradient-to-r from-red-400 to-blue-900 text-white font-bold px-12 py-4 rounded-full shadow-lg transform transition duration-300 hover:scale-105 hover:from-yellow-500 hover:to-blue-800 hover:shadow-2xl">
+        {% blocktrans %}File Your Crime Complaint{% endblocktrans %}
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+    <section class="mb-12">
+    <h2 class="text-3xl font-semibold text-blue-600 mb-6">
+        {% blocktrans %}Types of Crime{% endblocktrans %}
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transform transition duration-300">
+            <img src="{% static 'core/images/theft.jpg' %}" alt="{% blocktrans %}Theft{% endblocktrans %}" class="w-full h-48 object-cover">
+            <div class="p-5">
+                <h3 class="text-xl font-bold text-red-500 mb-2">{% blocktrans %}Theft{% endblocktrans %}</h3>
+                <p class="text-gray-700 text-sm">
+                    {% blocktrans %}Unlawfully taking someone else's property without permission.{% endblocktrans %}
+                </p>
+            </div>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transform transition duration-300">
+            <img src="{% static 'core/images/violence.jpg' %}" alt="{% blocktrans %}Violence{% endblocktrans %}" class="w-full h-48 object-cover">
+            <div class="p-5">
+                <h3 class="text-xl font-bold text-yellow-500 mb-2">{% blocktrans %}Violence{% endblocktrans %}</h3>
+                <p class="text-gray-700 text-sm">
+                    {% blocktrans %}Physical harm or threats to people, including assault and abuse.{% endblocktrans %}
+                </p>
+            </div>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transform transition duration-300">
+            <img src="{% static 'core/images/cybercrime.jpg' %}" alt="{% blocktrans %}Cybercrime{% endblocktrans %}" class="w-full h-48 object-cover">
+            <div class="p-5">
+                <h3 class="text-xl font-bold text-green-500 mb-2">{% blocktrans %}Cybercrime{% endblocktrans %}</h3>
+                <p class="text-gray-700 text-sm">
+                    {% blocktrans %}Illegal activities conducted online like hacking, fraud, or identity theft.{% endblocktrans %}
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+   
+
+
+<!-- Crime Prevention Tips Section -->
+<section class="mb-12">
+    <h2 class="text-3xl font-semibold text-blue-600 mb-6">
+        {% blocktrans %}How to Stay Safe & Prevent Crime{% endblocktrans %}
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div class="shadow-lg rounded-lg p-6 hover:scale-105 transform transition duration-300 bg-green-200">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{% blocktrans %}Personal Safety{% endblocktrans %}</h3>
+            <p class="text-gray-700 text-sm">
+                {% blocktrans %}Always be aware of your surroundings, avoid isolated areas, and travel with trusted companions.{% endblocktrans %}
+            </p>
+        </div>
+
+        <div class="shadow-lg rounded-lg p-6 hover:scale-105 transform transition duration-300 bg-yellow-200">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{% blocktrans %}Home & Property Safety{% endblocktrans %}</h3>
+            <p class="text-gray-700 text-sm">
+                {% blocktrans %}Lock doors and windows, install alarms or CCTV, and avoid sharing personal info publicly.{% endblocktrans %}
+            </p>
+        </div>
+
+        <div class="shadow-lg rounded-lg p-6 hover:scale-105 transform transition duration-300 bg-blue-200">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{% blocktrans %}Online Safety{% endblocktrans %}</h3>
+            <p class="text-gray-700 text-sm">
+                {% blocktrans %}Use strong passwords, avoid clicking unknown links, and never share sensitive information online.{% endblocktrans %}
+            </p>
+        </div>
+
+        <div class="shadow-lg rounded-lg p-6 hover:scale-105 transform transition duration-300 bg-pink-200">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{% blocktrans %}Community Awareness{% endblocktrans %}</h3>
+            <p class="text-gray-700 text-sm">
+                {% blocktrans %}Participate in neighborhood watch programs and report suspicious activities immediately.{% endblocktrans %}
+            </p>
+        </div>
+
+    </div>
+</section>
+
+
+
+
+<section class="mb-16 max-w-6xl mx-auto px-4">
+    <div class="bg-gradient-to-r from-blue-50 via-green-50 to-teal-50 shadow-xl rounded-2xl border border-gray-200 hover:shadow-2xl transition-all duration-500 p-8">
+
+        <!-- Heading -->
+        <h2 class="text-3xl font-bold text-blue-600 mb-6">
+            {% blocktrans %}How to Report Crime via RJD Platform{% endblocktrans %}
+        </h2>
+
+        <!-- Steps List -->
+        <ul class="space-y-4 text-gray-700 text-lg">
+            <li class="flex items-start gap-3">
+                <div class="flex-shrink-0 bg-blue-500 text-white h-8 w-8 flex items-center justify-center rounded-full font-semibold">1</div>
+                {% blocktrans %}Contact your local RJD community office or representative to report any crime or unsafe activity in your area.{% endblocktrans %}
+            </li>
+            <li class="flex items-start gap-3">
+                <div class="flex-shrink-0 bg-blue-500 text-white h-8 w-8 flex items-center justify-center rounded-full font-semibold">2</div>
+                {% blocktrans %}Use the official RJD online complaint platform to submit details of the incident safely and securely.{% endblocktrans %}
+            </li>
+            <li class="flex items-start gap-3">
+                <div class="flex-shrink-0 bg-blue-500 text-white h-8 w-8 flex items-center justify-center rounded-full font-semibold">3</div>
+                {% blocktrans %}Provide clear and accurate information, including location, time, and description of the crime for faster action.{% endblocktrans %}
+            </li>
+            <li class="flex items-start gap-3">
+                <div class="flex-shrink-0 bg-blue-500 text-white h-8 w-8 flex items-center justify-center rounded-full font-semibold">4</div>
+                {% blocktrans %}If available, attach any evidence such as photos, videos, or documents to support your complaint.{% endblocktrans %}
+            </li>
+        </ul>
+
+    </div>
+</section>
+
+
+<!-- Back to Home Button (Centered, Modern Style) -->
+<div class="mt-8 flex justify-center">
+   <a href="{% url 'home' %}" 
+   class="inline-block bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold px-8 py-3 rounded-xl shadow-lg transform transition duration-300 hover:scale-105 hover:from-green-500 hover:to-teal-600 hover:shadow-2xl">
+    {% blocktrans trimmed %}Back to Home{% endblocktrans %}
+</a>
+</div>
+
+</div>
+<style>
+.banner-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    width: 100%;
+}
+.banner-img {
+    width: 100%;
+    height: 500px; /* height kam kiya */
+    object-fit: cover;
+    filter: brightness(60%); /* thoda dark overlay */
+}
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* content center vertically */
+    text-align: center;
+    padding: 1rem;
+}
+</style>
+{% endblock %}

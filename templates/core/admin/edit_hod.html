@@ -1,0 +1,31 @@
+{% extends 'core/admin/base.html' %}
+
+{% block content %}
+<h2>Edit HOD</h2>
+
+<form method="post">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label for="name" class="form-label">Name:</label>
+    <input type="text" class="form-control" id="name" name="name" value="{{ hod.name }}" required>
+  </div>
+  
+  <div class="mb-3">
+    <label for="email" class="form-label">Email:</label>
+    <input type="email" class="form-control" id="email" name="email" value="{{ hod.email }}" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="phone" class="form-label">Phone:</label>
+    <input type="text" class="form-control" id="phone" name="phone" value="{{ hod.phone }}" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="department" class="form-label">Department:</label>
+    <input type="text" class="form-control" id="department" name="department" value="{{ hod.department }}" required>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Update</button>
+  <a href="{% url 'manage_hod' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

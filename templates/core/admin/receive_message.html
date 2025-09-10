@@ -1,0 +1,50 @@
+{% extends 'core/admin/base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">📩 Sent Messages from Booth</h2>
+
+  {% if received_msgs %}
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Message</th>
+          <th>Sent At</th>
+          <th>Sender</th>
+          <th>Reply</th>
+          <th>Action</th>  <!-- reply karne ka button -->
+        </tr>
+      </thead>
+      <tbody>
+        {% for msg in received_msgs %}
+          <tr>
+            <td>{{ msg.message }}</td>
+            <td>{{ msg.created_at|date:"d-m-Y H:i" }}</td>
+            <td>{{ msg.sender.username }}</td>
+            <td>
+                {% if msg.reply %}
+                    {{ msg.reply|linebreaksbr }}
+                {% else %}
+                    <span class="text-muted">No reply yet</span>
+                {% endif %}
+            </td>
+            <td>
+              {% if not msg.reply %}
+              <form method="POST" action="{% url 'admin_reply_message' %}">
+                {% csrf_token %}
+                <input type="hidden" name="msg_id" value="{{ msg.id }}">
+                <input type="text" name="reply" class="form-control mb-1" placeholder="Type your reply">
+                <button type="submit" class="btn btn-sm btn-primary">Send Reply</button>
+              </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="text-muted text-center mt-3">No messages received.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

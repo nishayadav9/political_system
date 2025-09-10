@@ -1,0 +1,85 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100" style="background: url('{% static 'core/images/partylogin.jpg' %}') no-repeat center center fixed; background-size: cover;">
+  <div class="login-card text-white" style="max-width: 400px; width: 100%; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); color: white;">
+    <h3 class="text-center mb-4">Admin Login</h3>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      
+     <div class="mb-3">
+  <label for="user_type" class="form-label">Select User Type</label>
+  <select id="user_type" name="user_type" class="form-select" required>
+    <option value="" disabled>Select user type</option>
+    {% for level, name in allowed_panels %}
+      {% if level == panel_level %}
+        <option value="{{ level }}" selected>{{ name }}</option>
+      {% elif level == 'head_office' and user.is_superuser %}
+        <option value="{{ level }}" selected>{{ name }}</option>
+      {% else %}
+        <option value="{{ level }}">{{ name }}</option>
+      {% endif %}
+    {% endfor %}
+  </select>
+</div>
+
+
+
+
+      <!-- Username -->
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+      </div>
+
+      <button type="submit" class="btn btn-custom w-100 text-white">Login</button>
+    </form>
+  </div>
+</div>
+
+<style>
+  .login-card .form-control,
+  .login-card .form-select {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color:black;
+  }
+
+  .login-card .form-control::placeholder {
+    color: #e0e0e0;
+  }
+
+  .login-card .form-control:focus,
+  .login-card .form-select:focus {
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+    border-color: #ccc;
+  }
+
+  .btn-custom {
+    background-color: #0d6efd;
+    border: none;
+  }
+
+  .btn-custom:hover {
+    background-color: #0b5ed7;
+  }
+</style>
+{% endblock %}

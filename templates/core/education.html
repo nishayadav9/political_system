@@ -1,0 +1,311 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load translation_tags %}
+{% block content %}
+<div class="container my-5">
+
+    <!-- Header Section -->
+    <div class="text-center mb-10">
+
+        <!-- Banner Section with Overlay -->
+        <div class="card shadow-lg border-0 mx-auto banner-card position-relative text-center">
+            <!-- Background Image -->
+            <img src="{% static 'core/images/education_banner.jpg' %}" 
+                 class="card-img-top banner-img" 
+                 alt="Education">
+
+            <!-- Overlay -->
+           <div class="banner-overlay d-flex flex-column align-items-center justify-content-start text-white p-4 pt-12">
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-3 text-green-400">
+        {% blocktrans %}Education Awareness{% endblocktrans %}
+    </h1>
+   <p class="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+    {% blocktrans %}Learn about the education system, school types, and student tips to empower your future.{% endblocktrans %}
+</p>
+
+
+</div>
+
+        </div>
+
+        <!-- Education Info Section -->
+        <div class="max-w-6xl mx-auto -mt-16 relative z-10">
+            <div class="bg-gradient-to-r from-green-50 via-green-100 to-green-200 shadow-xl rounded-2xl border border-green-400 hover:shadow-2xl transition-all duration-500 px-10 py-6 flex items-start gap-6">
+                
+                <!-- Icon -->
+                <div class="flex-shrink-0">
+                    <div class="h-14 w-14 flex items-center justify-center bg-gradient-to-tr from-green-600 via-teal-500 to-lime-500 text-white text-2xl rounded-full shadow-lg">
+                        🎓
+                    </div>
+                </div>
+
+                <!-- Text -->
+                <div>
+                    <h3 class="text-2xl font-extrabold text-green-700 mb-2">
+    {% blocktrans %}What is Education?{% endblocktrans %}
+</h3>
+<p class="text-gray-700 text-base leading-relaxed">
+    {% blocktrans %}Education is the process of acquiring knowledge, skills, values, and habits. It includes schooling, college, vocational training, and digital learning. A strong education empowers individuals and strengthens communities.{% endblocktrans %}
+</p>
+
+
+                    <!-- Bottom Accent Line -->
+                    <div class="mt-4 h-1 w-28 bg-gradient-to-r from-green-500 via-teal-400 to-lime-400 rounded-full"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<!-- RJD Education Complaint Section - Modern Card Style -->
+<section class="py-20 bg-gradient-to-r from-green-50 to-green-100 overflow-hidden my-16">
+  <div class="max-w-6xl mx-auto px-6">
+    
+    <!-- Section Heading -->
+    <div class="text-center mb-12">
+      <div class="inline-block p-4 bg-green-500 rounded-full mb-4 shadow-lg">
+        <span class="text-5xl text-white font-bold">🎓</span>
+      </div>
+     <h2 class="text-4xl md:text-5xl font-extrabold text-black mb-2">
+    {% blocktrans %}Education for Every Village, Every Child{% endblocktrans %}
+</h2>
+<p class="text-green-900 text-lg md:text-xl">
+    {% blocktrans %}Ensuring quality education for every student in schools, colleges, and universities.{% endblocktrans %}
+</p>
+
+    </div>
+
+    <!-- Info Cards -->
+    <div class="grid md:grid-cols-2 gap-8">
+      
+      <!-- Card 1 -->
+      <div class="bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl transition duration-300 relative">
+        <!-- Number Circle -->
+        <div class="absolute -top-6 left-6 w-12 h-12 bg-green-500 text-white font-bold rounded-full flex items-center justify-center shadow-lg">
+          1
+        </div>
+        <p class="text-green-900 text-base md:text-lg leading-relaxed mt-6 mb-4">
+    {% blocktrans %}Education is the foundation of a strong society. Every son and daughter in every village deserves the right to study, whether in schools, colleges, or universities.{% endblocktrans %}
+</p>
+
+<p class="text-green-900 text-base md:text-lg leading-relaxed">
+    {% blocktrans %}If you are facing problems related to teachers, classes, fees, facilities, or admissions, you can register your complaint here.{% endblocktrans %}
+</p>
+
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl transition duration-300 relative">
+        <!-- Number Circle -->
+        <div class="absolute -top-6 left-6 w-12 h-12 bg-green-500 text-white font-bold rounded-full flex items-center justify-center shadow-lg">
+          2
+        </div>
+        <p class="text-green-900 text-base md:text-lg leading-relaxed mt-6 mb-4">
+    {% blocktrans %}The aim of the RJD party is to ensure that every student gets quality education and that no child's learning is stopped due to any reason. Your issues are our priority.{% endblocktrans %}
+</p>
+
+<p class="text-green-900 text-base md:text-lg leading-relaxed">
+    {% blocktrans %}By connecting through this platform, you can raise your voice. We will make sure that your problem is resolved as quickly as possible.{% endblocktrans %}
+</p>
+
+      </div>
+
+    </div>
+
+    <!-- Action Button -->
+    <div class="text-center mt-12">
+     <a href="{% url 'complaint_form' %}" 
+   class="inline-block bg-gradient-to-r from-green-500 to-green-700 text-white font-bold px-12 py-4 rounded-full shadow-lg transform transition duration-300 hover:scale-105 hover:from-green-600 hover:to-green-800 hover:shadow-2xl">
+    {% blocktrans %}File Your Education Complaint{% endblocktrans %}
+</a>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+    <!-- Timeline Section (Why Prioritize Education) -->
+    <section class="my-16 relative bg-green-50 py-16 rounded-2xl shadow-inner">
+        <div class="rounded-3xl p-8 mb-12 max-w-3xl mx-auto text-center">
+            <div class="flex items-center justify-center gap-3">
+<h3 class="text-2xl font-extrabold text-green-700">
+    {% blocktrans %}Why Prioritize Education?{% endblocktrans %}
+</h3>
+            </div>
+        </div>
+
+        <!-- Vertical Line for Mobile -->
+        <div class="block md:hidden absolute left-1/2 top-0 h-full border-l-2 border-dashed border-green-500 z-0"></div>
+
+        <!-- Timeline Blocks -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 relative z-10">
+
+            <!-- Block 1 -->
+<div class="flex flex-col items-center text-center relative">
+    <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+    <h3 class="text-lg font-bold text-green-700 mt-4">
+        {% blocktrans %}Enhances Knowledge{% endblocktrans %}
+    </h3>
+    <p class="text-gray-700 mt-2 text-sm">
+        {% blocktrans %}Provides essential skills for personal and professional growth.{% endblocktrans %}
+    </p>
+</div>
+
+<!-- Block 2 -->
+<div class="flex flex-col items-center text-center relative">
+    <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+    <h3 class="text-lg font-bold text-green-700 mt-4">
+        {% blocktrans %}Career Opportunities{% endblocktrans %}
+    </h3>
+    <p class="text-gray-700 mt-2 text-sm">
+        {% blocktrans %}Education opens doors to better job prospects and advancement.{% endblocktrans %}
+    </p>
+</div>
+
+<!-- Block 3 -->
+<div class="flex flex-col items-center text-center relative">
+    <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+    <h3 class="text-lg font-bold text-green-700 mt-4">
+        {% blocktrans %}Community Development{% endblocktrans %}
+    </h3>
+    <p class="text-gray-700 mt-2 text-sm">
+        {% blocktrans %}Educated citizens contribute positively to society and decision-making.{% endblocktrans %}
+    </p>
+</div>
+
+<!-- Block 4 -->
+<div class="flex flex-col items-center text-center relative">
+    <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+    <h3 class="text-lg font-bold text-green-700 mt-4">
+        {% blocktrans %}Lifelong Learning{% endblocktrans %}
+    </h3>
+    <p class="text-gray-700 mt-2 text-sm">
+        {% blocktrans %}Promotes curiosity and continuous improvement throughout life.{% endblocktrans %}
+    </p>
+</div>
+
+
+        </div>
+    </section>
+
+    <!-- Steps to Improve Education Section -->
+    <section class="my-16 bg-gradient-to-r from-green-50 to-green-100 py-14">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-start gap-10">
+
+            <!-- Left Image -->
+            <div class="w-full md:w-7/12 order-1 md:order-1">
+                <img src="{% static 'core/images/education_steps.jpg' %}"
+                     class="rounded-3xl shadow-lg w-full object-cover h-64 md:h-96">
+            </div>
+
+            <!-- Right Steps -->
+            <div class="w-full md:w-5/12 flex flex-col gap-4 order-2 md:order-2">
+
+               <!-- Heading -->
+<div class="text-left mb-3">
+    <h2 class="text-3xl font-bold text-green-800 mb-0.5">
+        {% blocktrans %}How to Improve Education?{% endblocktrans %}
+    </h2>
+    <p class="text-gray-600 text-base">
+        {% blocktrans %}Follow these steps for better learning outcomes.{% endblocktrans %}
+    </p>
+</div>
+
+<!-- Step 1 -->
+<div class="flex items-start gap-3">
+    <div class="flex-shrink-0 bg-green-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+    <div>
+        <h3 class="text-lg font-semibold text-green-700">
+            {% blocktrans %}Attend Classes Regularly{% endblocktrans %}
+        </h3>
+        <p class="text-gray-700 text-sm">
+            {% blocktrans %}Regular attendance ensures consistent learning and understanding.{% endblocktrans %}
+        </p>
+    </div>
+</div>
+
+<!-- Step 2 -->
+<div class="flex items-start gap-3">
+    <div class="flex-shrink-0 bg-green-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+    <div>
+        <h3 class="text-lg font-semibold text-green-700">
+            {% blocktrans %}Complete Assignments{% endblocktrans %}
+        </h3>
+        <p class="text-gray-700 text-sm">
+            {% blocktrans %}Timely submission of homework reinforces concepts learned in class.{% endblocktrans %}
+        </p>
+    </div>
+</div>
+
+<!-- Step 3 -->
+<div class="flex items-start gap-3">
+    <div class="flex-shrink-0 bg-green-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+    <div>
+        <h3 class="text-lg font-semibold text-green-700">
+            {% blocktrans %}Participate in Activities{% endblocktrans %}
+        </h3>
+        <p class="text-gray-700 text-sm">
+            {% blocktrans %}Engaging in extracurricular activities develops skills beyond academics.{% endblocktrans %}
+        </p>
+    </div>
+</div>
+
+<!-- Step 4 -->
+<div class="flex items-start gap-3">
+    <div class="flex-shrink-0 bg-green-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+    <div>
+        <h3 class="text-lg font-semibold text-green-700">
+            {% blocktrans %}Use Online Resources{% endblocktrans %}
+        </h3>
+        <p class="text-gray-700 text-sm">
+            {% blocktrans %}Leverage digital tools and tutorials for additional learning support.{% endblocktrans %}
+        </p>
+    </div>
+</div>
+
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Back to Home Button -->
+    <div class="mt-8 flex justify-center">
+       <a href="{% url 'home' %}" 
+   class="inline-block bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold px-8 py-3 rounded-xl shadow-lg transform transition duration-300 hover:scale-105 hover:from-green-500 hover:to-teal-600 hover:shadow-2xl">
+    {% blocktrans trimmed %}Back to Home{% endblocktrans %}
+</a>
+    </div>
+
+    <!-- Custom CSS -->
+    <style>
+    .banner-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px;
+    }
+    .banner-img {
+        width: 100%;
+        height:560px;
+        object-fit: cover;
+        filter: brightness(65%);
+    }
+    .banner-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+    }
+    </style>
+
+</div>
+{% endblock %}

@@ -1,0 +1,346 @@
+core\admin.py:from django.contrib import admin
+core\admin.py:from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+core\admin.py:from .models import User, Role
+core\admin.py:class UserAdmin(BaseUserAdmin):
+core\admin.py:    list_display = ('full_name', 'mobile_number', 'role', 'is_staff', 'is_superuser')
+core\admin.py:        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+core\admin.py:        ('Important dates', {'fields': ('last_login',)}),
+core\admin.py:admin.site.register(User, UserAdmin)
+core\apps.py:from django.apps import AppConfig
+core\backends.py:from django.contrib.auth.backends import BaseBackend
+core\backends.py:from django.contrib.auth import get_user_model
+core\backends.py:    def authenticate(self, request, username=None, password=None, **kwargs):
+core\backends.py:        UserModel = get_user_model()
+core\backends.py:            # CoreLevelPartyMember ya jo bhi tumhara user model hoga, usme username se user dhundo
+core\backends.py:            user = UserModel.objects.get(username=username)
+core\backends.py:            # Password check karo aur user active bhi hona chahiye
+core\backends.py:            if user.check_password(password) and user.is_active:
+core\backends.py:                return user
+core\backends.py:        except UserModel.DoesNotExist:
+core\backends.py:    def get_user(self, user_id):
+core\backends.py:        UserModel = get_user_model()
+core\backends.py:            return UserModel.objects.get(pk=user_id)
+core\backends.py:        except UserModel.DoesNotExist:
+core\forms.py:from django import forms
+core\forms.py:from .models import User, Role, Location
+core\forms.py:from .models import Complaint
+core\forms.py:from django import forms
+core\forms.py:from core.models import User, Role, Location
+core\forms.py:class UserForm(forms.ModelForm):
+core\forms.py:        help_text="Naya user ke liye password daalein, edit karte waqt chhod sakte hain."
+core\forms.py:        model = User
+core\forms.py:            'username',
+core\forms.py:        user = super().save(commit=False)
+core\forms.py:            user.set_password(password)
+core\forms.py:        from core.models import Location  # import here to avoid circular import
+core\forms.py:        user.location = location
+core\forms.py:            user.save()
+core\forms.py:        return user
+core\forms.py:            'status': forms.Select(attrs={'disabled': 'disabled'}),  # Agar status edit nahi karwana hai user se
+core\forms.py:class UserRegistrationForm(forms.ModelForm):
+core\forms.py:        model = User
+core\forms.py:        fields = ['username', 'email', 'mobile_number', 'address', 'date_of_birth', 'gender', 'aadhaar', 'profile_picture']
+core\forms.py:class UserLoginForm(forms.Form):
+core\forms.py:    username = forms.CharField(max_length=150)
+core\migrations\0001_initial.py:import django.db.models.deletion
+core\migrations\0001_initial.py:from django.conf import settings
+core\migrations\0001_initial.py:from django.db import migrations, models
+core\migrations\0001_initial.py:        ('auth', '0012_alter_user_first_name_max_length'),
+core\migrations\0001_initial.py:            name='User',
+core\migrations\0001_initial.py:                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
+core\migrations\0001_initial.py:                ('username', models.CharField(max_length=150, unique=True)),
+core\migrations\0001_initial.py:                ('groups', models.ManyToManyField(blank=True, related_name='custom_user_set', to='auth.group', verbose_name='groups')),
+core\migrations\0001_initial.py:                ('user_permissions', models.ManyToManyField(blank=True, related_name='custom_user_permissions', to='auth.permission', verbose_name='user permissions')),
+core\migrations\0001_initial.py:                ('assigned_to', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='assigned_complaints', to=settings.AUTH_USER_MODEL)),
+core\migrations\0001_initial.py:                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='complaints', to=settings.AUTH_USER_MODEL)),
+core\migrations\0001_initial.py:                ('updated_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
+core\migrations\0001_initial.py:            name='UserLocation',
+core\migrations\0001_initial.py:                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+core\models.py:from django.db import models
+core\models.py:from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
+core\models.py:from django.db.models.signals import post_migrate
+core\models.py:from django.dispatch import receiver
+core\models.py:from django.utils import timezone
+core\models.py:# User Manager
+core\models.py:class UserManager(BaseUserManager):
+core\models.py:    def create_user(self, username, password=None, **extra_fields):
+core\models.py:        if not username:
+core\models.py:            raise ValueError("Username is required")
+core\models.py:        extra_fields.setdefault('is_superuser', False)
+core\models.py:        user = self.model(username=username, **extra_fields)
+core\models.py:        user.set_password(password)
+core\models.py:        user.save()
+core\models.py:        return user
+core\models.py:    def create_superuser(self, username, password=None, **extra_fields):
+core\models.py:        extra_fields.setdefault('is_superuser', True)
+core\models.py:        return self.create_user(username, password, **extra_fields)
+core\models.py:# Custom Unified User Model
+core\models.py:class User(AbstractBaseUser, PermissionsMixin):
+core\models.py:    username = models.CharField(max_length=150, unique=True)
+core\models.py:        related_name='custom_user_set',
+core\models.py:    user_permissions = models.ManyToManyField(
+core\models.py:        related_name='custom_user_permissions',
+core\models.py:        verbose_name='user permissions',
+core\models.py:    USERNAME_FIELD = 'username'
+core\models.py:    objects = UserManager()
+core\models.py:        return f"{self.username} ({self.full_name})"
+core\models.py:        if self.is_superuser and role_name == 'Head Office Admin':
+core\models.py:    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='complaints')
+core\models.py:    assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_complaints')
+core\models.py:    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+core\models.py:# Optional: If user needs multiple locations
+core\models.py:class UserLocation(models.Model):
+core\models.py:    user = models.ForeignKey(User, on_delete=models.CASCADE)
+core\serializers.py:from rest_framework import serializers
+core\serializers.py:from .models import CoreLevelPartyMember
+core\serializers.py:            'id', 'username', 'email', 'phone', 'address',
+core\tests.py:from django.test import TestCase
+core\urls.py:from django.urls import path
+core\urls.py:from core.views import admin_login
+core\urls.py:from core import views
+core\urls.py:from .views import generate_password_api  # <-- yahan import karo
+core\urls.py:from .views import state_dashboard
+core\urls.py:from core.views import state_profile
+core\urls.py:from core.views import state_change_password
+core\urls.py:from core.views import state_view_complaints
+core\urls.py:from core.views import block_dashboard, block_profile,  block_complaints  # block_complaints agar nahi hai toh hata do
+core\urls.py:from django.contrib.auth import views as auth_views
+core\views.py:from django.shortcuts import render, redirect
+core\views.py:from django.contrib.auth import login, logout, authenticate
+core\views.py:from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+core\views.py:from django.contrib.auth.decorators import login_required
+core\views.py:from .forms import ComplaintForm  # Make sure this exists!
+core\views.py:from .models import ComplaintFile
+core\views.py:from .forms import UserRegistrationForm
+core\views.py:from .models import Role
+core\views.py:from .forms import OTPLoginForm
+core\views.py:import random
+core\views.py:from .models import OtpLog
+core\views.py:from django.utils import timezone
+core\views.py:from datetime import timedelta  # <--- Ye line add karo
+core\views.py:from .forms import OTPVerifyForm
+core\views.py:from django.contrib.auth.decorators import login_required
+core\views.py:from django.contrib.auth import logout
+core\views.py:from django.contrib.auth.decorators import user_passes_test
+core\views.py:from django.shortcuts import get_object_or_404
+core\views.py:from django.http import JsonResponse
+core\views.py:from django.views.decorators.csrf import csrf_exempt
+core\views.py:import json
+core\views.py:from django.apps import apps
+core\views.py:from django.contrib.auth.decorators import user_passes_test
+core\views.py:import secrets
+core\views.py:import string
+core\views.py:from django.contrib.auth.forms import PasswordChangeForm
+core\views.py:from django.views.decorators.http import require_POST
+core\views.py:from core.models import Role
+core\views.py:from .models import Complaint
+core\views.py:from .forms import UserForm
+core\views.py:from core.models import Location
+core\views.py:from django.db.models import Q
+core\views.py:from datetime import datetime
+core\views.py:from .forms import UserRegistrationForm
+core\views.py:from django.contrib.auth import get_user_model
+core\views.py:User = get_user_model()
+core\views.py:def superuser_required(view_func):
+core\views.py:    decorated_view_func = user_passes_test(lambda user: user.is_superuser, login_url='/admin-login/')(view_func)
+core\views.py:def is_in_group(user, group_name):
+core\views.py:    return user.groups.filter(name=group_name).exists()
+core\views.py:def is_state_admin(user):
+core\views.py:    return user.is_authenticated and user.role and user.role.role_name == 'State Committee'
+core\views.py:        form = UserRegistrationForm(request.POST)
+core\views.py:            user = form.save(commit=False)
+core\views.py:            user.save()
+core\views.py:        form = UserRegistrationForm()
+core\views.py:import random
+core\views.py:import time
+core\views.py:from django.shortcuts import render, redirect
+core\views.py:from django.contrib.auth import login
+core\views.py:from django.contrib.auth.models import User
+core\views.py:OTP_STORE = {}  # {username: {'otp': '123456', 'expires_at': timestamp, 'attempts': 0}}
+core\views.py:        username = request.POST.get('username', '').strip()
+core\views.py:        # Validate user exists
+core\views.py:            user = User.objects.get(username=username, email=email)
+core\views.py:        except User.DoesNotExist:
+core\views.py:            error_msg = "Username ya Email galat hai. Dubara try karo."
+core\views.py:                'initial_data': {'username': username, 'email': email},
+core\views.py:        user_otp_info = OTP_STORE.get(username, {'attempts': 0})
+core\views.py:        if user_otp_info.get('attempts', 0) >= MAX_ATTEMPTS:
+core\views.py:                'initial_data': {'username': username, 'email': email},
+core\views.py:            initial_data = {'username': username, 'email': email}
+core\views.py:            otp_data = OTP_STORE.get(username)
+core\views.py:                    OTP_STORE.pop(username, None)
+core\views.py:                    login(request, user)
+core\views.py:                    OTP_STORE.pop(username, None)  # clear OTP after success
+core\views.py:                    OTP_STORE[username] = otp_data
+core\views.py:            OTP_STORE[username] = {'otp': otp, 'expires_at': expires_at, 'attempts': 0}
+core\views.py:            initial_data = {'username': username, 'email': email}
+core\views.py:            print(f"DEBUG: OTP for {username} is {otp}")
+core\views.py:            user = form.get_user()
+core\views.py:            login(request, user)
+core\views.py:            complaint.user = request.user
+core\views.py:            complaint.user = request.user  # Set user properly
+core\views.py:def superuser_required(view_func):
+core\views.py:    return user_passes_test(lambda u: u.is_superuser)(view_func)
+core\views.py:@user_passes_test(lambda u: u.is_superuser)
+core\views.py:    # Filter users by role_name for different committees
+core\views.py:        'state_member_count': User.objects.filter(role__role_name='State Committee').count(),
+core\views.py:        'state_member_active_count': User.objects.filter(role__role_name='State Committee', is_active=True).count(),
+core\views.py:        'state_member_inactive_count': User.objects.filter(role__role_name='State Committee', is_active=False).count(),
+core\views.py:        'district_member_count': User.objects.filter(role__role_name='District Committee').count(),
+core\views.py:        'district_member_active_count': User.objects.filter(role__role_name='District Committee', is_active=True).count(),
+core\views.py:        'district_member_inactive_count': User.objects.filter(role__role_name='District Committee', is_active=False).count(),
+core\views.py:        'block_member_count': User.objects.filter(role__role_name='Block Committee').count(),
+core\views.py:        'block_member_active_count': User.objects.filter(role__role_name='Block Committee', is_active=True).count(),
+core\views.py:        'block_member_inactive_count': User.objects.filter(role__role_name='Block Committee', is_active=False).count(),
+core\views.py:        'core_member_count': User.objects.filter(role__role_name='Core Member').count(),
+core\views.py:        'core_member_active_count': User.objects.filter(role__role_name='Core Member', is_active=True).count(),
+core\views.py:        'core_member_inactive_count': User.objects.filter(role__role_name='Core Member', is_active=False).count(),
+core\views.py:from django.contrib.auth.decorators import login_required, user_passes_test
+core\views.py:def is_state_committee(user):
+core\views.py:    return hasattr(user, 'role') and user.role.role_name == 'State Committee'
+core\views.py:@user_passes_test(is_state_committee)
+core\views.py:@user_passes_test(lambda u: is_in_group(u, 'District Admin') or hasattr(u, 'districtlevelpartymember'))
+core\views.py:@user_passes_test(lambda u: is_in_group(u, 'Block Admin') or hasattr(u, 'blocklevelpartymember'))
+core\views.py:@user_passes_test(lambda u: is_in_group(u, 'Core Member') or hasattr(u, 'coremember'))
+core\views.py:from django.contrib.auth.models import Group
+core\views.py:@superuser_required
+core\views.py:    import string, secrets
+core\views.py:        form = UserForm(request.POST)
+core\views.py:                member.location_level = location_level  # Agar User model me ye field hai toh
+core\views.py:        form = UserForm(initial={'password': random_password})
+core\views.py:@superuser_required
+core\views.py:            members = User.objects.filter(role=state_role).filter(
+core\views.py:                Q(username__icontains=query) | Q(full_name__icontains=query)
+core\views.py:            members = User.objects.filter(role=state_role)
+core\views.py:        members = User.objects.none()  # Koi member nahi dikhana
+core\views.py:@superuser_required
+core\views.py:    member = get_object_or_404(User, id=member_id)
+core\views.py:@superuser_required
+core\views.py:    member = get_object_or_404(User, id=member_id)
+core\views.py:    user = request.user
+core\views.py:    if not user.role:
+core\views.py:        messages.error(request, "Role not assigned to user.")
+core\views.py:    role_name = user.role.role_name
+core\views.py:    location = user.location
+core\views.py:        form = PasswordChangeForm(user=request.user, data=request.POST)
+core\views.py:            user = form.save()
+core\views.py:            update_session_auth_hash(request, user)  # Prevents logout after password change
+core\views.py:        form = PasswordChangeForm(user=request.user)
+core\views.py:    complaints = Complaint.objects.filter(user__state=request.user.state)
+core\views.py:        form = PasswordChangeForm(request.user, request.POST)
+core\views.py:            user = form.save()
+core\views.py:            update_session_auth_hash(request, user)  # session logout na ho
+core\views.py:        form = PasswordChangeForm(request.user)
+core\views.py:@superuser_required
+core\views.py:        if User.objects.filter(email=email).exists():
+core\views.py:        # Optional: take state_name/block_name from form (if available)
+core\views.py:        member = User(
+core\views.py:            username=request.POST['username'],
+core\views.py:@superuser_required
+core\views.py:    members = User.objects.filter(location_id__in=district_location_ids)
+core\views.py:@superuser_required
+core\views.py:    member = get_object_or_404(User, id=member_id)
+core\views.py:        member.username = request.POST['username']
+core\views.py:@superuser_required
+core\views.py:    member = get_object_or_404(User, id=member_id)
+core\views.py:@superuser_required
+core\views.py:        import string, secrets
+core\views.py:        username = request.POST.get('username')
+core\views.py:        # Create user with linked location and location_level
+core\views.py:        user = User.objects.create_user(
+core\views.py:            username=username,
+core\views.py:        # Save location_level field on user model
+core\views.py:        user.location_level = location_level
+core\views.py:        user.save()
+core\views.py:        messages.success(request, f"{location_level.capitalize()} level member '{username}' added successfully.")
+core\views.py:@superuser_required
+core\views.py:        members = User.objects.none()
+core\views.py:        members = User.objects.filter(role=block_role)
+core\views.py:@superuser_required
+core\views.py:    member = get_object_or_404(User, id=member_id)
+core\views.py:        if User.objects.filter(email=email).exclude(id=member_id).exists():
+core\views.py:        member.username = request.POST['username']
+core\views.py:@superuser_required
+core\views.py:    member = get_object_or_404(User, id=member_id)
+core\views.py:@superuser_required
+core\views.py:        username = request.POST.get('username')
+core\views.py:        if User.objects.filter(username=username).exists():
+core\views.py:            messages.error(request, "Username already exists.")
+core\views.py:        if email and User.objects.filter(email=email).exists():
+core\views.py:        if mobile_number and User.objects.filter(mobile_number=mobile_number).exists():
+core\views.py:        # Create user
+core\views.py:        user = User.objects.create_user(
+core\views.py:            username=username,
+core\views.py:        messages.success(request, f"Core member '{username}' added successfully.")
+core\views.py:@superuser_required
+core\views.py:            members = User.objects.filter(role=core_role).filter(
+core\views.py:                Q(username__icontains=query) | Q(full_name__icontains=query)
+core\views.py:            members = User.objects.filter(role=core_role)
+core\views.py:        members = User.objects.none()
+core\views.py:@superuser_required
+core\views.py:    member = get_object_or_404(User, id=member_id)
+core\views.py:        if User.objects.filter(email=email).exclude(id=member_id).exists():
+core\views.py:@superuser_required
+core\views.py:    member = get_object_or_404(User, id=member_id)
+core\views.py:from django.views.decorators.http import require_GET
+core\views.py:# Superuser check
+core\views.py:def is_superuser(user):
+core\views.py:    return user.is_superuser
+core\views.py:from django.contrib.auth.decorators import login_required, user_passes_test
+core\views.py:def is_district_user(user):
+core\views.py:    if not user.is_authenticated:
+core\views.py:    if hasattr(user, 'role') and user.role.role_name == 'District Committee':
+core\views.py:    if hasattr(user, 'role') and user.role.role_name == 'Core Member':
+core\views.py:        if hasattr(user, 'location') and user.location.district_name != 'NA':
+core\views.py:@user_passes_test(is_district_user, login_url='admin_login')
+core\views.py:        if not request.user.check_password(current_password):
+core\views.py:            request.user.set_password(new_password)
+core\views.py:            request.user.save()
+core\views.py:            update_session_auth_hash(request, request.user)  # Important: Keeps user logged in
+core\views.py:@user_passes_test(lambda u: (
+core\views.py:    if request.user.role.role_name == 'Core Member':
+core\views.py:        if not (request.user.location and request.user.location.block_name != 'NA'):
+core\views.py:    complaints = Complaint.objects.filter(location__block_name=request.user.location.block_name)
+core\views.py:from django.contrib import messages
+core\views.py:        username = request.POST.get('username')
+core\views.py:        user = authenticate(request, username=username, password=password)
+core\views.py:        if user is not None:
+core\views.py:            if not user.is_active:
+core\views.py:            login(request, user)
+core\views.py:            if user.is_superuser:
+core\views.py:            role = user.role.role_name if hasattr(user, 'role') and user.role else None
+core\views.py:                location = user.location
+core\views.py:            messages.error(request, "Invalid username or password.")
+core\views.py:@superuser_required
+core\views.py:    user = request.user
+core\views.py:    if hasattr(user, 'location') and user.location:
+core\views.py:        location = user.location
+core\views.py:            user=request.user,
+core\views.py:        # Determine complaint level based on user's location
+core\views.py:        user_location = request.user.location
+core\views.py:        if user_location and user_location.block_name and user_location.block_name != 'NA':
+core\views.py:        elif user_location and user_location.district_name and user_location.district_name != 'NA':
+core\views.py:        elif user_location and user_location.state_name and user_location.state_name != 'NA':
+manage.py:import os
+manage.py:import sys
+manage.py:        from django.core.management import execute_from_command_line
+manage.py:    except ImportError as exc:
+manage.py:        raise ImportError(
+manage.py:            "Couldn't import Django. Are you sure it's installed and "
+manage.py:        ) from exc
+manage.py:    execute_from_command_line(sys.argv)
+political_system\asgi.py:import os
+political_system\asgi.py:from django.core.asgi import get_asgi_application
+political_system\settings.py:from pathlib import Path
+political_system\settings.py:import os
+political_system\settings.py:AUTH_USER_MODEL = 'core.User'
+political_system\settings.py:        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+political_system\urls.py:    1. Add an import:  from my_app import views
+political_system\urls.py:    1. Add an import:  from other_app.views import Home
+political_system\urls.py:    1. Import the include() function: from django.urls import include, path
+political_system\urls.py:from django.conf import settings
+political_system\urls.py:from django.conf.urls.static import static
+political_system\urls.py:from django.contrib import admin
+political_system\urls.py:from django.urls import path, include
+political_system\wsgi.py:import os
+political_system\wsgi.py:from django.core.wsgi import get_wsgi_application

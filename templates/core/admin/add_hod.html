@@ -1,0 +1,40 @@
+{% extends 'core/admin/base.html' %}
+{% block content %}
+<h2>Add HOD</h2>
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  
+  <div class="mb-3">
+    <label>Name</label>
+    <input type="text" name="name" class="form-control" required />
+  </div>
+  <div class="mb-3">
+    <label>Email</label>
+    <input type="email" name="email" class="form-control" required />
+  </div>
+  <div class="mb-3">
+    <label>Phone</label>
+    <input type="text" name="phone" class="form-control" required />
+  </div>
+  <div class="mb-3">
+    <label>Department</label>
+    <input type="text" name="department" class="form-control" required />
+  </div>
+
+  <!-- File fields -->
+  <div class="mb-3">
+    <label>Photo</label>
+    <input type="file" name="photo" class="form-control" />
+  </div>
+  <div class="mb-3">
+    <label>ID Proof</label>
+    <input type="file" name="id_proof" class="form-control" />
+  </div>
+  <div class="mb-3">
+    <label>Digital Signature</label>
+    <input type="file" name="digital_signature" class="form-control" />
+  </div>
+
+  <button type="submit" class="btn btn-primary">Add HOD</button>
+</form>
+{% endblock %}

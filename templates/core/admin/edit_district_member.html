@@ -1,0 +1,287 @@
+{% extends 'core/admin/base.html' %}
+
+{% block content %}
+<div class="container mx-auto my-8 px-4">
+    <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">
+        {% if member %}Edit{% else %}Add{% endif %} District Level Party Member
+    </h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="mb-4 px-4 py-3 rounded {% if message.tags == 'success' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+            {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" novalidate class="space-y-6">
+  {% csrf_token %}
+
+  <!-- PERSONAL DETAILS -->
+  <div>
+    <h5 class="text-lg font-semibold text-blue-700 uppercase tracking-wider border-l-4 border-blue-500 bg-blue-50 px-3 py-2 mb-4 mt-6">
+      Personal Details
+    </h5>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label for="username" class="block text-gray-600 font-medium mb-1">Username</label>
+        <input type="text" id="username" name="username" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" 
+               value="{{ member.username|default_if_none:'' }}" required />
+      </div>
+
+      <div>
+        <label for="full_name" class="block text-gray-600 font-medium mb-1">Full Name</label>
+        <input type="text" id="full_name" name="full_name" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+               value="{{ member.full_name|default_if_none:'' }}" required />
+      </div>
+
+      <div>
+        <label for="father_or_mother_name" class="block text-gray-600 font-medium mb-1">Father's / Mother's Name</label>
+        <input type="text" id="father_or_mother_name" name="father_or_mother_name" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+               value="{{ member.father_or_mother_name|default_if_none:'' }}" />
+      </div>
+
+      <div>
+        <label for="date_of_birth" class="block text-gray-600 font-medium mb-1">Date of Birth</label>
+        <input type="date" id="date_of_birth" name="date_of_birth" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+               value="{{ member.date_of_birth|default_if_none:'' }}" />
+      </div>
+
+      <div>
+        <label for="gender" class="block text-gray-600 font-medium mb-1">Gender</label>
+        <select id="gender" name="gender" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+          <option value="">-- Select Gender --</option>
+          <option value="Male" {% if member.gender == 'Male' %}selected{% endif %}>Male</option>
+          <option value="Female" {% if member.gender == 'Female' %}selected{% endif %}>Female</option>
+          <option value="Other" {% if member.gender == 'Other' %}selected{% endif %}>Other</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="mobile_number" class="block text-gray-600 font-medium mb-1">Mobile Number</label>
+        <input type="text" id="mobile_number" name="mobile_number" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+               value="{{ member.mobile_number|default_if_none:'' }}" required />
+      </div>
+
+      <div>
+        <label for="alternate_mobile_number" class="block text-gray-600 font-medium mb-1">Alternate Mobile</label>
+        <input type="text" id="alternate_mobile_number" name="alternate_mobile_number" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+               value="{{ member.alternate_mobile_number|default_if_none:'' }}" />
+      </div>
+
+      <div>
+        <label for="email" class="block text-gray-600 font-medium mb-1">Email Address</label>
+        <input type="email" id="email" name="email" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+               value="{{ member.email|default_if_none:'' }}" required />
+      </div>
+
+      <div>
+        <label for="aadhar_or_govt_id" class="block text-gray-600 font-medium mb-1">Aadhar / Govt ID</label>
+        <input type="text" id="aadhar_or_govt_id" name="aadhar_or_govt_id" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+               value="{{ member.aadhar_or_govt_id|default_if_none:'' }}" required />
+      </div>
+
+      <div class="col-span-3">
+        <label for="permanent_address" class="block text-gray-600 font-medium mb-1">Permanent Address</label>
+        <textarea id="permanent_address" name="permanent_address" rows="3" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>{{ member.permanent_address|default_if_none:'' }}</textarea>
+      </div>
+
+      <div class="col-span-3">
+        <label for="current_address" class="block text-gray-600 font-medium mb-1">Current Address</label>
+        <textarea id="current_address" name="current_address" rows="3" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">{{ member.current_address|default_if_none:'' }}</textarea>
+      </div>
+
+      <div>
+        <label for="state_name" class="block text-gray-600 font-medium mb-1">State Name</label>
+        <select id="state_name" name="state_name" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <option value="Bihar" selected>Bihar</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="district" class="block text-gray-600 font-medium mb-1">District Name</label>
+        <select id="district" name="district" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <option value="">-- Select District --</option>
+          {% for d in districts %}
+            <option value="{{ d }}" {% if member.district == d %}selected{% endif %}>{{ d }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div>
+        <label for="block" class="block text-gray-600 font-medium mb-1">Block</label>
+        <select id="block" name="block" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <option value="">-- Select Block --</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="pincode" class="block text-gray-600 font-medium mb-1">Pincode</label>
+        <input type="text" id="pincode" name="pincode" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+               value="{{ member.pincode|default_if_none:'' }}" />
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OFFICIAL DETAILS -->
+  <div>
+    <h5 class="text-lg font-semibold text-green-700 uppercase tracking-wider border-l-4 border-green-500 bg-green-50 px-3 py-2 mb-4 mt-6">
+      Official Details
+    </h5>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label for="id_location_level" class="block text-gray-600 font-medium mb-1">Select Location Level</label>
+        <select name="location_level" id="id_location_level" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" required>
+          <option value="">-- Select Level --</option>
+          <option value="state" {% if member.location_level == 'state' %}selected{% endif %}>State</option>
+          <option value="district" {% if member.location_level == 'district' %}selected{% endif %}>District</option>
+          <option value="block" {% if member.location_level == 'block' %}selected{% endif %}>Block</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="role-select" class="block text-gray-600 font-medium mb-1">Role</label>
+        <select name="role" id="role-select" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" required>
+          <option value="">Select Role</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="assigned_state" class="block text-gray-600 font-medium mb-1">Assigned State</label>
+        <input type="text" id="assigned_state" name="assigned_state" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" readonly
+               value="{{ member.assigned_state|default_if_none:'Bihar' }}" />
+      </div>
+
+      <div>
+        <label for="assigned_district" class="block text-gray-600 font-medium mb-1">Assigned District</label>
+        <input type="text" id="assigned_district" name="assigned_district" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" readonly
+               value="{{ member.assigned_district|default_if_none:'' }}" />
+      </div>
+
+      <div>
+        <label for="assigned_block" class="block text-gray-600 font-medium mb-1">Assigned Block</label>
+        <input type="text" id="assigned_block" name="assigned_block" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" readonly
+               value="{{ member.assigned_block|default_if_none:'' }}" />
+      </div>
+
+      <div>
+        <label for="local_area_knowledge" class="block text-gray-600 font-medium mb-1">Local Area Knowledge</label>
+        <select id="local_area_knowledge" name="local_area_knowledge" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400">
+          <option value="">-- Select --</option>
+          <option value="Yes" {% if member.local_area_knowledge == 'Yes' %}selected{% endif %}>Yes</option>
+          <option value="No" {% if member.local_area_knowledge == 'No' %}selected{% endif %}>No</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="political_experience_years" class="block text-gray-600 font-medium mb-1">Political Experience (years)</label>
+        <input type="number" id="political_experience_years" name="political_experience_years" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" min="0"
+               value="{{ member.political_experience_years|default_if_none:0 }}" />
+      </div>
+
+      <div>
+        <label for="photo" class="block text-gray-600 font-medium mb-1">Upload Photo</label>
+        <input type="file" id="photo" name="photo" accept="image/*" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" />
+      </div>
+
+      <div>
+        <label for="id_proof" class="block text-gray-600 font-medium mb-1">Upload ID Proof</label>
+        <input type="file" id="id_proof" name="id_proof" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" />
+      </div>
+
+     
+      <div class="col-span-3 flex items-center mt-2">
+        <input type="checkbox" name="is_active" id="is_active" class="h-5 w-5 text-blue-600 focus:ring-blue-400 border-gray-300 rounded"
+               {% if member.is_active or not member %}checked{% endif %}/>
+        <label for="is_active" class="ml-2 block text-gray-700 font-medium">Active</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-6">
+    <button type="submit" class="bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+        {% if member %}Update{% else %}Add{% endif %} Member
+    </button>
+    <a href="{% url 'manage_district_member' %}" class="btn btn-secondary ml-2">Cancel</a>
+  </div>
+</form>
+</div>
+
+<script>
+const rolesData = {{ roles_json|safe }};
+const levelSelect = document.getElementById('id_location_level');
+const roleSelect = document.getElementById('role-select');
+
+// Populate Role Options
+function populateRoleOptions(level) {
+    roleSelect.innerHTML = '<option value="">Select Role</option>';
+    rolesData.filter(r => r.level === level).forEach(role=>{
+        const opt = document.createElement('option');
+        opt.value = role.id;
+        opt.textContent = role.name;
+        if('{{ member.role.id|default:"" }}' == role.id){ opt.selected = true; }
+        roleSelect.appendChild(opt);
+    });
+}
+levelSelect.addEventListener('change', ()=>populateRoleOptions(levelSelect.value));
+window.addEventListener('DOMContentLoaded', ()=>populateRoleOptions(levelSelect.value));
+
+// Personal Details
+const districtSelect = document.getElementById('district');
+const blockSelect = document.getElementById('block');
+
+// Official Details
+const officialStateInput = document.getElementById('assigned_state');
+const officialDistrictInput = document.getElementById('assigned_district');
+const officialBlockInput = document.getElementById('assigned_block');
+
+// Sort district options alphabetically
+function sortDistrictOptions(selectElem) {
+    let options = Array.from(selectElem.options);
+    let first = options.shift(); // ignore first "-- Select --"
+    options.sort((a,b)=>a.text.localeCompare(b.text));
+    selectElem.innerHTML = "";
+    selectElem.appendChild(first);
+    options.forEach(opt=>selectElem.appendChild(opt));
+}
+sortDistrictOptions(districtSelect);
+
+// Autofill Official Details (district + block both)
+function autofillOfficialDetails() {
+    officialStateInput.value = 'Bihar';
+    officialDistrictInput.value = districtSelect.value;
+    officialBlockInput.value = blockSelect.value;
+}
+
+// Event Listeners
+districtSelect.addEventListener('change', function(){
+    blockSelect.innerHTML = '<option value="">-- Loading --</option>';
+
+    if(districtSelect.value){
+        fetch(`/ajax/get-blocks/?district=${districtSelect.value}`)
+        .then(res => res.json())
+        .then(data => {
+            blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
+            const sortedBlocks = data.blocks.sort((a,b)=>a.localeCompare(b));
+            sortedBlocks.forEach(b => {
+                const opt = document.createElement('option');
+                opt.value = b;
+                opt.textContent = b;
+                if('{{ member.block|default:"" }}' == b){ opt.selected = true; }
+                blockSelect.appendChild(opt);
+            });
+            autofillOfficialDetails();
+        });
+    } else {
+        blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
+        autofillOfficialDetails();
+    }
+});
+
+blockSelect.addEventListener('change', ()=>autofillOfficialDetails());
+</script>
+
+{% endblock %}

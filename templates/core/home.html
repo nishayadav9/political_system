@@ -1,0 +1,471 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<style>
+  body {
+    overflow-x: hidden;
+  }
+</style>
+
+<div style="position: relative; width: 100vw; overflow: hidden; margin-bottom: 40px;">
+  <img src="{% static 'core/images/banner1.jpeg' %}"
+       alt="{% trans 'Banner Image' %}"
+       style="width: 100%; height: auto; display: block; object-fit: contain;">
+</div>
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto text-center px-6">
+    <h2 class="text-4xl font-extrabold text-green-900">
+      {% blocktrans %}Common Complaint Categories{% endblocktrans %}
+    </h2>
+    <p class="mt-4 text-lg text-gray-600 max-w-xl mx-auto">
+      {% blocktrans %}Select your area of concern and help improve your community.{% endblocktrans %}
+    </p>
+  </div>
+
+  <div class="bg-amber-50 py-12 mt-12">
+    <div class="max-w-8xl mx-auto px-6 grid gap-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      
+      <!-- Card 1 -->
+      <a href="{% url 'road' %}" class="block">
+        <div class="relative bg-white rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col overflow-visible cursor-pointer">
+          <span class="absolute -top-3 -left-3 bg-green-500 text-white text-sm font-semibold w-8 h-8 flex items-center justify-center rounded-full shadow-lg z-10">01</span>
+          <img src="{% static 'core/images/road.jpg' %}" alt="{% blocktrans %}Roads{% endblocktrans %}" class="h-48 w-full object-cover rounded-t-xl" />
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">{% blocktrans %}Roads{% endblocktrans %}</h3>
+            <p class="text-gray-700">{% blocktrans %}Potholes, damaged roads, or poor maintenance in your area.{% endblocktrans %}</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 2 -->
+      <a href="{% url 'water' %}" class="block">
+        <div class="relative bg-white rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col-reverse overflow-visible cursor-pointer">
+          <span class="absolute -top-3 -left-3 bg-green-500 text-white text-sm font-semibold w-8 h-8 flex items-center justify-center rounded-full shadow-lg z-10">02</span>
+          <img src="{% static 'core/images/water supplie.jpg' %}" alt="{% blocktrans %}Water Supply{% endblocktrans %}" class="h-48 w-full object-cover rounded-b-xl" />
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">{% blocktrans %}Water Supply{% endblocktrans %}</h3>
+            <p class="text-gray-700">{% blocktrans %}Report water shortages, contamination, or irregular supply.{% endblocktrans %}</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3 -->
+      <a href="{% url 'electricity_page' %}" target="_blank" class="relative bg-white rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col overflow-visible cursor-pointer no-underline">
+        <span class="absolute -top-3 -left-3 bg-green-500 text-white text-sm font-semibold w-8 h-8 flex items-center justify-center rounded-full shadow-lg z-10">03</span>
+        <img src="{% static 'core/images/electricity.jpg' %}" alt="{% blocktrans %}Electricity{% endblocktrans %}" class="h-48 w-full object-cover rounded-t-xl" />
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">{% blocktrans %}Electricity{% endblocktrans %}</h3>
+          <p class="text-gray-700">{% blocktrans %}Frequent power cuts, faulty street lights, or overbilling issues.{% endblocktrans %}</p>
+        </div>
+      </a>
+
+      <!-- Card 4 -->
+      <a href="{% url 'health_page' %}" class="block">
+        <div class="relative bg-white rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col-reverse overflow-visible cursor-pointer">
+          <span class="absolute -top-3 -left-3 bg-green-500 text-white text-sm font-semibold w-8 h-8 flex items-center justify-center rounded-full shadow-lg z-10">04</span>
+          <img src="{% static 'core/images/health.webp' %}" alt="{% blocktrans %}Health{% endblocktrans %}" class="h-48 w-full object-cover rounded-b-xl" />
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">{% blocktrans %}Health{% endblocktrans %}</h3>
+            <p class="text-gray-700">{% blocktrans %}Lack of medical facilities, poor hygiene, or emergency response issues.{% endblocktrans %}</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 5 -->
+      <a href="{% url 'education' %}" class="block" target="_blank">
+        <div class="relative bg-white rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col overflow-visible cursor-pointer">
+          <span class="absolute -top-3 -left-3 bg-green-500 text-white text-sm font-semibold w-8 h-8 flex items-center justify-center rounded-full shadow-lg z-10">05</span>
+          <img src="{% static 'core/images/education.jpg' %}" alt="{% blocktrans %}Education{% endblocktrans %}" class="h-48 w-full object-cover rounded-t-xl" />
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">{% blocktrans %}Education{% endblocktrans %}</h3>
+            <p class="text-gray-700">{% blocktrans %}School infrastructure, teacher availability, or fee concerns.{% endblocktrans %}</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 6 -->
+      <a href="{% url 'corruption_page' %}" class="block">
+        <div class="relative bg-white rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col-reverse overflow-visible cursor-pointer">
+          <span class="absolute -top-3 -left-3 bg-green-500 text-white text-sm font-semibold w-8 h-8 flex items-center justify-center rounded-full shadow-lg z-10">06</span>
+          <img src="{% static 'core/images/curreption.jpg' %}" alt="{% blocktrans %}Corruption{% endblocktrans %}" class="h-48 w-full object-cover rounded-b-xl" />
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">{% blocktrans %}Corruption{% endblocktrans %}</h3>
+            <p class="text-gray-700">{% blocktrans %}Report any bribery, misuse of power, or lack of transparency.{% endblocktrans %}</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 7 -->
+      <a href="{% url 'public_safety_page' %}" class="block">
+        <div class="relative bg-white rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col overflow-visible cursor-pointer">
+          <span class="absolute -top-3 -left-3 bg-green-500 text-white text-sm font-semibold w-8 h-8 flex items-center justify-center rounded-full shadow-lg z-10">07</span>
+          <img src="{% static 'core/images/polish.webp' %}" alt="{% blocktrans %}Public Safety{% endblocktrans %}" class="h-48 w-full object-cover rounded-t-xl" />
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">{% blocktrans %}Public Safety{% endblocktrans %}</h3>
+            <p class="text-gray-700">{% blocktrans %}Concerns related to crime, law enforcement, or local safety.{% endblocktrans %}</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 8 -->
+      <a href="{% url 'crime' %}" class="relative block bg-white rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col-reverse overflow-visible cursor-pointer">
+        <span class="absolute -top-3 -left-3 bg-green-500 text-white text-sm font-semibold w-8 h-8 flex items-center justify-center rounded-full shadow-lg z-10">08</span>
+        <img src="{% static 'core/images/crime.jpg' %}" alt="{% blocktrans %}Crime{% endblocktrans %}" class="h-48 w-full object-cover rounded-b-xl" />
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">{% blocktrans %}Crime{% endblocktrans %}</h3>
+          <p class="text-gray-700">{% blocktrans %}Crime means breaking the law. It includes theft, violence, and other illegal activities.{% endblocktrans %}</p>
+        </div>
+      </a>
+
+      <!-- Card 9 -->
+      <a href="{% url 'transportation' %}" class="block">
+        <div class="relative bg-white rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col overflow-visible cursor-pointer">
+          <span class="absolute -top-3 -left-3 bg-green-500 text-white text-sm font-semibold w-8 h-8 flex items-center justify-center rounded-full shadow-lg z-10">09</span>
+          <img src="{% static 'core/images/transporation.jpg' %}" alt="{% blocktrans %}Transportation{% endblocktrans %}" class="h-48 w-full object-cover rounded-t-xl" />
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">{% blocktrans %}Transportation{% endblocktrans %}</h3>
+            <p class="text-gray-700">{% blocktrans %}Problems with public transit, traffic congestion, or unsafe driving conditions.{% endblocktrans %}</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 10 -->
+      <a href="{% url 'environment_page' %}" class="relative block bg-white rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 flex flex-col-reverse overflow-visible cursor-pointer">
+        <span class="absolute -top-3 -left-3 bg-green-500 text-white text-sm font-semibold w-8 h-8 flex items-center justify-center rounded-full shadow-lg z-10">10</span>
+        <img src="{% static 'core/images/environment.avif' %}" alt="{% blocktrans %}Environment{% endblocktrans %}" class="h-48 w-full object-cover rounded-b-xl" />
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">{% blocktrans %}Environment{% endblocktrans %}</h3>
+          <p class="text-gray-700">{% blocktrans %}Concerns about pollution, deforestation, and conservation efforts.{% endblocktrans %}</p>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<section class="mt-24 max-w-8xl mx-auto overflow-hidden rounded-lg shadow-2xl relative bg-gray-900 text-white">
+  <div class="flex flex-col md:flex-row">
+
+    <!-- Left image with diagonal clip -->
+    <div class="md:w-1/2 relative overflow-hidden">
+      <img src="{% static 'core/images/leftImage1.webp' %}" alt="{% blocktrans %}Health{% endblocktrans %}" class="w-full h-96 md:h-full object-cover clip-path-diagonal-left" />
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/60 to-black/80"></div>
+    </div>
+
+    <!-- Right content with sharp angled background -->
+    <div class="md:w-1/2 bg-indigo-600 relative px-12 py-16 flex flex-col justify-center clip-path-diagonal-right">
+      <h2 class="text-5xl font-extrabold mb-6 leading-tight drop-shadow-lg">
+        {% blocktrans %}Your Voice{% endblocktrans %}<br>
+        {% blocktrans %}Can Change Things{% endblocktrans %}
+      </h2>
+      <p class="text-indigo-100 text-lg leading-relaxed max-w-xl">
+        {% blocktrans %}Every complaint you raise helps create a better system. By speaking up, you contribute to improvements in local services, infrastructure, and safety. Your feedback empowers authorities to make informed decisions and act on community concerns.{% endblocktrans %}
+      </p>
+
+    </div>
+
+  </div>
+</section>
+
+
+<style>
+  /* Diagonal clip for left image */
+  .clip-path-diagonal-left {
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+    transition: clip-path 0.4s ease;
+  }
+  /* Diagonal clip for right content */
+  .clip-path-diagonal-right {
+    clip-path: polygon(8.5% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+  /* Optional: Animate clip on hover for subtle effect */
+  section:hover .clip-path-diagonal-left {
+    clip-path: polygon(0 0, 100% 0, 70% 100%, 0% 100%);
+  }
+</style>
+
+
+
+<section class="bg-gradient-to-r from-green-50 to-white py-20">
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-4xl font-extrabold text-center text-green-900 mb-12">
+      {% blocktrans %}How It Works{% endblocktrans %}
+    </h2>
+
+    <div class="relative border-l-4 border-green-500 pl-8 space-y-16">
+      
+      <!-- Step 1 -->
+      <div class="flex flex-col md:flex-row md:items-center md:space-x-10">
+        <div class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-lg absolute -left-6">
+          1
+        </div>
+        <div class="md:w-1/2">
+          <img src="{% static 'core/images/complaint.webp' %}" alt="{% blocktrans %}Submit{% endblocktrans %}" class="rounded-lg shadow-md w-full object-cover" />
+        </div>
+        <div class="md:w-1/2 mt-6 md:mt-0">
+          <h3 class="text-2xl font-semibold text-gray-800">{% blocktrans %}Submit Your Complaint{% endblocktrans %}</h3>
+          <p class="mt-2 text-gray-600">
+            {% blocktrans %}Choose your complaint category and give a detailed description with any supporting images.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="flex flex-col md:flex-row-reverse md:items-center md:space-x-reverse md:space-x-10">
+        <div class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-lg absolute -left-6">
+          2
+        </div>
+        <div class="md:w-1/2">
+          <img src="{% static 'core/images/forward.png' %}" alt="{% blocktrans %}Forward{% endblocktrans %}" class="rounded-lg shadow-md w-full object-cover" />
+        </div>
+        <div class="md:w-1/2 mt-6 md:mt-0">
+          <h3 class="text-2xl font-semibold text-gray-800">{% blocktrans %}We Forward It{% endblocktrans %}</h3>
+          <p class="mt-2 text-gray-600">
+            {% blocktrans %}Our team verifies the issue and forwards your complaint to the right authority.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="flex flex-col md:flex-row md:items-center md:space-x-10">
+        <div class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-lg absolute -left-6">
+          3
+        </div>
+        <div class="md/w-1/2">
+          <img src="{% static 'core/images/solve.png' %}" alt="{% blocktrans %}Get Updates{% endblocktrans %}" class="rounded-lg shadow-md w-full object-cover" />
+        </div>
+        <div class="md:w-1/2 mt-6 md:mt-0">
+          <h3 class="text-2xl font-semibold text-gray-800">{% blocktrans %}Track & Get Updates{% endblocktrans %}</h3>
+          <p class="mt-2 text-gray-600">
+            {% blocktrans %}Stay informed about the status and resolution progress right from your dashboard.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="bg-gradient-to-r from-purple-700 via-teal-500 to-orange-600 text-white py-24">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-20">
+    
+    <!-- Left Text Block -->
+    <div class="lg:w-1/2 space-y-8">
+      <h2 class="text-5xl font-extrabold leading-tight drop-shadow-lg">
+        {% blocktrans %}Empower Your Voice{% endblocktrans %}
+      </h2>
+      <p class="text-lg text-white/80 max-w-lg">
+        {% blocktrans %}Jan Samadhan empowers you with transparency and accountability. Raise your concerns and track them with ease.{% endblocktrans %}
+      </p>
+      <a class="inline-block bg-white text-teal-700 hover:bg-teal-100 transition px-10 py-4 rounded-full font-bold text-lg shadow-lg">
+        {% blocktrans %}Get Started Now{% endblocktrans %}
+      </a>
+    </div>
+    
+    <!-- Right Images with overlapping circles -->
+    <div class="lg:w-1/2 relative flex justify-center items-center" style="min-height: 360px;">
+      <!-- Circle 1 -->
+      <div 
+        class="absolute w-96 h-96 rounded-full overflow-hidden shadow-2xl border-8 border-white/90"
+        style="left: 0; top: 50%; transform: translateY(-50%)"
+      >
+        <img 
+          alt="{% blocktrans %}Solve{% endblocktrans %}" 
+          src="{% static 'core/images/lalu.jpg'%}"
+          class="w-full h-full object-cover filter saturate-150 contrast-110"
+        />
+      </div>
+
+      <!-- Circle 2 overlapping circle 1 -->
+      <div 
+        class="absolute w-96 h-96 rounded-full overflow-hidden shadow-2xl border-8 border-white/90"
+        style="left: 14rem; top: 40%; transform: translateY(-40%)"
+      >
+        <img 
+          src="{% static 'core/images/first_2.webp' %}" 
+          alt="{% blocktrans %}Forward{% endblocktrans %}" 
+          class="w-full h-full object-cover filter brightness-90 contrast-125"
+        />
+      </div>
+
+      <!-- Optional subtle glowing ring behind -->
+      <div 
+        class="absolute w-[28rem] h-[28rem] rounded-full bg-teal-400 opacity-20 blur-3xl"
+        style="left: 10rem; top: 50%; transform: translateY(-50%)"
+      ></div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="bg-gradient-to-r from-pastel-blue-100 via-pastel-purple-100 to-pastel-pink-100 py-20">
+  <div class="max-w-7xl mx-auto px-6 text-gray-800">
+    <h2 class="text-4xl font-extrabold text-center mb-16 text-green-800">
+      {% blocktrans %}Our Core Values{% endblocktrans %}
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+
+      <!-- Card 1 -->
+      <div class="relative bg-gradient-to-br from-blue-100 to-purple-200 text-gray-900 rounded-xl p-10 shadow-xl overflow-hidden">
+        <div class="absolute -top-10 -left-10 w-28 h-28 bg-indigo-100 opacity-30 rotate-45 rounded-xl"></div>
+        <div class="absolute -bottom-10 -right-10 w-20 h-20 bg-blue-300 opacity-40 rounded-full"></div>
+        <div class="mb-6">
+          <i class="fas fa-hands-helping text-3xl text-blue-700"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-3">{% blocktrans %}Community First{% endblocktrans %}</h3>
+        <p>{% blocktrans %}We put people at the heart of everything we do, ensuring every voice is valued and heard.{% endblocktrans %}</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="relative bg-gradient-to-br from-yellow-100 to-pink-200 text-gray-900 rounded-xl p-10 shadow-xl overflow-hidden">
+        <div class="absolute -top-8 -right-8 w-24 h-24 bg-red-100 opacity-30 rotate-12 rounded-xl"></div>
+        <div class="absolute -bottom-10 -left-10 w-20 h-20 bg-yellow-300 opacity-40 rounded-full"></div>
+        <div class="mb-6">
+          <i class="fas fa-balance-scale text-3xl text-yellow-700"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-3">{% blocktrans %}Integrity & Fairness{% endblocktrans %}</h3>
+        <p>{% blocktrans %}Transparency and honesty guide us in building trust and delivering justice.{% endblocktrans %}</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="relative bg-gradient-to-br from-green-100 to-teal-200 text-gray-900 rounded-xl p-10 shadow-xl overflow-hidden">
+        <div class="absolute -top-10 -left-5 w-28 h-28 bg-green-200 opacity-30 rotate-[-20deg] rounded-xl"></div>
+        <div class="absolute -bottom-12 -right-5 w-20 h-20 bg-teal-300 opacity-40 rounded-full"></div>
+        <div class="mb-6">
+          <i class="fas fa-rocket text-3xl text-green-700"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-3">{% blocktrans %}Innovation{% endblocktrans %}</h3>
+        <p>{% blocktrans %}Constantly evolving with smart solutions to empower citizens and streamline governance.{% endblocktrans %}</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<style>
+  .from-pastel-blue-100 { background-color: #d0e7ff; }
+  .via-pastel-purple-100 { background-color: #e4dbff; }
+  .to-pastel-pink-100 { background-color: #ffe1f0; }
+</style>
+
+
+
+
+<section class="relative bg-[#fdfdfd] py-24 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
+
+    <!-- Left Content -->
+    <div>
+      <h2 class="text-4xl font-extrabold text-gray-900 mb-6">{% blocktrans %}Why Choose Jan Samadhan?{% endblocktrans %}</h2>
+      <p class="text-lg text-gray-600 mb-6">{% blocktrans %}Jan Samadhan bridges the gap between people and politicians. We make it easy to file complaints, forward them to the right authorities, and keep you informed every step of the way.{% endblocktrans %}</p>
+
+      <ul class="space-y-4">
+        <li class="flex items-center text-gray-700">
+          <i class="fas fa-bolt text-purple-600 mr-3"></i> {% blocktrans %}Real-time tracking of your complaint{% endblocktrans %}
+        </li>
+        <li class="flex items-center text-gray-700">
+          <i class="fas fa-shield-alt text-purple-600 mr-3"></i> {% blocktrans %}Verified channels to reach authorities{% endblocktrans %}
+        </li>
+        <li class="flex items-center text-gray-700">
+          <i class="fas fa-users text-purple-600 mr-3"></i> {% blocktrans %}Built for the voice of the people{% endblocktrans %}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Right Image with Rotation & Shadow -->
+    <div class="relative w-full flex justify-center">
+      <!-- Decorative rotated background -->
+      <div class="absolute top-[-40px] right-[-40px] w-80 h-80 bg-purple-100 transform rotate-45 rounded-3xl z-0"></div>
+
+      <!-- Foreground image -->
+      <div class="relative z-10 transform rotate-3 shadow-xl rounded-2xl overflow-hidden border border-white">
+        <img src="{% static 'core/images/second1.jpg' %}" alt="Why Choose Us"
+             class="w-[600px] h-[500px] object-cover rounded-2xl" />
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+<section class="bg-pink-50 py-24">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-4xl font-extrabold text-center text-green-800 mb-16">
+      {% blocktrans %}Our Commitment to You{% endblocktrans %}
+    </h2>
+
+    <div class="flex justify-between items-center relative space-x-12">
+
+      <!-- Line between steps -->
+      <div class="absolute top-1/2 left-12 right-12 border-t-2 border-gray-300 -translate-y-1/2"></div>
+
+      <!-- Step 1 -->
+      <div class="relative z-10 flex flex-col items-center text-center max-w-xs">
+        <div class="w-16 h-16 rounded-full border-4 border-gray-600 bg-white flex items-center justify-center font-bold text-gray-700 text-xl hover:bg-gray-600 hover:text-white transition cursor-pointer">
+          1
+        </div>
+        <h3 class="mt-4 font-semibold text-lg text-gray-800">{% blocktrans %}Transparency{% endblocktrans %}</h3>
+        <p class="mt-2 text-gray-600">{% blocktrans %}We ensure you have clear visibility on complaint statuses and processes.{% endblocktrans %}</p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="relative z-10 flex flex-col items-center text-center max-w-xs">
+        <div class="w-16 h-16 rounded-full border-4 border-gray-600 bg-white flex items-center justify-center font-bold text-gray-700 text-xl hover:bg-gray-600 hover:text-white transition cursor-pointer">
+          2
+        </div>
+        <h2 class="mt-4 font-semibold text-lg text-gray-800">{% blocktrans %}Privacy{% endblocktrans %}</h2>
+        <p class="mt-2 text-gray-600">{% blocktrans %}Your data is secure with us, protected under strict privacy policies.{% endblocktrans %}</p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="relative z-10 flex flex-col items-center text-center max-w-xs">
+        <div class="w-16 h-16 rounded-full border-4 border-gray-600 bg-white flex items-center justify-center font-bold text-gray-700 text-xl hover:bg-gray-600 hover:text-white transition cursor-pointer">
+          3
+        </div>
+        <h2 class="mt-4 font-semibold text-lg text-gray-800">{% blocktrans %}Support{% endblocktrans %}</h2>
+        <p class="mt-2 text-gray-600">{% blocktrans %}Dedicated help and guidance throughout your complaint journey.{% endblocktrans %}</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const navbar = document.querySelector('.navbar');
+    const banner = document.querySelector('img[alt="Banner Image"]');
+
+    function toggleNavbar() {
+      const bannerBottom = banner.getBoundingClientRect().bottom;
+      if (bannerBottom <= 0) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    }
+
+    window.addEventListener('scroll', toggleNavbar);
+    toggleNavbar(); // Check on load
+  });
+</script>
+{% endblock %}

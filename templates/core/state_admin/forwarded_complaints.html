@@ -1,0 +1,108 @@
+{% extends 'core/state_admin/base.html' %}
+
+{% block title %}Forwarded Complaints{% endblock %}
+
+{% block content %}
+<h2 class="mb-4 text-primary fw-bold">Forwarded Complaints</h2>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+<div class="table-responsive shadow-sm rounded">
+  <table class="table table-bordered table-hover align-middle text-center">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Issue Type</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Address</th>
+        <th>State</th>
+        <th>District</th>
+        <th>Block</th>
+        <th>Pincode</th>
+        <th>Status</th>
+        <th>Photo</th>
+        <th>Upload Photo</th>
+        <th>Upload Video</th>
+        <th>Files</th>
+        <th>Created At</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for complaint in complaints %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ complaint.name }}</td>
+        <td>{{ complaint.mobile }}</td>
+        <td class="text-capitalize">{{ complaint.issue_type }}</td>
+        <td>{{ complaint.title }}</td>
+        <td style="max-width: 200px; white-space: pre-wrap;">{{ complaint.description|truncatechars:80 }}</td>
+        <td>{{ complaint.address }}</td>
+        <td>{{ complaint.state }}</td>
+        <td>{{ complaint.district }}</td>
+        <td>{{ complaint.block }}</td>
+        <td>{{ complaint.pincode }}</td>
+        <td>
+          {% if complaint.resolved_at %}
+            <span class="badge bg-info text-dark">Solved</span>
+          {% elif complaint.status == "Accepted" %}
+            <span class="badge bg-success">Accepted</span>
+          {% elif complaint.status == "Rejected" %}
+            <span class="badge bg-warning text-dark">Rejected</span>
+          {% else %}
+            <span class="badge bg-secondary">Pending</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if complaint.photo %}
+            <a href="{{ complaint.photo.url }}" target="_blank">
+              <img src="{{ complaint.photo.url }}" style="max-width:50px; max-height:40px; object-fit:cover; border-radius:4px;">
+            </a>
+          {% else %}<span class="text-muted">No</span>{% endif %}
+        </td>
+        <td>
+          {% if complaint.upload_photo %}
+            <a href="{{ complaint.upload_photo.url }}" target="_blank">View</a>
+          {% else %}<span class="text-muted">No</span>{% endif %}
+        </td>
+        <td>
+          {% if complaint.upload_video %}
+            <a href="{{ complaint.upload_video.url }}" target="_blank" class="text-primary fs-5">&#128249;</a>
+          {% else %}<span class="text-muted">No</span>{% endif %}
+        </td>
+        <td>
+          {% if complaint.files.all %}
+            {% for file in complaint.files.all %}
+              <a href="{{ file.file_path.url }}" target="_blank" class="badge bg-primary text-white mb-1">File</a>
+            {% endfor %}
+          {% else %}<span class="text-muted small">No</span>{% endif %}
+        </td>
+        <td>{{ complaint.created_at|date:"d M Y, H:i" }}</td>
+        <td>
+          <div class="d-flex flex-column gap-1">
+            <a href="{% url 'complaint_detail' complaint.id %}" class="btn btn-sm btn-primary mb-1">View</a>
+            {% if complaint.status != 'Resolved' %}
+              <form action="{% url 'state_complaint_mark_solved' complaint.id %}" method="POST" onsubmit="return confirm('Mark as solved?');">
+                {% csrf_token %}
+                <button class="btn btn-sm btn-info mb-1">Solve</button>
+              </form>
+            {% endif %}
+          </div>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="18" class="text-center text-muted py-4">No forwarded complaints found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

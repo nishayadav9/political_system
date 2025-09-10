@@ -1,0 +1,215 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  body {
+    background-image: url("{% static 'core/images/track.jpg' %}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  .complaint-card-wrapper {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(6px);
+    border-radius: 16px;
+    padding: 30px 40px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .list-group-item strong {
+    width: 130px;
+    display: inline-block;
+  }
+
+  @media (max-width: 767px) {
+    .list-group-item strong {
+      display: block;
+      width: 100%;
+      margin-bottom: 5px;
+    }
+  }
+
+  h5.section-heading {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #0d6efd;
+    padding-bottom: 5px;
+  }
+
+  .public-notice {
+    margin-top: 10px;
+    padding: 12px 15px;
+    border-left: 4px solid #0d6efd;
+    background-color: #e9f2ff;
+    border-radius: 6px;
+  }
+
+  .feedback-form {
+    margin-top: 10px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+
+  .arrow-down {
+    font-size: 24px;
+    color: #0d6efd;
+    text-align: center;
+    margin: 10px 0;
+  }
+</style>
+
+<div class="container py-5">
+
+  <!-- Flash Messages -->
+  {% if messages %}
+    <div class="mb-4">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="complaint-card-wrapper mx-auto" style="max-width: 900px;">
+    <div class="text-center mb-4">
+      <h2 class="text-primary fw-bold">📍 Track Your Complaint</h2>
+    </div>
+
+    <!-- Tracking Form -->
+    <form method="get" action="{% url 'track_complaint' %}" class="row g-3 align-items-center mb-4">
+      <div class="col-12 col-md-9">
+        <input type="text" name="complaint_id" id="complaint_id" required
+               class="form-control form-control-lg shadow-sm"
+               placeholder="🔎 Enter Complaint ID">
+      </div>
+      <div class="col-12 col-md-3">
+        <button type="submit" class="btn btn-primary btn-lg w-100">
+          Track
+        </button>
+      </div>
+    </form>
+
+    {% if complaint %}
+      <div class="row g-4">
+        <!-- Left Column: Personal Details -->
+        <div class="col-md-6">
+          <h5 class="section-heading text-success">👤 Personal Details</h5>
+          <div class="row">
+            <div class="col-6">
+              <ul class="list-group list-group-flush shadow-sm mb-4">
+                <li class="list-group-item"><strong>Name:</strong> {{ complaint.name }}</li>
+                <li class="list-group-item"><strong>Father Name:</strong> {{ complaint.father_name }}</li>
+                <li class="list-group-item"><strong>Mobile:</strong> {{ complaint.mobile }}</li>
+                <li class="list-group-item"><strong>Gender:</strong> {{ complaint.gender }}</li>
+                <li class="list-group-item"><strong>Address:</strong> {{ complaint.address }}</li>
+              </ul>
+            </div>
+            <div class="col-6">
+              <ul class="list-group list-group-flush shadow-sm mb-4">
+                <li class="list-group-item"><strong>State:</strong> {{ complaint.state }}</li>
+                <li class="list-group-item"><strong>District:</strong> {{ complaint.district }}</li>
+                <li class="list-group-item"><strong>Block:</strong> {{ complaint.block }}</li>
+                <li class="list-group-item"><strong>Panchayat:</strong> {{ complaint.panchayat }}</li>
+                <li class="list-group-item"><strong>Village:</strong> {{ complaint.village }}</li>
+                <li class="list-group-item"><strong>Pincode:</strong> {{ complaint.pincode }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Complaint Details -->
+        <div class="col-md-6">
+          <h5 class="section-heading text-primary">📝 Complaint Details</h5>
+          <ul class="list-group list-group-flush shadow-sm mb-4">
+            <li class="list-group-item"><strong>Issue Type:</strong> {{ complaint.issue_type }}</li>
+            <li class="list-group-item"><strong>Title:</strong> {{ complaint.title }}</li>
+            <li class="list-group-item"><strong>Description:</strong> {{ complaint.description }}</li>
+            <li class="list-group-item"><strong>Submitted At:</strong> {{ complaint.created_at|date:"F d, Y H:i" }}</li>
+            <li class="list-group-item">
+              <strong>Status:</strong>
+              {% if complaint.status == "Accepted" %}
+                <span class="badge bg-success">Accepted</span>
+              {% elif complaint.status == "Rejected" %}
+                <span class="badge bg-warning text-dark">Rejected</span>
+              {% elif complaint.status == "Solved" %}
+                <span class="badge bg-info text-dark">Solved</span>
+              {% else %}
+                <span class="badge bg-secondary">Pending</span>
+              {% endif %}
+            </li>
+{% if notices %}
+  <li class="list-group-item">
+    <h5 class="section-heading text-primary">📢 Party Member Notices</h5>
+
+    {% for notice in notices %}
+      <div class="public-notice p-2 mb-1" style="background-color:#e9f2ff; border-left:3px solid #0d6efd; border-radius:5px; font-size:14px; line-height:1.4;">
+        {{ notice|linebreaksbr|safe }}
+      </div>
+
+      {% if not forloop.last %}
+        <div class="text-center my-1">
+          <hr style="border:0; border-top:0.5px solid #0d6efd; width:50%; margin:2px auto;">
+          <span style="font-size:14px; color:#0d6efd; line-height:1;">⬇️</span>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </li>
+{% endif %}
+
+
+
+
+            <!-- Feedback Button & Form -->
+            {% if complaint.status == "Solved" %}
+              <li class="list-group-item">
+                <button type="button" class="btn btn-info btn-sm toggle-feedback" data-id="{{ complaint.id }}">
+                  📝 Give Feedback
+                </button>
+                <div id="feedback-form-{{ complaint.id }}" class="feedback-form" style="display:none;">
+                  <form method="post" action="{% url 'submit_feedback' complaint.id %}">
+                    {% csrf_token %}
+                    <textarea name="feedback" rows="3" class="form-control mb-2" placeholder="Enter your feedback...">{{ complaint.feedback }}</textarea>
+                    <button type="submit" class="btn btn-success btn-sm">Submit Feedback</button>
+                  </form>
+
+                  {% if complaint.feedback %}
+                    <div class="mt-2 p-2 bg-light border rounded">
+                      <strong>Your Feedback:</strong> {{ complaint.feedback }}
+                    </div>
+                  {% endif %}
+                </div>
+              </li>
+            {% endif %}
+
+          </ul>
+        </div>
+      </div>
+
+    {% elif complaint_id %}
+      <div class="alert alert-warning text-center mt-3">
+        <strong>No complaint found</strong> with ID <code>{{ complaint_id }}</code>.
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- JS for toggling feedback form -->
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $(".toggle-feedback").click(function(){
+      var id = $(this).data("id");
+      $("#feedback-form-" + id).slideToggle();
+    });
+  });
+</script>
+{% endblock %}
+{% endblock %}
