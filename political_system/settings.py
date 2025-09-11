@@ -27,8 +27,12 @@ SECRET_KEY = 'django-insecure-!s39i)cn0a6l$gkqazhm^q%swdb!61by#^1a54za=*polhxy=j
 DEBUG = False
 
 
-ALLOWED_HOSTS = ["political_system-3.onrender.com", "127.0.0.1"]
-
+ALLOWED_HOSTS = [
+    "political-system-3.onrender.com",
+    "www.political-system-3.onrender.com",
+    "127.0.0.1",
+    "localhost",
+]
 
 
 # Application definition
