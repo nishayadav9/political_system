@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
 ]
+CSRF_TRUSTED_ORIGINS = ["https://political-system-3.onrender.com"]
 
 
 # Application definition
