@@ -1,0 +1,327 @@
+{% extends 'core/admin/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4 text-primary fw-bold">All Complaints</h2>
+
+  <!-- Filter Form -->
+  <!-- Filter Form -->
+<form method="get" class="row mb-3">
+  <!-- State Fixed -->
+  <div class="col">
+    <input type="text" name="state" class="form-control" value="Bihar" readonly>
+  </div>
+
+  <!-- District Dropdown -->
+  <div class="col">
+    <select id="district" name="district" class="form-control">
+      <option value="">Select District</option>
+      {% for dist in districts %}
+        <option value="{{ dist }}" {% if request.GET.district == dist %}selected{% endif %}>{{ dist }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Block Dropdown (Dynamic based on District) -->
+  <div class="col">
+    <select id="block" name="block" class="form-control">
+      <option value="">Select Block</option>
+      {% if request.GET.block %}
+        <option value="{{ request.GET.block }}" selected>{{ request.GET.block }}</option>
+      {% endif %}
+    </select>
+  </div>
+
+  <!-- Panchayat Input -->
+  <div class="col">
+    <input type="text" name="panchayat" class="form-control" placeholder="Enter Panchayat" value="{{ request.GET.panchayat }}">
+  </div>
+
+  <div class="col">
+    <button type="submit" class="btn btn-primary">Filter</button>
+    <a href="{% url 'view_complaints' %}" class="btn btn-secondary">Reset</a>
+  </div>
+</form>
+
+  {% if complaints %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover align-middle shadow-sm">
+        <thead class="table-dark text-center">
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Father Name</th>
+            <th>Mobile</th>
+            <th>Gender</th>
+            <th>Photo</th>
+            <th>Voter ID</th>
+            <th>Address</th>
+            <th>State</th>
+            <th>District</th>
+            <th>Block</th>
+            <th>Panchayat</th>
+            <th>Village</th>
+            <th>Pincode</th>
+            <th>Issue Type</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Upload Photo</th>
+            <th>Upload Video</th>
+            <th>Feedback</th> <!-- Updated -->
+            <th>Actions</th>
+            <th>Forwarded To (Username)</th>
+            <th>Forward Reason</th>
+                        <th>Forward History</th> <!-- Added -->
+
+            <th>Public Notice</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for complaint in complaints %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ complaint.name|default:"-" }}</td>
+              <td>{{ complaint.father_name|default:"-" }}</td>
+              <td>{{ complaint.mobile|default:"-" }}</td>
+              <td class="text-capitalize">{{ complaint.gender|default:"-" }}</td>
+
+              <!-- Photo -->
+              <td class="text-center">
+                {% if complaint.photo %}
+                  <a href="{{ complaint.photo.url }}" target="_blank">
+                    <img src="{{ complaint.photo.url }}" style="max-width:50px; max-height:50px; border-radius:4px;">
+                  </a>
+                {% else %}-{% endif %}
+              </td>
+
+              <!-- Voter ID -->
+              <td class="text-center">
+                {% if complaint.voter_id_image %}
+                  <a href="{{ complaint.voter_id_image.url }}" target="_blank">
+                    <img src="{{ complaint.voter_id_image.url }}" style="max-width:50px; max-height:50px; border-radius:4px;">
+                  </a>
+                {% else %}-{% endif %}
+              </td>
+
+              <td>{{ complaint.address|default:"-" }}</td>
+             <td>{{ complaint.state|default:"-" }}</td>
+             <td>{{ complaint.district|default:"-" }}</td>
+             <td>{{ complaint.block|default:"-" }}</td>
+             <td>{{ complaint.panchayat|default:"-" }}</td>
+              <td>{{ complaint.village|default:"-" }}</td>
+              <td>{{ complaint.pincode|default:"-" }}</td>
+              <td class="text-capitalize">{{ complaint.issue_type|default:"-" }}</td>
+              <td>{{ complaint.title|default:"-" }}</td>
+             <td style="max-width:200px; white-space: pre-wrap;">{{ complaint.description|truncatechars:80 }}</td>
+
+              <!-- Upload Photo -->
+              <td class="text-center">
+                {% if complaint.upload_photo %}
+                  <a href="{{ complaint.upload_photo.url }}" target="_blank">
+                    <img src="{{ complaint.upload_photo.url }}" style="max-width:50px; max-height:50px; border-radius:4px;">
+                  </a>
+                {% else %}-{% endif %}
+              </td>
+
+              <!-- Upload Video -->
+              <td class="text-center">
+                {% if complaint.upload_video %}
+                  <a href="{{ complaint.upload_video.url }}" target="_blank" class="text-primary fs-5">
+                    <i class="bi bi-camera-video"></i>
+                  </a>
+                {% else %}-{% endif %}
+              </td>
+
+              
+              <!-- Feedback Button -->
+              <td class="text-center">
+                {% if complaint.status == "Solved" and complaint.feedback %}
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#feedbackModal{{ complaint.id }}">
+                    View Feedback
+                  </button>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="feedbackModal{{ complaint.id }}" tabindex="-1" aria-labelledby="feedbackModalLabel{{ complaint.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="feedbackModalLabel{{ complaint.id }}">Feedback for {{ complaint.name }}</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          {{ complaint.feedback }}
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% else %}
+                  <span class="text-muted">Not Given</span>
+                {% endif %}
+              </td>
+
+              <!-- Actions -->
+              <td class="text-center">
+                <div class="d-flex flex-wrap gap-1 justify-content-center">
+                  <form method="post" action="{% url 'complaint_delete' complaint.id %}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this complaint?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-danger mb-1">Delete</button>
+                  </form>
+                </div>
+              </td>
+
+              <!-- Forward Details -->
+              <td>{{ complaint.forward_to|default:"-" }}</td>
+<!-- Forward Reason Column -->
+<td class="text-center">
+  {% if complaint.forward_reason %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#forwardReasonModal{{ complaint.id }}">
+      View Reason
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="forwardReasonModal{{ complaint.id }}" tabindex="-1" aria-labelledby="forwardReasonModalLabel{{ complaint.id }}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(5px);">
+          <div class="modal-header" style="background-color: #ffc107; color: #000;">
+            <h5 class="modal-title" id="forwardReasonModalLabel{{ complaint.id }}">Forward Reason for {{ complaint.name }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" style="white-space: pre-wrap; color: #000;">
+            {{ complaint.forward_reason }}
+          </div>
+          <div class="modal-footer" style="background-color: rgba(255, 255, 255, 0.9);">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <span class="text-muted">No Reason</span>
+  {% endif %}
+</td>
+
+
+             <!-- Forward History Column -->
+<td class="text-center">
+  {% if complaint.forward_chain %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#forwardHistoryModal{{ complaint.id }}">
+      View History
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="forwardHistoryModal{{ complaint.id }}" tabindex="-1" aria-labelledby="forwardHistoryLabel{{ complaint.id }}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="forwardHistoryLabel{{ complaint.id }}">Forward History </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <ul class="list-unstyled mb-0">
+  {% for step in complaint.forward_chain %}
+    <li>
+      {{ step.from|capfirst }} → {{ step.to|capfirst }} <br>
+      <small class="text-muted">Date: {{ step.date }}</small>
+    </li>
+  {% endfor %}
+</ul>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    -
+  {% endif %}
+</td>
+
+
+<!-- Public Notice Column -->
+<td class="text-center">
+  {% if complaint.public_notice %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#publicNoticeModal{{ complaint.id }}">
+      View Notice
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="publicNoticeModal{{ complaint.id }}" tabindex="-1" aria-labelledby="publicNoticeModalLabel{{ complaint.id }}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="publicNoticeModalLabel{{ complaint.id }}">Public Notice for {{ complaint.name }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" style="white-space: pre-wrap;">
+            {{ complaint.public_notice }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <span class="text-muted">No Notice</span>
+  {% endif %}
+</td>
+
+
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="25" class="text-center text-muted py-4">No complaints submitted yet.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-center text-muted">No complaints submitted yet.</p>
+  {% endif %}
+</div>
+
+<script>
+const districtBlocks = {{ district_blocks|safe }};
+const districtSelect = document.getElementById('district');
+const blockSelect = document.getElementById('block');
+
+function populateBlocks(selectedDistrict, selectedBlock=null) {
+    blockSelect.innerHTML = '<option value="">Select Block</option>';
+    const district = districtBlocks.find(d => d.district_name === selectedDistrict);
+    if(district) {
+        const blocks = district.block_name.split(',').map(b => b.trim());
+        blocks.forEach(block => {
+            const option = document.createElement('option');
+            option.value = block;
+            option.text = block;
+            if(block === selectedBlock) option.selected = true;
+            blockSelect.appendChild(option);
+        });
+    }
+}
+
+// On district change
+districtSelect.addEventListener('change', function() {
+    populateBlocks(this.value);
+});
+
+// On page load (to set previously selected block)
+window.addEventListener('load', function() {
+    if(districtSelect.value) {
+        populateBlocks(districtSelect.value, "{{ request.GET.block }}");
+    }
+});
+</script>
+
+
+{% endblock %}

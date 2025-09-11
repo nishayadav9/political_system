@@ -1,0 +1,251 @@
+{% extends 'core/admin/base.html' %}
+{% block content %}
+
+<style>
+  .table-container {
+    width: 100%;
+    max-height: 500px;   /* Only table scrolls */
+    overflow-x: auto;    
+    overflow-y: auto;    
+    margin-top: 1rem;
+    border-radius: 12px;
+    background: #fdfdfd;
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 1200px;
+  }
+
+  thead th {
+    background: linear-gradient(90deg, #0d9488, #14b8a6);
+    color: #fff;
+    font-weight: 600;
+    padding: 0.75rem;
+    text-align: center;
+    font-size: 0.9rem;
+    border-top: none;
+    top: 0;
+    z-index: 2;
+  }
+
+  thead tr.section-header th {
+    background: #0f766e;
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+
+  tbody td {
+    padding: 0.7rem;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 0.88rem;
+    color: #374151;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+  }
+
+  tbody tr:hover {
+    background-color: #e0f2fe;
+    transition: 0.2s ease-in-out;
+  }
+
+  .btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .btn-primary { background-color: #3b82f6; color: #fff; border: none; }
+  .btn-primary:hover { background-color: #2563eb; }
+
+  .btn-danger { background-color: #ef4444; color: #fff; border: none; }
+  .btn-danger:hover { background-color: #dc2626; }
+
+  .btn-success { background-color: #10b981; color: #fff; border: none; }
+  .btn-success:hover { background-color: #059669; }
+
+  .btn-secondary { background-color: #6b7280; color: #fff; border: none; }
+  .btn-secondary:hover { background-color: #4b5563; }
+
+  h2 {
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    border-left: 5px solid #6366f1;
+    padding-left: 0.5rem;
+  }
+
+  input[type="checkbox"] {
+    transform: scale(1.15);
+    cursor: pointer;
+    accent-color: #3b82f6;
+  }
+</style>
+
+<h2>Manage State Level Party Members</h2>
+
+
+<!-- ✅ Filter Form -->
+<form method="get" class="mb-3 d-flex gap-2">
+    <!-- Search Box -->
+    <input type="text" name="q" value="{{ query }}" placeholder="Search member..." class="form-control w-25">
+
+   
+
+    <button type="submit" class="btn btn-primary">Filter</button>
+    <a href="{% url 'manage_state_member' %}" class="btn btn-secondary">Reset</a>
+</form>
+
+
+<!-- CSRF Token for JavaScript -->
+<input type="hidden" id="csrf-token" value="{{ csrf_token }}">
+
+<a href="{% url 'add_state_member' %}" class="btn btn-success mb-3">➕ Add Member</a>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <!-- Section headers -->
+      <tr class="section-header">
+        <th colspan="15">Personal Details</th>
+        <th colspan="4">Official Details</th>
+        <th colspan="3">Documents</th>
+        <th colspan="3">Other</th>
+      </tr>
+      <!-- Column headers -->
+      <tr>
+        <!-- Personal Details -->
+        <th>Username</th>
+        <th>Full Name</th>
+        <th>Gender</th>
+        <th>DOB</th>
+        <th>Mobile</th>
+        <th>Alternate Mobile</th>
+        <th>Email</th>
+        <th>Aadhar/Govt ID</th>
+        <th>Permanent Address</th>
+        <th>Current Address</th>
+        <th>State</th>
+        <th>District</th>
+        <th>Block/Tehsil/Taluka</th>
+        <th>Village/Town/City</th>
+        <th>Pincode</th>
+
+        <!-- Official Details -->
+        <th>Role</th>
+        <th> Assign State</th>
+        <th>Assigned Districts</th>
+        <th>Experience (yrs)</th>
+
+        <!-- Documents -->
+        <th>Photo</th>
+        <th>ID Proof</th>
+        <th>Signature</th>
+
+        <!-- Other -->
+        <th>Active</th>
+        <th>Created At</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for member in members %}
+      <tr>
+        <!-- Personal -->
+        <td>{{ member.username }}</td>
+        <td>{{ member.full_name }}</td>
+        <td>{{ member.gender|default:"-" }}</td>
+        <td>{% if member.date_of_birth %}{{ member.date_of_birth|date:"d M Y" }}{% else %}-{% endif %}</td>
+        <td>{{ member.mobile_number|default:"-" }}</td>
+        <td>{{ member.alternate_mobile_number|default:"-" }}</td>
+        <td>{{ member.email|default:"-" }}</td>
+        <td>{{ member.aadhar_or_govt_id|default:"-" }}</td>
+        <td>{{ member.permanent_address|default:"-" }}</td>
+        <td>{{ member.current_address|default:"-" }}</td>
+        <td>{{ member.state|default:"-" }}</td>
+        <td>{{ member.district|default:"-" }}</td>
+        <td>{{ member.block_tehsil_taluka|default:"-" }}</td>
+        <td>{{ member.village_town_city|default:"-" }}</td>
+        <td>{{ member.pincode|default:"-" }}</td>
+
+        <!-- Official -->
+        <td>{% if member.role %}{{ member.role.role_name }}{% else %}-{% endif %}</td>
+        <td>{{ member.state|default:"-" }}</td>
+        <td>{{ member.assigned_districts|default:"-" }}</td>
+        <td>{{ member.political_experience_years|default:"0" }}</td>
+
+        <!-- Documents -->
+        <td>{% if member.photo %}<a href="{{ member.photo.url }}" target="_blank" class="btn btn-sm btn-secondary">View</a>{% else %}N/A{% endif %}</td>
+        <td>{% if member.id_proof %}<a href="{{ member.id_proof.url }}" target="_blank" class="btn btn-sm btn-secondary">View</a>{% else %}N/A{% endif %}</td>
+        <td>{% if member.digital_signature %}<a href="{{ member.digital_signature.url }}" target="_blank" class="btn btn-sm btn-secondary">View</a>{% else %}N/A{% endif %}</td>
+
+        <!-- Other -->
+        <td>
+          <input type="checkbox" class="toggle-active"
+                data-model="state"
+                data-id="{{ member.id }}"
+                {% if member.is_active %}checked{% endif %}>
+        </td>
+        <td>{% if member.created_at %}{{ member.created_at|date:"d M Y, h:i A" }}{% else %}-{% endif %}</td>
+        <td>
+          <a href="{% url 'edit_state_member' member.id %}" class="btn btn-sm btn-primary">Edit</a>
+          <form method="POST" action="{% url 'delete_state_member' member.id %}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete {{ member.username }}?');">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="26" class="text-center">No state level members found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const csrfToken = document.getElementById('csrf-token').value;
+  document.querySelectorAll('.toggle-active').forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+      const modelName = this.dataset.model;
+      const memberId = this.dataset.id;
+      const isActive = this.checked;
+
+      fetch(`/toggle-active/${modelName}/${memberId}/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrfToken,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ active: isActive }),
+      })
+        .then(response => {
+          if (!response.ok) throw new Error(`Network error: ${response.status}`);
+          return response.json();
+        })
+        .then(data => {
+          if (!data.success) {
+            alert('Failed to update status: ' + (data.error || 'Unknown error'));
+            this.checked = !isActive;
+          }
+        })
+        .catch((err) => {
+          alert('Error updating status: ' + err.message);
+          this.checked = !isActive;
+        });
+    });
+  });
+</script>
+
+{% endblock %}

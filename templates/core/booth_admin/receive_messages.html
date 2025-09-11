@@ -1,0 +1,53 @@
+{% extends 'core/booth_admin/booth_admin_base.html' %}
+
+{% load static %}
+{% block title %}Booth Messages{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Received Messages</h2>
+
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="alert alert-{{ msg.tags }}">
+                {{ msg }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Sender</th>
+                <th>Message</th>
+                <th>Received At</th>
+                <th>Reply</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for msg in msgs %}
+            <tr>
+                <td>{{ msg.sender.username }}</td>
+                <td>{{ msg.message }}</td>
+                <td>{{ msg.created_at|date:"d M Y, H:i" }}</td>
+                <td>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="msg_id" value="{{ msg.id }}">
+                        <div class="input-group">
+                            <input type="text" name="message" class="form-control" placeholder="Type reply..." required>
+                            <button class="btn btn-primary" type="submit">Reply</button>
+                        </div>
+                    </form>
+
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">No messages received yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

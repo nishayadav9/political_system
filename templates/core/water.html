@@ -1,0 +1,370 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load translation_tags %}
+{% block content %}
+<div class="container my-5">
+
+    <!-- Header Section -->
+<div class="text-center mb-10">
+
+    <!-- Banner Section with Overlay -->
+    <div class="card shadow-lg border-0 mx-auto banner-card position-relative text-center">
+        <!-- Background Image -->
+        <img src="{% static 'core/images/water supplie.jpg' %}"
+             class="card-img-top banner-img" 
+             alt="{% trans 'Water Supply Issues' %}">
+
+       <!-- Overlay -->
+<div class="banner-overlay d-flex flex-column align-items-center justify-content-start text-white p-4 pt-12">
+    <!-- Title with Gradient -->
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-3 text-black">
+        {% blocktrans %}Water Supply Complaints{% endblocktrans %}
+    </h1>
+
+    <!-- Subtitle -->
+<p class="text-white-700 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+    {% blocktrans %}Report problems like water shortage, contaminated water, or irregular supply to ensure safe and reliable water access.{% endblocktrans %}
+</p>
+
+
+</div>
+
+
+    </div>
+
+    <!-- Info Section -->
+    <div class="max-w-6xl mx-auto -mt-16 relative z-10">
+        <div class="bg-gradient-to-r from-gray-50 via-violet-50 to-amber-50 shadow-xl rounded-2xl border border-gray-200 hover:shadow-2xl transition-all duration-500 px-10 py-6 flex items-start gap-6">
+
+            <!-- Icon Section -->
+            <div class="flex-shrink-0">
+                <div class="h-14 w-14 flex items-center justify-center bg-gradient-to-tr from-gray-200 via-violet-200 to-amber-200 text-white text-2xl rounded-full shadow-lg">
+                    💧
+                </div>
+            </div>
+
+            <!-- Text Section -->
+            <div>
+               <h3>
+{% blocktrans %}What are Water Supply Complaints?{% endblocktrans %}
+</h3>
+
+
+<p class="text-gray-700 text-base leading-relaxed">
+    {% blocktrans trimmed %}
+Water supply issues include shortage, contamination, irregular supply, pipeline leaks, and low water pressure. These affect daily life, health, and sanitation. Reporting them helps authorities take timely corrective action.
+    {% endblocktrans %}
+</p>
+
+
+
+                <!-- Bottom Accent Line -->
+                <div class="mt-4 h-1 w-28 bg-gradient-to-r from-gray-200 via-violet-200 to-amber-200 rounded-full"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- RJD Water Supply Complaint Assistance Section - Modern Card Design -->
+<section class="my-16 py-20 bg-blue-50 rounded-3xl shadow-xl overflow-hidden relative">
+  <!-- Decorative Background Circles -->
+  <div class="absolute top-0 left-1/2 w-72 h-72 bg-green-200 rounded-full -translate-x-1/2 -translate-y-1/2 opacity-50"></div>
+  <div class="absolute bottom-0 right-1/4 w-72 h-72 bg-blue-200 rounded-full translate-x-1/2 translate-y-1/2 opacity-50"></div>
+
+  <div class="relative max-w-4xl mx-auto px-6 text-center z-10">
+    
+    <!-- Icon -->
+    <div class="text-6xl mb-6 animate-bounce">💧</div>
+
+   <!-- Heading -->
+<h2 class="text-3xl md:text-4xl font-extrabold text-green-800 mb-6">
+    {% blocktrans trimmed %}
+Facing Water Supply Issues? Send Your Complaints!
+    {% endblocktrans %}
+</h2>
+
+<!-- Message -->
+<p class="text-green-800 text-base md:text-lg leading-relaxed mb-8">
+    {% blocktrans trimmed %}
+If there is any problem with water supply in your area — such as shortage, leaks, contamination, or irregular supply, even if your area's MLA belongs to another party, you can send your complaint. I or my party members (RJD) will verify it and coordinate with local authorities to ensure the problem is resolved quickly. Your feedback helps improve local water supply and public services.
+    {% endblocktrans %}
+</p>
+
+
+
+    <!-- Key Points Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      <!-- Card 1 -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transform transition duration-300">
+        <div class="bg-green-500 text-white h-16 w-16 flex items-center justify-center rounded-full text-3xl mb-4">
+          📝
+        </div>
+        <h3 class="font-bold text-green-700 mb-2 text-lg">
+    {% blocktrans %}Quick Reporting{% endblocktrans %}
+</h3>
+
+<p class="text-gray-700 text-sm text-center">
+    {% blocktrans %}Apni complaint online ya offline jaldi se bhej sakte hain.{% endblocktrans %}
+</p>
+
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transform transition duration-300">
+        <div class="bg-green-500 text-white h-16 w-16 flex items-center justify-center rounded-full text-3xl mb-4">
+          ✅
+        </div>
+       <h3 class="font-bold text-green-700 mb-2 text-lg">
+    {% blocktrans %}Problem Solving{% endblocktrans %}
+</h3>
+
+<p class="text-gray-700 text-sm text-center">
+    {% blocktrans %}RJD members local authorities ke saath coordinate karke problem solve karte hain.{% endblocktrans %}
+</p>
+
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transform transition duration-300">
+        <div class="bg-green-500 text-white h-16 w-16 flex items-center justify-center rounded-full text-3xl mb-4">
+          📣
+        </div>
+        <h3 class="font-bold text-green-700 mb-2 text-lg">
+    {% blocktrans %}Stay Updated{% endblocktrans %}
+</h3>
+
+<p class="text-gray-700 text-sm text-center">
+    {% blocktrans %}Complaint ke har step ki regular updates aapko milengi.{% endblocktrans %}
+</p>
+
+      </div>
+    </div>
+
+    <!-- Action Button -->
+    <div>
+      <a href="{% url 'complaint_form' %}" 
+   class="inline-block bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold px-10 py-4 rounded-full shadow-lg transform transition duration-300 hover:scale-105 hover:from-green-500 hover:to-blue-600 hover:shadow-2xl">
+    {% blocktrans %}File Your Water Complaint Now{% endblocktrans %}
+</a>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+    <!-- Timeline Section (Why Report) -->
+<section class="my-16 relative bg-green-50 py-16 rounded-2xl shadow-inner">
+    <div class="rounded-3xl p-8 mb-12 max-w-3xl mx-auto text-center">
+        <div class="flex items-center justify-center gap-3">
+<h3 class="text-2xl font-extrabold text-black">
+    {% blocktrans %}Why Report Water Issues?{% endblocktrans %}
+</h3>
+        </div>
+    </div>
+
+    <!-- Zigzag Dashed Line for Large Screens -->
+    <svg class="hidden md:block absolute left-0 right-0 top-1/2 w-full h-16" viewBox="0 0 100 20" preserveAspectRatio="none">
+        <polyline points="0,10 20,0 40,20 60,0 80,20 100,10" fill="none" stroke="#16a34a" stroke-width="1" stroke-dasharray="4,4"/>
+    </svg>
+
+    <!-- Vertical Line for Mobile -->
+    <div class="block md:hidden absolute left-1/2 top-0 h-full border-l-2 border-dashed border-green-500 z-0"></div>
+
+    <!-- Timeline Blocks -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 relative z-10 px-4">
+
+        <div class="flex flex-col items-center text-center relative">
+            <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+           <h3 class="text-lg font-bold text-black mt-4">
+    {% blocktrans %}Ensure Clean Water{% endblocktrans %}
+</h3>
+<p class="text-green-700 mt-2 text-sm">
+    {% blocktrans %}Reports help fix contamination and maintain water quality.{% endblocktrans %}
+</p>
+
+        </div>
+
+       <div class="flex flex-col items-center text-center relative">
+    <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+    <h3 class="text-lg font-bold text-black mt-4">{% blocktrans %}Continuous Supply{% endblocktrans %}</h3>
+    <p class="text-green-700 mt-2 text-sm">{% blocktrans %}Highlighting irregular supply ensures authorities address shortages promptly.{% endblocktrans %}</p>
+</div>
+
+<div class="flex flex-col items-center text-center relative">
+    <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+    <h3 class="text-lg font-bold text-black mt-4">{% blocktrans %}Prevent Wastage{% endblocktrans %}</h3>
+    <p class="text-green-700 mt-2 text-sm">{% blocktrans %}Leaky pipelines and wastage can be fixed quickly with proper reports.{% endblocktrans %}</p>
+</div>
+
+<div class="flex flex-col items-center text-center relative">
+    <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+    <h3 class="text-lg font-bold text-black mt-4">{% blocktrans %}Quick Response{% endblocktrans %}</h3>
+    <p class="text-green-700 mt-2 text-sm">{% blocktrans %}Authorities respond faster when citizens actively report issues.{% endblocktrans %}</p>
+</div>
+
+    </div>
+</section>
+
+
+
+<!-- RJD Party About Section - Fully Responsive Background Image -->
+<section class="relative py-12 bg-contain bg-center bg-no-repeat min-h-[60vh]" 
+         style="background-image: url('{% static 'core/images/first5.jpg' %}');">
+  
+  <div class="relative max-w-6xl mx-auto px-6 text-center">
+    
+   <!-- Heading with less margin -->
+<h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 mt-16 text-black">
+    {% blocktrans %}RJD: Committed to Social Justice & Equality{% endblocktrans %}
+</h2>
+
+<!-- Paragraph / Content -->
+<p class="text-base sm:text-lg md:text-xl max-w-3xl mx-auto mb-4 mt-4 text-green-700">
+        {% blocktrans %}The Rashtriya Janata Dal (RJD) is dedicated to empowering every citizen, promoting social justice, and ensuring equal opportunities for all. The party works tirelessly to uplift marginalized communities, strengthen local governance, and foster inclusive growth across the nation.{% endblocktrans %}
+
+</p>
+
+
+  </div>
+</section>
+
+
+<!-- Water Supply Issues Section -->
+<section class="my-6 bg-gradient-to-r from-blue-50 via-blue-100 to-blue-200 py-8">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-8">
+
+        <!-- Left Image -->
+        <div class="w-full md:w-7/12 flex justify-center">
+            <img src="{% static 'core/images/water.jpg'%}"
+                 class="rounded-3xl shadow-lg w-full object-cover h-64 md:h-96"
+                 alt="Water Supply Problems">
+        </div>
+
+        <!-- Right Content -->
+        <div class="w-full md:w-5/12 flex flex-col items-center text-center gap-4">
+
+            <div class="mb-2">
+    <h2 class="text-3xl font-bold text-black mb-1">
+        {% blocktrans %}Understanding Water Supply Issues{% endblocktrans %}
+    </h2>
+    <p class="text-green-700 text-base">
+    {% blocktrans trimmed %}
+Water is essential for daily life. Issues like contamination, irregular supply, and leakage affect our health and convenience. Reporting these problems ensures a clean and reliable water supply in your area.
+    {% endblocktrans %}
+</p>
+
+</div>
+
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- Tips for Safe Water Usage Section (Responsive Single Row Cards with Hover) -->
+<section class="my-16 bg-gradient-to-r from-teal-50 via-blue-50 to-white py-14">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col items-center gap-10">
+
+        <!-- Section Heading -->
+        <div class="text-center mb-8">
+    <h2 class="text-3xl font-bold text-black mb-2">
+        {% blocktrans trimmed %}Tips for Safe Water Usage{% endblocktrans %}
+    </h2>
+    <p class="text-green-700 text-base">
+        {% blocktrans trimmed %}
+Ensure the water you use is clean and safe. Follow these simple tips to protect your health and save water:
+        {% endblocktrans %}
+    </p>
+</div>
+
+
+        <!-- Tips Cards in One Row on Desktop, Stack on Mobile -->
+        <div class="flex flex-col md:flex-row justify-between w-full gap-6">
+
+            <div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-start gap-4 flex-1 transform transition duration-300 hover:scale-105 hover:bg-green-100 hover:shadow-2xl">
+                <div class="text-3xl mb-3">💧</div>
+                <h3 class="text-xl font-semibold text-black">
+    {% blocktrans trimmed %}Boil or Filter Water{% endblocktrans %}
+</h3>
+<p class="text-green-700 text-sm">
+    {% blocktrans trimmed %}Always boil or filter water before drinking to ensure safety.{% endblocktrans %}
+</p>
+
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-start gap-4 flex-1 transform transition duration-300 hover:scale-105 hover:bg-green-100 hover:shadow-2xl">
+    <div class="text-3xl mb-3">🔧</div>
+    <h3 class="text-xl font-semibold text-black">{% blocktrans trimmed %}Report Leaks{% endblocktrans %}</h3>
+    <p class="text-green-700 text-sm">{% blocktrans trimmed %}Report leaks and broken pipelines immediately to prevent wastage.{% endblocktrans %}</p>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-start gap-4 flex-1 transform transition duration-300 hover:scale-105 hover:bg-green-100 hover:shadow-2xl">
+    <div class="text-3xl mb-3">🛢️</div>
+    <h3 class="text-xl font-semibold text-black">{% blocktrans trimmed %}Store Clean Water{% endblocktrans %}</h3>
+    <p class="text-green-700 text-sm">{% blocktrans trimmed %}Store water in clean, covered containers to maintain hygiene.{% endblocktrans %}</p>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-start gap-4 flex-1 transform transition duration-300 hover:scale-105 hover:bg-green-100 hover:shadow-2xl">
+    <div class="text-3xl mb-3">💡</div>
+    <h3 class="text-xl font-semibold text-black">{% blocktrans trimmed %}Use Water Wisely{% endblocktrans %}</h3>
+    <p class="text-green-700 text-sm">{% blocktrans trimmed %}Use water efficiently and avoid wastage.{% endblocktrans %}</p>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-start gap-4 flex-1 transform transition duration-300 hover:scale-105 hover:bg-green-100 hover:shadow-2xl">
+    <div class="text-3xl mb-3">👨‍👩‍👧‍👦</div>
+    <h3 class="text-xl font-semibold text-black">{% blocktrans trimmed %}Educate Others{% endblocktrans %}</h3>
+    <p class="text-green-700 text-sm">{% blocktrans trimmed %}Educate your family and neighbors about water safety.{% endblocktrans %}</p>
+</div>
+
+
+        </div>
+    </div>
+</section>
+
+
+<!-- Back to Home Button (Centered, Modern Style) -->
+<div class="mt-8 flex justify-center">
+    <a href="{% url 'home' %}" 
+   class="inline-block bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold px-8 py-3 rounded-xl shadow-lg transform transition duration-300 hover:scale-105 hover:from-green-500 hover:to-teal-600 hover:shadow-2xl">
+    {% blocktrans trimmed %}Back to Home{% endblocktrans %}
+</a>
+
+</div>
+
+
+
+
+
+
+</div>
+
+<!-- Custom CSS -->
+<style>
+.banner-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+.banner-img {
+    width: 100%;
+    height:560px;
+    object-fit: cover;
+    filter: brightness(65%);
+}
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+</style>
+
+{% endblock %}

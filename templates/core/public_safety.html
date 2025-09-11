@@ -1,0 +1,296 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load translation_tags %}
+{% block content %}
+<div class="container my-5">
+
+    <!-- Header Section -->
+<div class="text-center mb-10">
+
+  <!-- Banner Section with Overlay -->
+<div class="card shadow-lg border-0 mx-auto banner-card position-relative text-center">
+    <!-- Background Image -->
+    <img src="{% static 'core/images/polish.webp' %}" 
+         class="card-img-top banner-img" 
+         alt="Public Safety">
+
+    <!-- Overlay -->
+    <div class="banner-overlay d-flex flex-column align-items-center justify-content-start text-white p-4 pt-12">
+        <!-- Title -->
+       <h1 class="text-4xl md:text-5xl font-extrabold mb-3 text-green-400">
+    {% blocktrans %}Public Safety Complaints{% endblocktrans %}
+</h1>
+
+
+        <!-- Subtitle -->
+        <p class="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+    {% blocktrans %}Report concerns related to crime, law enforcement, or local safety issues to help build a secure community.{% endblocktrans %}
+</p>
+
+
+    </div>
+</div>
+
+<!-- Public Safety Info Section -->
+<div class="max-w-6xl mx-auto -mt-16 relative z-10">
+  <div class="bg-gradient-to-r from-red-50 via-yellow-50 to-green-50 shadow-xl rounded-2xl border border-red-400 hover:shadow-2xl transition-all duration-500 px-10 py-6 flex items-start gap-6">
+
+    <!-- Icon Section -->
+    <div class="flex-shrink-0">
+      <div class="h-14 w-14 flex items-center justify-center bg-gradient-to-tr from-red-600 via-orange-500 to-yellow-500 text-white text-2xl rounded-full shadow-lg">
+        🛡️
+      </div>
+    </div>
+
+    <!-- Text Section -->
+    <div>
+     <p class="text-gray-700 text-base leading-relaxed">
+    {% blocktrans %}Public safety complaints include concerns such as crime incidents, unsafe neighborhoods, traffic hazards, or lack of law enforcement presence. Reporting these issues helps authorities respond quickly, maintain order, and protect the community.{% endblocktrans %}
+</p>
+
+
+
+      <!-- Bottom Accent Line -->
+      <div class="mt-4 h-1 w-28 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 rounded-full"></div>
+    </div>
+  </div>
+</div>
+
+</div> 
+
+<!-- RJD Complaint Assistance Section - Modern Card Design (Green-Blue Version) -->
+<section class="my-16 py-20 bg-green-50 rounded-3xl shadow-xl overflow-hidden relative">
+  <!-- Decorative Background Circles -->
+  <div class="absolute top-0 left-1/2 w-72 h-72 bg-green-200 rounded-full -translate-x-1/2 -translate-y-1/2 opacity-50"></div>
+  <div class="absolute bottom-0 right-1/4 w-72 h-72 bg-blue-200 rounded-full translate-x-1/2 translate-y-1/2 opacity-50"></div>
+
+  <div class="relative max-w-4xl mx-auto px-6 text-center z-10">
+    
+    <!-- Icon -->
+    <div class="text-6xl mb-6 animate-bounce"></div>
+
+    <!-- Heading -->
+    <h2 class="text-3xl md:text-4xl font-extrabold text-green-800 mb-6">
+  {% trans "Facing Road Issues? Send Your Complaints!" %}
+    </h2>
+
+    <!-- Message -->
+<p class="text-green-900 text-lg md:text-xl leading-relaxed mb-8">
+  {% trans "If you encounter any road problems, whether your area's MLA belongs to RJD or another party, you can send your complaint. I or my party members (RJD) will try our best to resolve it. Your feedback and complaints help us improve roads and public services." %}
+</p>
+    <!-- Action Button -->
+    <a href="{% url 'complaint_form' %}" 
+       class="inline-block bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold px-10 py-4 rounded-full shadow-lg transform transition duration-300 hover:scale-105 hover:from-green-500 hover:to-blue-600 hover:shadow-2xl">
+    {% trans "File Your Complaint Now" %}
+    </a>
+    
+  </div>
+</section>
+
+<!-- Timeline Section (Why Report) -->
+<section class="my-16 relative bg-green-50 py-16 rounded-2xl shadow-inner">
+
+  <div class="rounded-3xl p-8 mb-12 max-w-3xl mx-auto text-center">
+    <h3 class="text-2xl font-extrabold text-black">
+        {% blocktrans %}Why Report Public Safety Issues?{% endblocktrans %}
+    </h3>
+</div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 relative z-10 px-4">
+
+    <div class="flex flex-col items-center text-center relative">
+  <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+  <h3 class="text-lg font-bold text-green-700 mt-4">{% blocktrans %}Safer Neighborhoods{% endblocktrans %}</h3>
+  <p class="text-gray-700 mt-2 text-sm">{% blocktrans %}Reporting crimes helps authorities prevent incidents and keep neighborhoods safe.{% endblocktrans %}</p>
+</div>
+
+<div class="flex flex-col items-center text-center relative">
+  <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+  <h3 class="text-lg font-bold text-green-700 mt-4">{% blocktrans %}Quick Law Enforcement{% endblocktrans %}</h3>
+  <p class="text-gray-700 mt-2 text-sm">{% blocktrans %}Authorities can respond faster to urgent safety concerns.{% endblocktrans %}</p>
+</div>
+
+<div class="flex flex-col items-center text-center relative">
+  <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+  <h3 class="text-lg font-bold text-green-700 mt-4">{% blocktrans %}Prevent Crime{% endblocktrans %}</h3>
+  <p class="text-gray-700 mt-2 text-sm">{% blocktrans %}Active reporting helps prevent future criminal activities.{% endblocktrans %}</p>
+</div>
+
+<div class="flex flex-col items-center text-center relative">
+  <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+  <h3 class="text-lg font-bold text-green-700 mt-4">{% blocktrans %}Community Trust{% endblocktrans %}</h3>
+  <p class="text-gray-700 mt-2 text-sm">{% blocktrans %}Transparency in handling complaints builds trust between citizens and authorities.{% endblocktrans %}</p>
+</div>
+
+
+  </div>
+</section>
+
+
+    <!-- RJD Party Compliments Section - Background Image Style (Light Overlay) -->
+<section class="my-16 relative py-16" style="background-image: url('{% static 'core/images/background.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <div class="absolute inset-0 bg-white bg-opacity-20"></div> <!-- light overlay -->
+
+  <div class="relative max-w-6xl mx-auto px-6 text-center text-gray-900">
+
+    <!-- Heading -->
+    <h2 class="text-3xl md:text-4xl font-extrabold text-black mb-12">
+    {% blocktrans %}Compliments for RJD Party{% endblocktrans %}
+</h2>
+
+
+    <!-- Image Split Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- Left Image with 2 Content Blocks -->
+      <div class="relative group rounded-2xl overflow-hidden shadow-lg">
+        <img src="{% static 'core/images/first3.jpg' %}" alt="Public Service" class="w-full h-96 object-cover">
+        <div class="absolute inset-0 flex flex-col justify-end p-6 gap-4">
+          
+         <!-- Content 1 -->
+<div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500">
+    <h4 class="font-bold text-black mb-1">{% blocktrans %}Dedicated to Public Service{% endblocktrans %}</h4>
+    <p class="text-green-700 text-sm">{% blocktrans %}Always committed to listening to the people and resolving their issues efficiently.{% endblocktrans %}</p>
+</div>
+
+<!-- Content 2 -->
+<div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500 delay-100">
+    <h4 class="font-bold text-black mb-1">{% blocktrans %}Transparency & Integrity{% endblocktrans %}</h4>
+    <p class="text-green-700 text-sm">{% blocktrans %}Operates honestly and transparently at every step, building public trust.{% endblocktrans %}</p>
+</div>
+
+
+        </div>
+      </div>
+
+      <!-- Right Image with 2 Content Blocks -->
+      <div class="relative group rounded-2xl overflow-hidden shadow-lg">
+        <img src="{% static 'core/images/first4.jpg' %}" alt="Swift Action" class="w-full h-96 object-cover">
+        <div class="absolute inset-0 flex flex-col justify-end p-6 gap-4">
+          
+          <!-- Content 3 -->
+          <!-- Content 3 -->
+<div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500">
+    <h4 class="font-bold text-black mb-1">{% blocktrans %}Equality & Justice{% endblocktrans %}</h4>
+    <p class="text-green-700 text-sm">{% blocktrans %}Ensures equal opportunities and justice for every section of society.{% endblocktrans %}</p>
+</div>
+
+<!-- Content 4 -->
+<div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500 delay-100">
+    <h4 class="font-bold text-black mb-1">{% blocktrans %}Proficient in Public Engagement{% endblocktrans %}</h4>
+    <p class="text-green-700 text-sm">{% blocktrans %}Leads in staying connected with the people and bringing their voice to policymakers.{% endblocktrans %}</p>
+</div>
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Steps to File Complaint -->
+<section class="my-16 bg-gradient-to-r from-blue-50 to-blue-100 py-14">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-start gap-10">
+
+    <div class="w-full md:w-7/12 order-1 md:order-1">
+      <img src="{% static 'core/images/complaint1.jpg' %}"
+           class="rounded-3xl shadow-lg w-full object-cover h-64 md:h-96" alt="Public Safety Steps">
+    </div>
+
+    <div class="w-full md:w-5/12 flex flex-col gap-4 order-2 md:order-2">
+      <div class="text-left mb-3">
+        <h2 class="text-3xl font-bold text-blue-900 mb-0.5">
+          {% blocktrans %}How to File a Complaint?{% endblocktrans %}
+        </h2>
+        <p class="text-gray-600 text-base">
+          {% blocktrans %}Follow these steps to report public safety issues efficiently.{% endblocktrans %}
+        </p>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 bg-blue-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+        <div>
+          <h3 class="text-lg font-semibold text-blue-800">
+            {% blocktrans %}Verify Mobile{% endblocktrans %}
+          </h3>
+          <p class="text-gray-700 text-sm">
+            {% blocktrans %}Verify your mobile number for security.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 bg-blue-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+        <div>
+          <h3 class="text-lg font-semibold text-blue-800">
+            {% blocktrans %}Fill Complaint Form{% endblocktrans %}
+          </h3>
+          <p class="text-gray-700 text-sm">
+            {% blocktrans %}Complete the complaint form with accurate details.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 bg-blue-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+        <div>
+          <h3 class="text-lg font-semibold text-blue-800">
+            {% blocktrans %}Attach Evidence{% endblocktrans %}
+          </h3>
+          <p class="text-gray-700 text-sm">
+            {% blocktrans %}Upload any photos or documents supporting your report.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 bg-blue-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+        <div>
+          <h3 class="text-lg font-semibold text-blue-800">
+            {% blocktrans %}Submit Complaint{% endblocktrans %}
+          </h3>
+          <p class="text-gray-700 text-sm">
+            {% blocktrans %}Send your complaint to the system and track its status.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- Back to Home Button -->
+<div class="mt-8 flex justify-center">
+    <a href="{% url 'home' %}" 
+   class="inline-block bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold px-8 py-3 rounded-xl shadow-lg transform transition duration-300 hover:scale-105 hover:from-green-500 hover:to-teal-600 hover:shadow-2xl">
+    {% blocktrans trimmed %}Back to Home{% endblocktrans %}
+</a>
+</div>
+
+<!-- Custom CSS -->
+<style>
+.banner-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+.banner-img {
+    width: 100%;
+    height:560px;
+    object-fit: cover;
+    filter: brightness(65%);
+}
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+</style>
+{% endblock %}

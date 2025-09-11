@@ -1,0 +1,42 @@
+{% extends 'core/state_admin/base.html' %}
+
+{% block title %}Dashboard - State Admin{% endblock %}
+
+{% block content %}
+<div class="px-4 py-6">
+  <!-- Heading -->
+  <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Welcome to State Admin Dashboard</h1>
+  <p class="text-lg md:text-xl mb-8 text-gray-600">Hello, <span class="font-semibold text-gray-800">{{ request.user.username }}</span>!</p>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+    
+    <!-- Total Complaints -->
+    <div class="bg-blue-600 hover:bg-blue-700 transition-colors text-white rounded-xl shadow-lg p-6 flex flex-col items-center justify-center">
+      <h5 class="text-lg font-semibold mb-2 tracking-wide uppercase">Total Complaints</h5>
+      <p class="text-4xl md:text-5xl font-extrabold">{{ total_complaints }}</p>
+    </div>
+
+    <!-- Resolved -->
+    <div class="bg-green-600 hover:bg-green-700 transition-colors text-white rounded-xl shadow-lg p-6 flex flex-col items-center justify-center">
+      <h5 class="text-lg font-semibold mb-2 tracking-wide uppercase">Resolved</h5>
+      <p class="text-4xl md:text-5xl font-extrabold">{{ solved_count }}</p>
+    </div>
+
+    <!-- Accepted -->
+    <div class="bg-yellow-500 hover:bg-yellow-600 transition-colors text-white rounded-xl shadow-lg p-6 flex flex-col items-center justify-center">
+      <h5 class="text-lg font-semibold mb-2 tracking-wide uppercase">Accepted</h5>
+      <p class="text-4xl md:text-5xl font-extrabold">{{ accepted_count }}</p>
+    </div>
+
+    <!-- Rejected -->
+    <div class="bg-red-600 hover:bg-red-700 transition-colors text-white rounded-xl shadow-lg p-6 flex flex-col items-center justify-center">
+      <h5 class="text-lg font-semibold mb-2 tracking-wide uppercase">Rejected</h5>
+      <p class="text-4xl md:text-5xl font-extrabold">{{ rejected_count }}</p>
+    </div>
+
+  </div>
+
+ 
+
+{% endblock %}

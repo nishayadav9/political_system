@@ -1,0 +1,450 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="container my-5">
+
+    <!-- Header Section -->
+<div class="text-center mb-10">
+
+  <!-- Banner Section with Overlay -->
+<div class="card shadow-lg border-0 mx-auto banner-card position-relative text-center">
+    <!-- Background Image -->
+    <img src="{% static 'core/images/road2.jpg' %}" 
+         class="card-img-top banner-img" 
+         alt="Road Issues">
+
+    <!-- Overlay -->
+    <div class="banner-overlay d-flex flex-column align-items-center justify-content-start text-white p-4 pt-12">
+        <!-- Title with Gradient -->
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-3 text-green-400">
+राष्ट्रीय जनता दल (जन समाधान)</h1>
+
+       <p class="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+    {% trans "Report road-related issues like" %}
+    <span class="font-semibold text-yellow-300">{% trans "potholes" %}</span>,
+    {% trans "poor maintenance, and damaged streets to build a" %}
+    <span class="underline decoration-yellow-400">{% trans "safer community" %}</span>.
+</p>
+
+    </div>
+</div>
+
+
+
+<!-- Road Complaints Section -->
+<div class="max-w-6xl mx-auto -mt-16 relative z-10">
+  <div class="bg-gradient-to-r from-red-50 via-yellow-50 to-green-50 shadow-xl rounded-2xl border border-red-400 hover:shadow-2xl transition-all duration-500 px-10 py-6 flex items-start gap-6">
+
+    <!-- Icon Section -->
+    <div class="flex-shrink-0">
+      <div class="h-14 w-14 flex items-center justify-center bg-gradient-to-tr from-red-600 via-orange-500 to-yellow-500 text-white text-2xl rounded-full shadow-lg">
+        🚧
+      </div>
+    </div>
+
+    <!-- Text Section -->
+    <div>
+      <h3 class="text-2xl font-extrabold text-black mb-2">
+        {% trans "What are Road Complaints?" %}
+      </h3>
+      <p class="text-gray-700 text-base leading-relaxed">
+        {% trans "Road complaints include issues like" %}
+        <span class="font-semibold text-green-600">
+          {% trans "potholes, damaged streets, poor lighting, missing speed breakers, waterlogging during rains" %}
+        </span>, 
+        {% trans "and unsafe driving conditions. These problems not only cause inconvenience but also pose serious risks to drivers and pedestrians." %}
+      </p>
+
+      <!-- Bottom Accent Line -->
+      <div class="mt-4 h-1 w-28 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 rounded-full"></div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- RJD Complaint Assistance Section - Modern Card Design (Green-Blue Version) -->
+<section class="my-16 py-20 bg-green-50 rounded-3xl shadow-xl overflow-hidden relative">
+  <!-- Decorative Background Circles -->
+  <div class="absolute top-0 left-1/2 w-72 h-72 bg-green-200 rounded-full -translate-x-1/2 -translate-y-1/2 opacity-50"></div>
+  <div class="absolute bottom-0 right-1/4 w-72 h-72 bg-blue-200 rounded-full translate-x-1/2 translate-y-1/2 opacity-50"></div>
+
+  <div class="relative max-w-4xl mx-auto px-6 text-center z-10">
+    
+    <!-- Icon -->
+    <div class="text-6xl mb-6 animate-bounce">🛣️</div>
+
+    <!-- Heading -->
+    <h2 class="text-3xl md:text-4xl font-extrabold text-green-800 mb-6">
+  {% trans "Facing Road Issues? Send Your Complaints!" %}
+    </h2>
+
+    <!-- Message -->
+<p class="text-green-900 text-lg md:text-xl leading-relaxed mb-8">
+  {% trans "If you encounter any road problems, whether your area's MLA belongs to RJD or another party, you can send your complaint. I or my party members (RJD) will try our best to resolve it. Your feedback and complaints help us improve roads and public services." %}
+</p>
+    <!-- Action Button -->
+    <a href="{% url 'complaint_form' %}" 
+       class="inline-block bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold px-10 py-4 rounded-full shadow-lg transform transition duration-300 hover:scale-105 hover:from-green-500 hover:to-blue-600 hover:shadow-2xl">
+    {% trans "File Your Complaint Now" %}
+    </a>
+    
+  </div>
+</section>
+
+
+<!-- Zigzag Horizontal Timeline Section (Responsive Vertical Line on Mobile) -->
+<section class="my-16 relative bg-green-50 py-16 rounded-2xl shadow-inner">
+
+  <!-- Heading Box (Centered Text) -->
+  <div class="rounded-3xl p-8 mb-12 max-w-3xl mx-auto text-center">
+    <div class="flex items-center justify-center gap-3">
+      <div class="h-12 w-12 flex items-center justify-center text-white rounded-2xl"></div>
+      <h3 class="text-2xl font-extrabold text-black">
+        {% blocktrans %}Why Should You Report?{% endblocktrans %}
+      </h3>
+    </div>
+  </div>
+
+  <!-- Zigzag Dashed Line for Large Screens -->
+  <svg class="hidden md:block absolute left-0 right-0 top-1/2 w-full h-16" viewBox="0 0 100 20" preserveAspectRatio="none">
+    <polyline points="0,10 20,0 40,20 60,0 80,20 100,10" fill="none" stroke="#22c55e" stroke-width="0.5" stroke-dasharray="2,2"/>
+  </svg>
+
+  <!-- Vertical Line for Mobile -->
+  <div class="block md:hidden absolute left-1/2 top-0 h-full border-l-2 border-dashed border-green-500 z-0"></div>
+
+  <!-- Timeline Blocks -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 relative z-10">
+
+    <!-- Block 1 -->
+    <div class="flex flex-col items-center text-center relative">
+      <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+      <h3 class="text-lg font-bold text-green-700 mt-4">
+        {% blocktrans %}Prevents Accidents{% endblocktrans %}
+      </h3>
+      <p class="text-gray-700 mt-2 text-sm">
+        {% blocktrans %}Fixing potholes reduces road accidents significantly.{% endblocktrans %}
+      </p>
+    </div>
+
+    <!-- Block 2 -->
+    <div class="flex flex-col items-center text-center relative">
+      <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+      <h3 class="text-lg font-bold text-green-700 mt-4">
+        {% blocktrans %}Improves Safety{% endblocktrans %}
+      </h3>
+      <p class="text-gray-700 mt-2 text-sm">
+        {% blocktrans %}Smooth roads ensure comfortable & safer travel.{% endblocktrans %}
+      </p>
+    </div>
+
+    <!-- Block 3 -->
+    <div class="flex flex-col items-center text-center relative">
+      <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+      <h3 class="text-lg font-bold text-green-700 mt-4">
+        {% blocktrans %}Emergency Access{% endblocktrans %}
+      </h3>
+      <p class="text-gray-700 mt-2 text-sm">
+        {% blocktrans %}Better roads allow ambulances to reach quickly.{% endblocktrans %}
+      </p>
+    </div>
+
+    <!-- Block 4 -->
+    <div class="flex flex-col items-center text-center relative">
+      <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+      <h3 class="text-lg font-bold text-green-700 mt-4">
+        {% blocktrans %}Quick Action{% endblocktrans %}
+      </h3>
+      <p class="text-gray-700 mt-2 text-sm">
+        {% blocktrans %}Authorities respond faster with proper reports.{% endblocktrans %}
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+<!-- RJD Party Compliments Section - Background Image Style (Light Overlay) -->
+<section class="my-16 relative py-16" style="background-image: url('{% static 'core/images/background.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <div class="absolute inset-0 bg-white bg-opacity-20"></div> <!-- light overlay -->
+
+  <div class="relative max-w-6xl mx-auto px-6 text-center text-gray-900">
+
+    <!-- Heading -->
+    <h2 class="text-3xl md:text-4xl font-extrabold text-black mb-12">
+      {% trans "Compliments for RJD Party" %}
+    </h2>
+
+    <!-- Image Split Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- Left Image with 2 Content Blocks -->
+      <div class="relative group rounded-2xl overflow-hidden shadow-lg">
+        <img src="{% static 'core/images/first3.jpg' %}" alt="{% trans 'Public Service' %}" class="w-full h-96 object-cover">
+        <div class="absolute inset-0 flex flex-col justify-end p-6 gap-4">
+          
+          <!-- Content 1 -->
+          <div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500">
+            <h4 class="font-bold text-black mb-1">{% trans "Dedicated to Public Service" %}</h4>
+            <p class="text-green-700 text-sm">{% trans "Always committed to listening to the people and resolving their issues efficiently." %}</p>
+          </div>
+
+          <!-- Content 2 -->
+          <div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500 delay-100">
+            <h4 class="font-bold text-black mb-1">{% trans "Transparency & Integrity" %}</h4>
+            <p class="text-green-700 text-sm">{% trans "Operates honestly and transparently at every step, building public trust." %}</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right Image with 2 Content Blocks -->
+      <div class="relative group rounded-2xl overflow-hidden shadow-lg">
+        <img src="{% static 'core/images/first4.jpg' %}" alt="{% trans 'Swift Action' %}" class="w-full h-96 object-cover">
+        <div class="absolute inset-0 flex flex-col justify-end p-6 gap-4">
+          
+          <!-- Content 3 -->
+          <div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500">
+            <h4 class="font-bold text-black mb-1">{% trans "Equality & Justice" %}</h4>
+            <p class="text-green-700 text-sm">{% trans "Ensures equal opportunities and justice for every section of society." %}</p>
+          </div>
+
+          <!-- Content 4 -->
+          <div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500 delay-100">
+            <h4 class="font-bold text-black mb-1">{% trans "Proficient in Public Engagement" %}</h4>
+            <p class="text-green-700 text-sm">{% trans "Leads in staying connected with the people and bringing their voice to policymakers." %}</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Custom CSS for Hover Zoom -->
+<style>
+  section div.bg-white img {
+    transition: transform 0.3s ease;
+  }
+  section div.bg-white:hover img {
+    transform: scale(1.05);
+  }
+</style>
+
+
+<!-- Custom CSS for Hover Effects -->
+<style>
+  section div.flex-1 img {
+    transition: transform 0.3s ease;
+  }
+  section div.flex-1:hover img {
+    transform: scale(1.05);
+  }
+</style>
+
+<!-- Custom CSS (Optional for Hover Effects) -->
+<style>
+  section img {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    transition: transform 0.3s ease;
+  }
+  section div.flex:hover img {
+    transform: scale(1.1);
+  }
+</style>
+
+
+
+<section class="my-16 bg-gradient-to-r from-blue-50 to-blue-100 py-14">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-start gap-10">
+
+    <div class="w-full md:w-7/12 order-1 md:order-1">
+      <img src="{% static 'core/images/complaint1.jpg' %}"
+           class="rounded-3xl shadow-lg w-full object-cover h-64 md:h-96" alt="Public Safety Steps">
+    </div>
+
+    <div class="w-full md:w-5/12 flex flex-col gap-4 order-2 md:order-2">
+      <div class="text-left mb-3">
+        <h2 class="text-3xl font-bold text-blue-900 mb-0.5">
+          {% blocktrans %}How to File a Complaint?{% endblocktrans %}
+        </h2>
+        <p class="text-gray-600 text-base">
+          {% blocktrans %}Follow these steps to report public safety issues efficiently.{% endblocktrans %}
+        </p>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 bg-blue-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+        <div>
+          <h3 class="text-lg font-semibold text-blue-800">
+            {% blocktrans %}Verify Mobile{% endblocktrans %}
+          </h3>
+          <p class="text-gray-700 text-sm">
+            {% blocktrans %}Verify your mobile number for security.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 bg-blue-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+        <div>
+          <h3 class="text-lg font-semibold text-blue-800">
+            {% blocktrans %}Fill Complaint Form{% endblocktrans %}
+          </h3>
+          <p class="text-gray-700 text-sm">
+            {% blocktrans %}Complete the complaint form with accurate details.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 bg-blue-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+        <div>
+          <h3 class="text-lg font-semibold text-blue-800">
+            {% blocktrans %}Attach Evidence{% endblocktrans %}
+          </h3>
+          <p class="text-gray-700 text-sm">
+            {% blocktrans %}Upload any photos or documents supporting your report.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 bg-blue-500 text-white h-9 w-9 flex items-center justify-center rounded-full text-base">→</div>
+        <div>
+          <h3 class="text-lg font-semibold text-blue-800">
+            {% blocktrans %}Submit Complaint{% endblocktrans %}
+          </h3>
+          <p class="text-gray-700 text-sm">
+            {% blocktrans %}Send your complaint to the system and track its status.{% endblocktrans %}
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+<!-- RJP Party Help Section (Horizontal Timeline Style - Increased Gap) -->
+<section class="my-16">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+
+    <!-- Heading -->
+    <div class="flex items-center gap-4 mb-12 justify-center">
+      <div class="text-white h-12 w-12 flex items-center justify-center rounded-full text-2xl shadow-md"></div>
+      <h3 class="text-2xl md:text-3xl font-extrabold text-gray-900">
+        {% blocktrans %}How RJD Party Ensures Your Complaint is Resolved{% endblocktrans %}
+      </h3>
+    </div>
+
+    <!-- Timeline Container -->
+    <div class="relative flex justify-between items-start space-x-16 md:space-x-24">
+
+      <!-- Horizontal Line -->
+      <div class="absolute top-7 -left-4 md:-left-8 -right-4 md:-right-8 h-1 bg-green-300 z-0 rounded-full"></div>
+
+      <!-- Step 1 -->
+      <div class="flex flex-col items-center z-10">
+        <div class="bg-green-500 text-white h-16 w-16 flex items-center justify-center rounded-full text-4xl shadow-md">🤝</div>
+        <h4 class="text-center text-gray-800 font-semibold mt-6">
+          {% blocktrans %}Trusted & Accountable{% endblocktrans %}
+        </h4>
+        <p class="text-center text-gray-700 text-sm md:text-base mt-3">
+          {% blocktrans %}RJD Party is committed to transparency and integrity, ensuring every complaint is taken seriously.{% endblocktrans %}
+        </p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="flex flex-col items-center z-10">
+        <div class="bg-green-500 text-white h-16 w-16 flex items-center justify-center rounded-full text-4xl shadow-md">🔍</div>
+        <h4 class="text-center text-gray-800 font-semibold mt-6">
+          {% blocktrans %}Thorough Investigation{% endblocktrans %}
+        </h4>
+        <p class="text-center text-gray-700 text-sm md:text-base mt-3">
+          {% blocktrans %}Each complaint is carefully verified and investigated to identify the exact issue and responsible authorities.{% endblocktrans %}
+        </p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="flex flex-col items-center z-10">
+        <div class="bg-green-500 text-white h-16 w-16 flex items-center justify-center rounded-full text-4xl shadow-md">⚡</div>
+        <h4 class="text-center text-gray-800 font-semibold mt-6">
+          {% blocktrans %}Immediate Action{% endblocktrans %}
+        </h4>
+        <p class="text-center text-gray-700 text-sm md:text-base mt-3">
+          {% blocktrans %}Once verified, the party coordinates with officials to ensure fast and effective resolution of the complaint.{% endblocktrans %}
+        </p>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="flex flex-col items-center z-10">
+        <div class="bg-green-500 text-white h-16 w-16 flex items-center justify-center rounded-full text-4xl shadow-md">📣</div>
+        <h4 class="text-center text-gray-800 font-semibold mt-6">
+          {% blocktrans %}Regular Updates{% endblocktrans %}
+        </h4>
+        <p class="text-center text-gray-700 text-sm md:text-base mt-3">
+          {% blocktrans %}Complainants are kept informed at every step, ensuring trust and accountability throughout the process.{% endblocktrans %}
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+<!-- Back to Home Button (Centered, Modern Style) -->
+<div class="mt-8 flex justify-center">
+   <a href="{% url 'home' %}" 
+   class="inline-block bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold px-8 py-3 rounded-xl shadow-lg transform transition duration-300 hover:scale-105 hover:from-green-500 hover:to-teal-600 hover:shadow-2xl">
+    {% blocktrans trimmed %}Back to Home{% endblocktrans %}
+</a>
+</div>
+
+
+
+
+
+
+<!-- Custom CSS -->
+<style>
+.banner-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+.banner-img {
+    width: 100%;
+    height:560px;
+    object-fit: cover;
+    filter: brightness(65%);
+}
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+</style>
+{% endblock %}

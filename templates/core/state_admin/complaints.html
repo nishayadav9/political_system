@@ -1,0 +1,161 @@
+{% extends 'core/state_admin/base.html' %}
+
+{% block title %}Complaints - State Admin{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4 text-primary fw-bold">Complaints</h2>
+
+<!-- Flash Messages -->
+{% if messages %}
+  <div class="mb-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="table-responsive shadow rounded">
+  <table class="table table-bordered table-striped table-hover align-middle text-nowrap">
+    <thead class="table-dark text-center">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Father Name</th>
+        <th>Mobile</th>
+        <th>Gender</th>
+        <th>Issue Type</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Address</th>
+        <th>State</th>
+        <th>District</th>
+        <th>Block</th>
+        <th>Panchayat</th>
+        <th>Village</th>
+        <th>Pincode</th>
+        <th>Send To</th>
+        <th>Status</th>
+        <th>Photo</th>
+        <th>Voter ID Image</th>
+        <th>Video</th>
+        <th>Created At</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for complaint in complaints %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ complaint.name|default_if_none:"-" }}</td>
+        <td>{{ complaint.father_name|default_if_none:"-" }}</td>
+        <td>{{ complaint.mobile|default_if_none:"-" }}</td>
+        <td class="text-capitalize">{{ complaint.gender|default_if_none:"-" }}</td>
+        <td class="text-capitalize">{{ complaint.issue_type|default_if_none:"-" }}</td>
+        <td>{{ complaint.title|default_if_none:"-" }}</td>
+        <td style="max-width:200px; white-space:pre-wrap;">{{ complaint.description|truncatechars:100 }}</td>
+        <td>{{ complaint.address|default_if_none:"-" }}</td>
+        <td>{{ complaint.state|default_if_none:"-" }}</td>
+        <td>{{ complaint.district|default_if_none:"-" }}</td>
+        <td>{{ complaint.block|default_if_none:"-" }}</td>
+        <td>{{ complaint.panchayat|default_if_none:"-" }}</td>
+        <td>{{ complaint.village|default_if_none:"-" }}</td>
+        <td>{{ complaint.pincode|default_if_none:"-" }}</td>
+        <td class="text-capitalize">{{ complaint.send_to|default_if_none:"-" }}</td>
+
+        <!-- Status Badge -->
+        <td class="text-center">
+          {% if complaint.resolved_at %}
+            <span class="badge bg-info text-dark">Solved</span>
+          {% elif complaint.status == "Accepted" %}
+            <span class="badge bg-success">Accepted</span>
+          {% elif complaint.status == "Rejected" %}
+            <span class="badge bg-warning text-dark">Rejected</span>
+          {% else %}
+            <span class="badge bg-secondary">Pending</span>
+          {% endif %}
+        </td>
+
+       
+        
+
+        <!-- Photo -->
+        <td class="text-center">
+          {% if complaint.photo %}
+            <a href="{{ complaint.photo.url }}" target="_blank">
+              <img src="{{ complaint.photo.url }}" alt="Photo" style="max-width: 60px; max-height: 40px; object-fit: cover; border-radius: 4px;">
+            </a>
+          {% else %}
+            <span class="text-muted small">No Photo</span>
+          {% endif %}
+        </td>
+
+        <!-- Voter ID Image -->
+        <td class="text-center">
+          {% if complaint.voter_id_image %}
+            <a href="{{ complaint.voter_id_image.url }}" target="_blank">
+              <img src="{{ complaint.voter_id_image.url }}" alt="Voter ID" style="max-width: 60px; max-height: 40px; object-fit: cover; border-radius: 4px;">
+            </a>
+          {% else %}
+            <span class="text-muted small">No Voter ID</span>
+          {% endif %}
+        </td>
+
+        <!-- Video -->
+        <td class="text-center">
+          {% if complaint.upload_video %}
+            <a href="{{ complaint.upload_video.url }}" target="_blank">
+              <i class="bi bi-camera-video fs-5"></i>
+            </a>
+          {% else %}
+            <span class="text-muted small">No Video</span>
+          {% endif %}
+        </td>
+
+        <td>{{ complaint.created_at|date:"d M Y, H:i" }}</td>
+
+        <!-- Actions -->
+        <td>
+          <div class="d-flex flex-column gap-1">
+
+            <form action="{% url 'state_complaints_delete' complaint.id %}" method="POST" onsubmit="return confirm('Delete this complaint?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+
+            {% if complaint.status != 'Accepted' %}
+            <form action="{% url 'state_complaints_accept' complaint.id %}" method="POST" onsubmit="return confirm('Accept this complaint?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-success">Accept</button>
+            </form>
+            {% endif %}
+
+            {% if complaint.status != 'Rejected' %}
+            <form action="{% url 'state_complaints_reject' complaint.id %}" method="POST" onsubmit="return confirm('Reject this complaint?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-warning text-dark">Reject</button>
+            </form>
+            {% endif %}
+
+            {% if complaint.status == 'Accepted' and not complaint.resolved_at %}
+            <form action="{% url 'state_complaints_solve' complaint.id %}" method="POST" onsubmit="return confirm('Mark this complaint as solved?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-info text-white">Solve</button>
+            </form>
+            {% endif %}
+          </div>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="24" class="text-center text-muted fst-italic py-4">No complaints found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

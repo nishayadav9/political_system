@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Verify OTP | Political System{% endblock %}
+
+{% block content %}
+    <!-- Banner Image -->
+    <div>
+        <img src="{% static 'core/images/bannerImage.jpeg' %}" 
+             alt="OTP Banner" 
+             style="width: 100%; height: auto; max-height: 300px; object-fit: cover;" />
+    </div>
+
+    <!-- OTP Form Section -->
+    <div style="max-width: 400px; margin: 30px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+        <h2 style="text-align: center; margin-bottom: 20px;">Verify OTP</h2>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="errors">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            {% for field in form %}
+                <div style="margin-bottom: 15px;">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="errors" style="color: red;">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px;">
+                Submit OTP
+            </button>
+        </form>
+    </div>
+{% endblock %}

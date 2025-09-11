@@ -1,0 +1,283 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load translation_tags %}
+{% block content %}
+<div class="container my-5">
+
+    <!-- Header Section -->
+    <div class="text-center mb-10">
+
+        <!-- Banner Section with Overlay -->
+        <div class="card shadow-lg border-0 mx-auto banner-card position-relative text-center">
+            <!-- Background Image -->
+            <img src="{% static 'core/images/corrupt.jpg' %}"
+                 class="card-img-top banner-img" 
+                 alt="Corruption Reporting">
+
+            <!-- Overlay -->
+            <div class="banner-overlay d-flex flex-column align-items-center justify-content-start text-white p-4 pt-12">
+                <!-- Title with Gradient -->
+               <h1 class="text-4xl md:text-5xl font-extrabold mb-3 text-black">
+    {% blocktrans %}Corruption Complaints{% endblocktrans %}
+</h1>
+
+
+                <!-- Subtitle -->
+                <p class="text-white text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+    {% blocktrans %}Report cases of bribery, misuse of power, or lack of transparency in government or organizations.{% endblocktrans %}
+</p>
+
+
+            </div>
+        </div>
+
+    <!-- Info Section -->
+    <div class="max-w-6xl mx-auto -mt-16 relative z-10">
+      <div class="bg-gradient-to-r from-gray-50 via-red-50 to-amber-50 shadow-xl rounded-2xl border border-gray-200 hover:shadow-2xl transition-all duration-500 px-10 py-6 flex items-start gap-6">
+
+        <!-- Icon Section -->
+        <div class="flex-shrink-0">
+          <div class="h-14 w-14 flex items-center justify-center bg-gradient-to-tr from-gray-200 via-red-200 to-amber-200 text-white text-2xl rounded-full shadow-lg">
+            🏛️
+          </div>
+        </div>
+
+        <!-- Text Section -->
+        <div>
+         <h3 class="text-2xl font-extrabold text-black mb-2">
+    {% blocktrans %}What is Corruption?{% endblocktrans %}
+</h3>
+<p class="text-gray-700 text-base leading-relaxed">
+    {% blocktrans %}Corruption includes bribery embezzlement favoritism fraud and misuse of authority. Reporting helps authorities maintain accountability and transparency in institutions.{% endblocktrans %}
+</p>
+
+
+
+          <!-- Bottom Accent Line -->
+          <div class="mt-4 h-1 w-28 bg-gradient-to-r from-gray-200 via-red-200 to-amber-200 rounded-full"></div>
+        </div>
+      </div>
+    </div>
+
+    </div> 
+
+
+   <!-- RJD Complaint Assistance Section - Modern Card Design (Green-Blue Version) -->
+<section class="my-16 py-20 bg-green-50 rounded-3xl shadow-xl overflow-hidden relative">
+  <!-- Decorative Background Circles -->
+  <div class="absolute top-0 left-1/2 w-72 h-72 bg-green-200 rounded-full -translate-x-1/2 -translate-y-1/2 opacity-50"></div>
+  <div class="absolute bottom-0 right-1/4 w-72 h-72 bg-blue-200 rounded-full translate-x-1/2 translate-y-1/2 opacity-50"></div>
+
+  <div class="relative max-w-4xl mx-auto px-6 text-center z-10">
+    
+    <!-- Icon -->
+    <div class="text-6xl mb-6 animate-bounce"></div>
+
+    <!-- Heading -->
+    <h2 class="text-3xl md:text-4xl font-extrabold text-green-800 mb-6">
+      {% blocktrans %}Facing Road Issues? Send Your Complaints!{% endblocktrans %}
+    </h2>
+
+    <!-- Message -->
+    <p class="text-green-900 text-lg md:text-xl leading-relaxed mb-8">
+      {% blocktrans %}
+      If you encounter any road problems, whether your area's MLA belongs to RJD or another party, 
+      you can send your complaint. I or my party members (RJD) will try our best to resolve it. 
+      Your feedback and complaints help us improve roads and public services.
+      {% endblocktrans %}
+    </p>
+
+    <!-- Action Button -->
+    <a href="{% url 'complaint_form' %}" 
+       class="inline-block bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold px-10 py-4 rounded-full shadow-lg transform transition duration-300 hover:scale-105 hover:from-green-500 hover:to-blue-600 hover:shadow-2xl">
+      {% blocktrans %}File Your Complaint Now{% endblocktrans %}
+    </a>
+    
+  </div>
+</section>
+
+    <!-- Why Report Section -->
+    <section class="my-16 relative bg-red-50 py-16 rounded-2xl shadow-inner">
+        <div class="rounded-3xl p-8 mb-12 max-w-3xl mx-auto text-center">
+           <h3 class="text-2xl font-extrabold text-black">
+    {% blocktrans %}Why Report Corruption?{% endblocktrans %}
+</h3>
+<p class="text-red-700 mt-4 text-base leading-relaxed">
+    {% blocktrans %}Reporting corruption ensures fair governance, accountability, and strengthens public trust. Citizens' participation helps prevent misuse of power and promotes transparency.{% endblocktrans %}
+</p>
+
+        </div>
+
+        <!-- Timeline Blocks -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 relative z-10 px-4">
+<div class="flex flex-col items-center text-center relative">
+    <div class="bg-red-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+    <h3 class="text-lg font-bold text-black mt-4">{% blocktrans %}Promote Accountability{% endblocktrans %}</h3>
+    <p class="text-red-700 mt-2 text-sm">{% blocktrans %}Ensure officials are responsible for their actions.{% endblocktrans %}</p>
+</div>
+
+<div class="flex flex-col items-center text-center relative">
+    <div class="bg-red-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+    <h3 class="text-lg font-bold text-black mt-4">{% blocktrans %}Prevent Fraud{% endblocktrans %}</h3>
+    <p class="text-red-700 mt-2 text-sm">{% blocktrans %}Reporting misuse of funds or authority reduces fraudulent activities.{% endblocktrans %}</p>
+</div>
+
+<div class="flex flex-col items-center text-center relative">
+    <div class="bg-red-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+    <h3 class="text-lg font-bold text-black mt-4">{% blocktrans %}Encourage Transparency{% endblocktrans %}</h3>
+    <p class="text-red-700 mt-2 text-sm">{% blocktrans %}Transparency builds trust between citizens and institutions.{% endblocktrans %}</p>
+</div>
+
+<div class="flex flex-col items-center text-center relative">
+    <div class="bg-red-500 text-white rounded-full h-12 w-12 flex items-center justify-center shadow-lg z-10">✔</div>
+    <h3 class="text-lg font-bold text-black mt-4">{% blocktrans %}Protect Public Interest{% endblocktrans %}</h3>
+    <p class="text-red-700 mt-2 text-sm">{% blocktrans %}Reduce misuse of public resources and safeguard citizens’ rights.{% endblocktrans %}</p>
+</div>
+
+
+        </div>
+    </section>
+
+
+
+
+    <!-- RJD Party Compliments Section - Background Image Style (Light Overlay) -->
+<section class="my-16 relative py-16" style="background-image: url('{% static 'core/images/background.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <div class="absolute inset-0 bg-white bg-opacity-20"></div> <!-- light overlay -->
+
+  <div class="relative max-w-6xl mx-auto px-6 text-center text-gray-900">
+
+    <!-- Heading -->
+    <h2 class="text-3xl md:text-4xl font-extrabold text-black mb-12">
+    {% blocktrans %}Compliments for RJD Party{% endblocktrans %}
+</h2>
+
+
+    <!-- Image Split Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- Left Image with 2 Content Blocks -->
+      <div class="relative group rounded-2xl overflow-hidden shadow-lg">
+        <img src="{% static 'core/images/first3.jpg' %}" alt="Public Service" class="w-full h-96 object-cover">
+        <div class="absolute inset-0 flex flex-col justify-end p-6 gap-4">
+          
+         <!-- Content 1 -->
+<div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500">
+    <h4 class="font-bold text-black mb-1">{% blocktrans %}Dedicated to Public Service{% endblocktrans %}</h4>
+    <p class="text-green-700 text-sm">{% blocktrans %}Always committed to listening to the people and resolving their issues efficiently.{% endblocktrans %}</p>
+</div>
+
+<!-- Content 2 -->
+<div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500 delay-100">
+    <h4 class="font-bold text-black mb-1">{% blocktrans %}Transparency & Integrity{% endblocktrans %}</h4>
+    <p class="text-green-700 text-sm">{% blocktrans %}Operates honestly and transparently at every step, building public trust.{% endblocktrans %}</p>
+</div>
+
+
+        </div>
+      </div>
+
+      <!-- Right Image with 2 Content Blocks -->
+      <div class="relative group rounded-2xl overflow-hidden shadow-lg">
+        <img src="{% static 'core/images/first4.jpg' %}" alt="Swift Action" class="w-full h-96 object-cover">
+        <div class="absolute inset-0 flex flex-col justify-end p-6 gap-4">
+          
+          <!-- Content 3 -->
+          <!-- Content 3 -->
+<div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500">
+    <h4 class="font-bold text-black mb-1">{% blocktrans %}Equality & Justice{% endblocktrans %}</h4>
+    <p class="text-green-700 text-sm">{% blocktrans %}Ensures equal opportunities and justice for every section of society.{% endblocktrans %}</p>
+</div>
+
+<!-- Content 4 -->
+<div class="bg-white bg-opacity-90 text-black p-4 rounded-xl shadow-md transform translate-y-8 group-hover:translate-y-0 transition duration-500 delay-100">
+    <h4 class="font-bold text-black mb-1">{% blocktrans %}Proficient in Public Engagement{% endblocktrans %}</h4>
+    <p class="text-green-700 text-sm">{% blocktrans %}Leads in staying connected with the people and bringing their voice to policymakers.{% endblocktrans %}</p>
+</div>
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+    <!-- Tips Section -->
+    <section class="my-16 bg-gradient-to-r from-red-50 via-red-100 to-white py-14">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center gap-10">
+
+            <!-- Section Heading -->
+            <div class="text-center mb-8">
+    <h2 class="text-3xl font-bold text-black mb-2">{% blocktrans %}Tips for Reporting Corruption{% endblocktrans %}</h2>
+    <p class="text-red-700 text-base">{% blocktrans %}Follow these steps to report corruption safely and effectively:{% endblocktrans %}</p>
+</div>
+
+
+            <!-- Tips Cards -->
+            <div class="flex flex-col md:flex-row justify-between w-full gap-6">
+
+               <div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-start gap-4 flex-1 transform transition duration-300 hover:scale-105 hover:bg-red-100 hover:shadow-2xl">
+    <div class="text-3xl mb-3">📝</div>
+    <h3 class="text-xl font-semibold text-black">{% blocktrans %}Document Evidence{% endblocktrans %}</h3>
+    <p class="text-red-700 text-sm">{% blocktrans %}Keep records of corrupt activities before reporting.{% endblocktrans %}</p>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-start gap-4 flex-1 transform transition duration-300 hover:scale-105 hover:bg-red-100 hover:shadow-2xl">
+    <div class="text-3xl mb-3">📞</div>
+    <h3 class="text-xl font-semibold text-black">{% blocktrans %}Report to Authorities{% endblocktrans %}</h3>
+    <p class="text-red-700 text-sm">{% blocktrans %}Use official channels for lodging complaints.{% endblocktrans %}</p>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-start gap-4 flex-1 transform transition duration-300 hover:scale-105 hover:bg-red-100 hover:shadow-2xl">
+    <div class="text-3xl mb-3">🛡️</div>
+    <h3 class="text-xl font-semibold text-black">{% blocktrans %}Stay Safe{% endblocktrans %}</h3>
+    <p class="text-red-700 text-sm">{% blocktrans %}Protect your identity if reporting sensitive cases.{% endblocktrans %}</p>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-start gap-4 flex-1 transform transition duration-300 hover:scale-105 hover:bg-red-100 hover:shadow-2xl">
+    <div class="text-3xl mb-3">💡</div>
+    <h3 class="text-xl font-semibold text-black">{% blocktrans %}Follow Up{% endblocktrans %}</h3>
+    <p class="text-red-700 text-sm">{% blocktrans %}Check on the progress of your complaint regularly.{% endblocktrans %}</p>
+</div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Home Button -->
+    <div class="mt-8 flex justify-center">
+        <a href="{% url 'home' %}" 
+   class="inline-block bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold px-8 py-3 rounded-xl shadow-lg transform transition duration-300 hover:scale-105 hover:from-green-500 hover:to-teal-600 hover:shadow-2xl">
+    {% blocktrans trimmed %}Back to Home{% endblocktrans %}
+</a>
+    </div>
+
+</div>
+
+<!-- Custom CSS -->
+<style>
+.banner-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+.banner-img {
+    width: 100%;
+    height:560px;
+    object-fit: cover;
+    filter: brightness(65%);
+}
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+</style>
+
+{% endblock %}

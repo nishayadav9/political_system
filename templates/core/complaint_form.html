@@ -1,0 +1,279 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  /* Form container */
+  #complaint-form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+
+  /* Section headings */
+  #complaint-form section h4 {
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  /* Input and textarea styling */
+  #complaint-form input[type="text"],
+  #complaint-form input[type="file"],
+  #complaint-form select,
+  #complaint-form textarea,
+  #complaint-form input[type="number"] {
+    border: 1.8px solid #ced4da;
+    border-radius: 8px;
+    padding: 10px 15px;
+    transition: border-color 0.3s ease;
+  }
+  #complaint-form input[type="text"]:focus,
+  #complaint-form input[type="file"]:focus,
+  #complaint-form select:focus,
+  #complaint-form textarea:focus,
+  #complaint-form input[type="number"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    outline: none;
+  }
+
+  #complaint-form select[name="gender"] {
+    width: 50%;
+  }
+
+  /* Remove number input arrows (spinner) */
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  /* Pincode input width */
+  #complaint-form input[name="pincode"] {
+      width: 35% !important;
+  }
+
+  /* Labels */
+  #complaint-form label {
+    font-weight: 500;
+    color: #333;
+  }
+
+  /* Submit button */
+  #complaint-form button[type="submit"] {
+    background: #007bff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,123,255,0.3);
+    transition: background 0.3s ease;
+  }
+  #complaint-form button[type="submit"]:hover {
+    background: #0056b3;
+  }
+
+  @media (max-width: 767px) {
+    #complaint-form {
+      padding: 20px;
+    }
+    #complaint-form input[name="pincode"] {
+      width: 100% !important;
+    }
+  }
+</style>
+
+<div class="container mt-5 mb-5">
+    <h2 class="text-center mb-4">Submit a Complaint</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% if not request.user.is_authenticated and not request.session.public_user_id %}
+        <div class="alert alert-warning text-center" style="font-weight:600;">
+            Please note: Your complaint will only be submitted after verifying your mobile number via OTP.
+        </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" id="complaint-form">
+        {% csrf_token %}
+
+        <!-- Personal Details Section -->
+        <section class="mb-5">
+            <h4 style="font-size: 30px;">Personal Details</h4>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label>Name</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Father Name</label>
+                    <input type="text" name="father_name" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="id_mobile">Mobile No</label>
+                    {{ form.mobile }}
+                    {% if form.mobile.errors %}
+                        <div class="text-danger">{{ form.mobile.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-4">
+                    <label>Gender</label>
+                    <select name="gender" class="form-control" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Your Photo</label>
+                    <input type="file" name="photo" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <label>Voter ID Image</label>
+                    <input type="file" name="voter_id_image" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <label>Address</label>
+                    <input type="text" name="address" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label>State</label>
+                    <input type="text" name="state" class="form-control" value="Bihar" readonly>
+                </div>
+
+                <div class="col-md-4">
+                    <label>District</label>
+                    <select id="id_district" name="district" class="form-control" required>
+                        <option value="" disabled selected>Select District</option>
+                        {% for d in districts %}
+                            <option value="{{ d }}">{{ d }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Block</label>
+                    <select id="id_block" name="block" class="form-control" required>
+                        <option value="" disabled selected>Select Block</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Panchayat</label>
+                    <input type="text" name="panchayat" class="form-control" placeholder="Enter Panchayat" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Village</label>
+                    <input type="text" name="village" class="form-control" placeholder="Enter Village" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Pincode</label>
+                    <input type="number" name="pincode" class="form-control" required min="100000" max="999999" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                </div>
+            </div>
+        </section>
+
+       <!-- Complaint Details Section -->
+<section class="mb-5">
+    <h4 style="font-size: 30px;">Complaint Details</h4>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label>Issue Type</label>
+            <select name="issue_type" class="form-control" required>
+                <option value="">Select Issue Type</option>
+                <option value="crime">Crime</option>
+                <option value="education">Education</option>
+                <option value="road">Road</option>
+                <option value="water_supply">Water Supply</option>
+                <option value="electricity">Electricity</option>
+                <option value="health">Health</option>
+                <option value="corruption">Corruption</option>
+                <option value="public_safety">Public Safety</option>
+                <option value="transportation">Transportation</option>
+                <option value="environment">Environment</option>
+                <option value="others">Others</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label>Title</label>
+            <input type="text" name="title" class="form-control" required>
+        </div>
+
+        <div class="col-md-4">
+            <label>Description</label>
+            <textarea name="description" class="form-control" rows="1" required></textarea>
+        </div>
+
+        <div class="col-md-4">
+            <label>Upload Photo related to your complaint (optional)</label>
+            <input type="file" name="upload_photo" class="form-control">
+        </div>
+
+        <div class="col-md-4">
+            <label>Upload Video related to your complaint (optional)</label>
+            <input type="file" name="upload_video" class="form-control">
+        </div>
+    </div>
+</section>
+
+        <div class="text-center mt-4">
+            <button type="submit">Verify Mobile No</button>
+        </div>
+    </form>
+</div>
+
+<!-- Bihar locations JSON for JS -->
+{{ locations|json_script:"bihar-locations" }}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const biharLocations = JSON.parse(document.getElementById('bihar-locations').textContent);
+    const districtSelect = document.getElementById('id_district');
+    const blockSelect = document.getElementById('id_block');
+
+    const locationsMap = {};
+    biharLocations.forEach(loc => {
+        locationsMap[loc.district_name.trim()] = loc.block_name.split(',').map(b => b.trim());
+    });
+
+    districtSelect.addEventListener('change', function() {
+        const district = this.value.trim();
+        blockSelect.innerHTML = '<option value="" disabled selected>Select Block</option>';
+
+        if (locationsMap[district]) {
+            locationsMap[district].forEach(block => {
+                const opt = document.createElement('option');
+                opt.value = block;
+                opt.textContent = block;
+                blockSelect.appendChild(opt);
+            });
+        }
+    });
+});
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,201 @@
+{% extends 'core/district_admin/base.html' %}
+
+{% block title %}Complaints{% endblock %}
+
+{% block content %}
+<h2 class="mb-4 text-primary fw-bold">Complaints</h2>
+
+<div class="table-responsive shadow-sm border rounded p-3">
+  <table class="table table-bordered table-hover align-middle">
+    <thead class="table-dark text-center">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Issue Type</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Address</th>
+        <th>State</th>
+        <th>District</th>
+        <th>Block</th>
+        <th>Pincode</th>
+        <th>Status</th>
+        <th>Photo</th>
+        <th>Upload Photo</th>
+        <th>Upload Video</th>
+        <th>Created At</th>
+        <th>Forwarded To</th>
+        <th>Forward Reason</th>
+        <th>Forward History</th>
+        <th>Public Notice</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for complaint in complaints %}
+      <tr class="text-center">
+        <td>{{ forloop.counter }}</td>
+        <td>{{ complaint.name }}</td>
+        <td>{{ complaint.mobile }}</td>
+        <td class="text-capitalize">{{ complaint.issue_type }}</td>
+        <td>{{ complaint.title }}</td>
+        <td class="text-start" style="max-width: 200px;">
+          {{ complaint.description|truncatechars:80 }}
+        </td>
+        <td>{{ complaint.address }}</td>
+        <td>{{ complaint.state }}</td>
+        <td>{{ complaint.district }}</td>
+        <td>{{ complaint.block }}</td>
+        <td>{{ complaint.pincode }}</td>
+        <td>
+          {% if complaint.resolved_at %}
+            <span class="badge bg-info text-dark">Solved</span>
+          {% elif complaint.status == "Accepted" %}
+            <span class="badge bg-success">Accepted</span>
+          {% elif complaint.status == "Rejected" %}
+            <span class="badge bg-warning text-dark">Rejected</span>
+          {% elif complaint.status == "Forwarded" %}
+            <span class="badge bg-secondary text-dark">Forwarded</span>
+          {% else %}
+            <span class="badge bg-secondary">Pending</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if complaint.photo %}
+            <a href="{{ complaint.photo.url }}" target="_blank">
+              <img src="{{ complaint.photo.url }}" alt="Photo" class="img-thumbnail" style="height: 40px; width: 60px; object-fit: cover;">
+            </a>
+          {% else %}
+            <span class="text-muted">No Photo</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if complaint.upload_photo %}
+            <a href="{{ complaint.upload_photo.url }}" target="_blank">
+              <img src="{{ complaint.upload_photo.url }}" alt="Upload Photo" class="img-thumbnail" style="height: 40px; width: 60px; object-fit: cover;">
+            </a>
+          {% else %}
+            <span class="text-muted">No Photo</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if complaint.upload_video %}
+            <a href="{{ complaint.upload_video.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+              &#128249; View
+            </a>
+          {% else %}
+            <span class="text-muted">No Video</span>
+          {% endif %}
+        </td>
+        <td>{{ complaint.created_at|date:"d M Y, H:i" }}</td>
+
+        <!-- Forwarded To / Reason -->
+        <td>{{ complaint.forward_to|default:"-" }}</td>
+        <td style="max-width:200px; white-space: pre-wrap;">{{ complaint.forward_reason|default:"-" }}</td>
+
+        <!-- Forward History -->
+        <td>
+          {% if complaint.forward_chain %}
+            <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#forwardHistoryModal{{ complaint.id }}">
+              View History
+            </button>
+
+            <div class="modal fade" id="forwardHistoryModal{{ complaint.id }}" tabindex="-1" aria-labelledby="forwardHistoryLabel{{ complaint.id }}" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="forwardHistoryLabel{{ complaint.id }}">Forward History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <ul class="list-unstyled mb-0 p-0">
+                      {% for step in complaint.forward_chain %}
+                        <li style="padding:4px 0;">
+                          <div>
+                            {% if step.from == "booth" %}Booth{% elif step.from == "block" %}Block{% elif step.from == "district_admin" %}District{% elif step.from == "state_admin" %}State{% else %}{{ step.from|capfirst }}{% endif %}
+                             → 
+                            {% if step.to == "booth" %}Booth{% elif step.to == "block" %}Block{% elif step.to == "district_admin" %}District{% elif step.to == "state_admin" %}State{% else %}{{ step.to|capfirst }}{% endif %}
+                          </div>
+                          <div style="color:gray; font-size:0.85em;">Date: {{ step.date }}</div>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            -
+          {% endif %}
+        </td>
+
+        <!-- Public Notice Column -->
+        <td class="text-center">
+          <div x-data="{ open: false }">
+            <button @click="open = !open" class="btn btn-sm btn-primary mb-1">
+              Notice
+            </button>
+            <div x-show="open" x-cloak class="mt-2">
+              <form action="{% url 'district_update_public_notice' complaint.pk %}" method="POST">
+                {% csrf_token %}
+                <textarea name="public_notice" rows="2" class="form-control mb-1" placeholder="Write new notice...">{{ complaint.public_notice }}</textarea>
+                <button type="submit" class="btn btn-sm btn-success w-100">Send</button>
+              </form>
+            </div>
+          </div>
+        </td>
+
+        <!-- Actions -->
+        <td class="text-start">
+          <form action="{% url 'district_complaints_delete' complaint.id %}" method="POST" style="display:inline;" onsubmit="return confirm('Delete this complaint?');">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-danger mb-1">Delete</button>
+          </form>
+
+          {% if complaint.status != 'Accepted' %}
+          <form action="{% url 'district_complaints_accept' complaint.id %}" method="POST" style="display:inline;" onsubmit="return confirm('Accept this complaint?');">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-success mb-1">Accept</button>
+          </form>
+          {% endif %}
+
+          {% if complaint.status != 'Rejected' %}
+          <form action="{% url 'district_complaints_reject' complaint.id %}" method="POST" style="display:inline;" onsubmit="return confirm('Reject this complaint?');">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-warning mb-1">Reject</button>
+          </form>
+          {% endif %}
+
+          {% if complaint.status == 'Accepted' and not complaint.resolved_at %}
+          <form action="{% url 'district_complaints_solve' complaint.id %}" method="POST" style="display:inline;" onsubmit="return confirm('Mark as solved?');">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-info mb-1">Solve</button>
+          </form>
+          {% endif %}
+
+          {% if complaint.status == 'Accepted' %}
+          <form action="{% url 'district_complaints_forward' complaint.id %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-secondary mb-1" onclick="return confirm('Forward complaint to State Admin?');">Forward to State</button>
+          </form>
+          {% endif %}
+        </td>
+
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="21" class="text-center text-muted py-4">No complaints found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="//unpkg.com/alpinejs" defer></script>
+{% endblock %}

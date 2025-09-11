@@ -1,0 +1,119 @@
+{% extends 'core/admin/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <h2>Manage Booth Members</h2>
+
+
+  <!-- Assigned Panchayat Search -->
+<form method="get" class="d-flex align-items-center gap-2 mb-3" style="flex-wrap: wrap; max-width: 400px;">
+    <input type="text" name="panchayat" class="form-control form-control-sm" 
+           placeholder="Search by Assigned Panchayat" value="{{ panchayat_query }}" style="max-width: 250px;">
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-sm btn-primary">Search</button>
+        <a href="{% url 'manage_booth_member' %}" class="btn btn-sm btn-secondary">Reset</a>
+    </div>
+</form>
+
+
+  <!-- Scrollable wrapper -->
+  <div style="overflow-x: auto; max-height: 600px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
+
+    <table class="table table-striped table-bordered mt-3" style="min-width: 1400px;">
+     <thead class="table-primary">
+  <tr>
+    <th>#</th>
+    <th>Username</th>
+    <th>Full Name</th>
+    <th>Father’s/Mother’s Name</th>
+    <th>DOB</th>
+    <th>Gender</th>
+    <th>Mobile</th>
+    <th>Alt. Mobile</th>
+    <th>Email</th>
+    <th>Aadhar / Govt ID</th>
+    <th>Permanent Address</th>
+    <th>Current Address</th>
+    <th>State</th>
+    <th>District</th>
+    <th>Block/Tehsil/Taluka</th>
+    <th>Pincode</th>
+    <th>Booth Number / ID</th>
+    <th>Ward / Panchayat Name</th>
+    <th>Assigned Area or Street</th>
+    <th>Voter ID Number</th>
+    <th>Door-to-Door Campaign?</th>
+    <th>Availability</th>
+    <th>Assigned State</th>
+    <th>Assigned District</th>
+    <th>Assigned Block / Tehsil / Taluka</th>
+    <th>Assigned Panchayat</th>
+    <th>Photo</th>
+    <th>ID Proof</th>
+    <th>Designation</th>
+    <th>Actions</th>
+  </tr>
+</thead>
+<tbody>
+  {% if booth_members %}
+    {% for member in booth_members %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ member.username }}</td>
+        <td>{{ member.full_name }}</td>
+        <td>{{ member.parent_name }}</td>
+        <td>{{ member.dob }}</td>
+        <td>{{ member.gender }}</td>
+        <td>{{ member.mobile }}</td>
+        <td>{{ member.alt_mobile|default:"-" }}</td>
+        <td>{{ member.email }}</td>
+        <td>{{ member.govt_id }}</td>
+        <td>{{ member.permanent_address }}</td>
+        <td>{{ member.current_address|default:"-" }}</td>
+        <td>{{ member.state }}</td>
+        <td>{{ member.district }}</td>
+        <td>{{ member.block }}</td>
+        <td>{{ member.pincode }}</td>
+        <td>{{ member.booth_number|default:"-" }}</td>
+        <td>{{ member.ward_name|default:"-" }}</td>
+        <td>{{ member.assigned_area|default:"-" }}</td>
+        <td>{{ member.voter_id_number|default:"-" }}</td>
+        <td>{{ member.door_to_door|default:"-" }}</td>
+        <td>{{ member.availability|default:"-" }}</td>
+        <td>{{ member.assigned_state|default:"-" }}</td>
+        <td>{{ member.assigned_district|default:"-" }}</td>
+        <td>{{ member.assigned_block|default:"-" }}</td>
+        <td>{{ member.assigned_panchayat|default:"-" }}</td>
+        <td>
+          {% if member.photo %}
+            <img src="{{ member.photo.url }}" alt="Photo" width="50" height="50" class="rounded"/>
+          {% else %}-{% endif %}
+        </td>
+        <td>
+          {% if member.id_proof %}
+            <a href="{{ member.id_proof.url }}" target="_blank">View</a>
+          {% else %}-{% endif %}
+        </td>
+        <td>{{ member.designation }}</td>
+        <td>
+          <a href="{% url 'edit_booth_member' member.id %}" class="btn btn-sm btn-warning">Edit</a>
+          <a href="{% url 'delete_booth_member' member.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete this member?');">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+  {% else %}
+    <tr>
+      <td colspan="31" class="text-center">No Booth Members found.</td>
+    </tr>
+  {% endif %}
+</tbody>
+
+    </table>
+
+  </div>
+
+</div>
+{% endblock %}

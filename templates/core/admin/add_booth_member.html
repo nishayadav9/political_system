@@ -1,0 +1,298 @@
+{% extends 'core/admin/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+  <h2 class="text-center mb-4">Add Booth Member</h2>
+  
+  <form method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    {% if messages %}
+      <div>
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Personal Details Card -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-primary text-white">
+        Personal Details
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="full_name" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="full_name" name="full_name" required />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="father_or_mother_name" class="form-label">Father’s/Mother’s Name</label>
+            <input type="text" class="form-control" id="father_or_mother_name" name="father_or_mother_name" required />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="date_of_birth" class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="gender" class="form-label">Gender</label>
+            <select class="form-select" id="gender" name="gender" required>
+              <option value="" disabled selected>Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="mobile_number" class="form-label">Mobile Number</label>
+            <input type="tel" class="form-control" id="mobile_number" name="mobile_number" required pattern="[0-9]{10}" placeholder="10-digit number" />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="alternate_mobile_number" class="form-label">Alternate Mobile Number</label>
+            <input type="tel" class="form-control" id="alternate_mobile_number" name="alternate_mobile_number" pattern="[0-9]{10}" placeholder="10-digit number" />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="example@mail.com" required />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="aadhar_or_govt_id" class="form-label">Aadhar Number / Govt ID</label>
+            <input type="text" class="form-control" id="aadhar_or_govt_id" name="aadhar_or_govt_id" required />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="permanent_address" class="form-label">Permanent Address</label>
+            <textarea class="form-control" id="permanent_address" name="permanent_address" rows="2" required></textarea>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="current_address" class="form-label">Current Address</label>
+            <textarea class="form-control" id="current_address" name="current_address" rows="2"></textarea>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="state" class="form-label">State</label>
+            <input type="text" class="form-control" id="state" name="state" value="{{ state_name }}" readonly />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="district" class="form-label">District</label>
+            <select class="form-select" id="district" name="district" required>
+              <option value="" disabled selected>Select District</option>
+              {% for d in districts %}
+                  <option value="{{ d }}">{{ d }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="block_tehsil_taluka" class="form-label">Block / Tehsil / Taluka</label>
+            <select class="form-select" id="block_tehsil_taluka" name="block_tehsil_taluka" required>
+                <option value="" disabled selected>Select Block</option>
+            </select>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="village_town_city" class="form-label">Village / Town / City</label>
+            <input type="text" class="form-control" id="village_town_city" name="village_town_city" required />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="pincode" class="form-label">Pincode</label>
+            <input type="text" class="form-control" id="pincode" name="pincode" required pattern="[0-9]{6}" placeholder="6-digit pincode" />
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Official Details Card -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-success text-white">
+        Official Details
+      </div>
+      <div class="card-body">
+        <div class="row g-2">
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="assigned_state" class="form-label">Assigned State</label>
+            <input type="text" class="form-control" id="assigned_state" name="assigned_state" />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="assigned_district" class="form-label">Assigned District</label>
+            <input type="text" class="form-control" id="assigned_district" name="assigned_district" />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="assigned_block" class="form-label">Assigned Block / Tehsil / Taluka</label>
+            <input type="text" class="form-control" id="assigned_block" name="assigned_block" />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="assigned_panchayat" class="form-label">Assigned Panchayat</label>
+            <input type="text" class="form-control" id="assigned_panchayat" name="assigned_panchayat" />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="booth_number" class="form-label">Booth Number / ID</label>
+            <input type="text" class="form-control" id="booth_number" name="booth_number" />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="assigned_area" class="form-label">Assigned Area / Street</label>
+            <input type="text" class="form-control" id="assigned_area" name="assigned_area" />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="voter_id_number" class="form-label">Voter ID Number</label>
+            <input type="text" class="form-control" id="voter_id_number" name="voter_id_number" />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="door_to_door" class="form-label">Door-to-Door Campaign?</label>
+            <select class="form-select" id="door_to_door" name="door_to_door" required>
+              <option value="" disabled selected>Select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="availability" class="form-label">Availability</label>
+            <select class="form-select" id="availability" name="availability" required>
+              <option value="" disabled selected>Select</option>
+              <option value="Full-Time">Full-Time</option>
+              <option value="Part-Time">Part-Time</option>
+            </select>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="photo" class="form-label">Upload Photo</label>
+            <input type="file" class="form-control" id="photo" name="photo" accept="image/*" />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="id_proof" class="form-label">ID Proof</label>
+            <input type="file" class="form-control" id="id_proof" name="id_proof" accept="image/*,application/pdf" />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="address_proof" class="form-label">Address Proof</label>
+            <input type="file" class="form-control" id="address_proof" name="address_proof" accept="image/*,application/pdf" />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="digital_signature" class="form-label">Digital Signature</label>
+            <input type="file" class="form-control" id="digital_signature" name="digital_signature" accept="image/*,application/pdf" />
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="designation" class="form-label">Designation / Role</label>
+            <select class="form-select" id="designation" name="designation" required>
+              <option value="" disabled selected>Select</option>
+              {% for role in booth_roles %}
+                <option value="{{ role.id }}">{{ role.role_name }}</option>
+              {% empty %}
+                <option disabled>No roles available</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="password" class="form-label">Generated Password</label>
+            <input type="text" name="password" id="password" class="form-control" readonly>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary btn-lg">Add Booth Member</button>
+    </div>
+
+  </form>
+</div>
+
+<!-- Bihar locations JSON for JS -->
+<script type="application/json" id="bihar-locations">
+    [
+        {% for loc in locations %}
+        {
+            "district_name": "{{ loc.district_name }}",
+            "block_name": "{{ loc.block_name|escapejs }}"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+</script>
+
+<script>
+    // Auto-generate password of 5 characters
+    function generatePassword(length) {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let pass = "";
+        for (let i = 0; i < length; i++) {
+            pass += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return pass;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("password").value = generatePassword(5); // 5 characters
+    });
+
+    // District -> Block auto populate & assigned field auto fill
+    const biharLocations = JSON.parse(document.getElementById('bihar-locations').textContent);
+
+    const districtSelect = document.getElementById("district");
+    const blockSelect = document.getElementById("block_tehsil_taluka");
+    const assignedDistrict = document.getElementById("assigned_district");
+    const assignedBlock = document.getElementById("assigned_block");
+    const assignedState = document.getElementById("assigned_state");
+
+    // Convert list to {district_name: "block1, block2, ..."}
+    const locationsMap = {};
+    biharLocations.forEach(loc => {
+        locationsMap[loc.district_name] = loc.block_name;
+    });
+
+    districtSelect.addEventListener("change", function() {
+        const district = this.value;
+        blockSelect.innerHTML = '<option value="" disabled selected>Select Block</option>';
+        if (locationsMap[district]) {
+            const blocks = locationsMap[district].split(",").map(b => b.trim());
+            blocks.forEach(block => {
+                const option = document.createElement("option");
+                option.value = block;
+                option.textContent = block;
+                blockSelect.appendChild(option);
+            });
+        }
+
+        assignedState.value = "{{ state_name }}";
+        assignedDistrict.value = district;
+        assignedBlock.value = "";
+    });
+
+    blockSelect.addEventListener("change", function() {
+        assignedBlock.value = this.value;
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'core/state_admin/base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Received Messages</h2>
+
+{% if messages %}
+    {% for msg in messages %}
+        <div class="alert alert-{{ msg.tags }} alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% if msgs %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Sender</th>
+            <th>Message</th>
+            <th>Received At</th>
+            <th>Reply</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for msg in msgs %}
+        <tr>
+            <td>{{ msg.sender.username }}</td>
+            <td>{{ msg.message|linebreaksbr }}</td>
+            <td>{{ msg.created_at|date:"d M Y H:i" }}</td>
+            <td>
+                {% if msg.reply %}
+                    <span class="text-success">{{ msg.reply|linebreaksbr }}</span>
+                {% else %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="msg_id" value="{{ msg.id }}">
+                        <div class="input-group">
+                            <input type="text" name="message" class="form-control" placeholder="Type your reply..." required>
+                            <button type="submit" class="btn btn-primary">Reply</button>
+                        </div>
+                    </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No messages received yet.</p>
+{% endif %}
+{% endblock %}

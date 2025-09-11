@@ -1,0 +1,75 @@
+{% extends 'core/district_admin/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center text-primary fw-bold mb-2 display-6">📊 District Dashboard</h2>
+  <p class="text-center text-secondary mb-5 fs-6">Welcome, District Admin! Here's your complaint overview.</p>
+
+  <!-- Summary Cards -->
+  <div class="row g-4 justify-content-center mb-5">
+    {% comment %} Cards with gradient backgrounds and hover effect {% endcomment %}
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="card h-100 text-center text-white rounded-4 shadow-lg" style="background: linear-gradient(135deg,#4f46e5,#3b82f6); transition: transform 0.3s;">
+        <div class="card-body">
+          <h6 class="fw-bold">Total Complaints</h6>
+          <p class="display-6 fw-bold">{{ total_complaints }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="card h-100 text-center text-white rounded-4 shadow-lg" style="background: linear-gradient(135deg,#16a34a,#22c55e); transition: transform 0.3s;">
+        <div class="card-body">
+          <h6 class="fw-bold">Resolved</h6>
+          <p class="display-6 fw-bold">{{ solved_count }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="card h-100 text-center text-white rounded-4 shadow-lg" style="background: linear-gradient(135deg,#facc15,#fbbf24); transition: transform 0.3s;">
+        <div class="card-body">
+          <h6 class="fw-bold">Accepted</h6>
+          <p class="display-6 fw-bold">{{ accepted_count }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="card h-100 text-center text-white rounded-4 shadow-lg" style="background: linear-gradient(135deg,#dc2626,#ef4444); transition: transform 0.3s;">
+        <div class="card-body">
+          <h6 class="fw-bold">Rejected</h6>
+          <p class="display-6 fw-bold">{{ rejected_count }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Block-wise Forwarded Complaints -->
+  <h3 class="text-center text-secondary fw-bold mb-4">Forwarded Complaints by Block</h3>
+  <div class="row g-4 justify-content-center">
+    {% for block in forwarded_by_block %}
+      <div class="col-12 col-sm-6 col-md-4">
+        <div class="card h-100 text-center rounded-4 shadow-sm border-start border-4 border-info p-3 hover-scale">
+          <div class="card-body">
+            <h5 class="fw-bold text-info">{{ block.block }}</h5>
+            <span class="badge bg-info fs-6">{{ block.count }} complaints</span>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <p class="text-center text-muted">No forwarded complaints yet.</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Extra CSS for hover effect -->
+<style>
+  .hover-scale:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s;
+  }
+</style>
+{% endblock %}

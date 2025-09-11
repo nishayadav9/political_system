@@ -1,0 +1,60 @@
+{% extends 'core/admin/base.html' %}
+{% block content %}
+
+<div class="max-w-6xl mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg">
+
+  <h2 class="text-3xl font-bold text-center text-blue-600 mb-8">
+    Edit Complaint #{{ complaint.id }}
+  </h2>
+
+  <form method="post" enctype="multipart/form-data" novalidate class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="col-span-full text-red-600 font-medium">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    {% for field in form %}
+      {% if field.name != 'status' %}
+      <div class="flex flex-col">
+        <label for="{{ field.id_for_label }}" class="font-semibold mb-1 text-gray-700">
+          {{ field.label }}{% if field.field.required %} <span class="text-red-500">*</span>{% endif %}
+        </label>
+
+        <!-- Special style for photo and voter_id fields -->
+        {% if field.name == 'photo' or field.name == 'voter_id_image' %}
+          {% if field.value %}
+            <img src="{{ field.value.url }}" alt="{{ field.label }}" class="mb-2 w-32 h-32 object-cover rounded border border-gray-300">
+          {% endif %}
+          {{ field }}
+        {% else %}
+          {{ field }}
+        {% endif %}
+
+        {% if field.help_text %}
+          <p class="text-sm text-gray-500 mt-1">{{ field.help_text }}</p>
+        {% endif %}
+
+        {% if field.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ field.errors }}</p>
+        {% endif %}
+      </div>
+      {% endif %}
+    {% endfor %}
+
+    <div class="col-span-full">
+      <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-md hover:bg-blue-700 transition-colors">
+        Save Changes
+      </button>
+    </div>
+  </form>
+
+  <div class="mt-6 text-center">
+    <a href="{% url 'view_complaints' %}" class="text-blue-600 hover:underline">&larr; Back to Complaints List</a>
+  </div>
+
+</div>
+
+{% endblock %}

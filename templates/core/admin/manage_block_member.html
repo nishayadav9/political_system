@@ -1,0 +1,266 @@
+{% extends 'core/admin/base.html' %}
+
+{% block content %}
+
+<style>
+  body {
+    background-color: #f3f4f6;
+  }
+
+  h2 {
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1.5rem;
+    font-size: 1.7rem;
+    border-left: 5px solid #6366f1;
+    padding-left: 0.5rem;
+  }
+
+  .btn-success {
+    border-radius: 8px;
+    padding: 0.4rem 1rem;
+    font-weight: 500;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    padding: 1rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px; /* thoda chhota aur scrollable */
+}
+
+  table th, table td {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #e5e7eb;
+    font-size: 0.88rem;
+    color: #374151;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  table th {
+    background: linear-gradient(90deg, #0d9488, #14b8a6);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  table tr:nth-child(even) {
+    background-color: #f9fafb;
+  }
+
+  table tr:hover {
+    background-color: #e0f2fe;
+    transition: 0.2s ease-in-out;
+  }
+
+  .btn-sm {
+    border-radius: 6px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.78rem;
+  }
+
+  .btn-primary { background-color: #3b82f6; color: #fff; border: none; }
+  .btn-primary:hover { background-color: #2563eb; }
+
+  .btn-danger { background-color: #ef4444; color: #fff; border: none; }
+  .btn-danger:hover { background-color: #dc2626; }
+
+  input.toggle-active {
+    transform: scale(1.2);
+    cursor: pointer;
+    accent-color: #16a34a;
+  }
+
+  @media (max-width: 768px) {
+    table {
+      min-width: 1200px;
+    }
+  }
+</style>
+
+<h2>Manage Block Level Party Members</h2>
+
+
+
+
+<!-- Block + Username Search -->
+<form method="get" class="d-flex align-items-center gap-2 mb-3" style="flex-wrap: wrap; max-width: 700px;">
+    
+    <!-- Block-wise Dropdown -->
+    <select name="block" class="form-control form-control-sm" style="max-width: 250px;">
+    <option value="">-- Select Block --</option>
+    {% for district, blocks in districts_blocks.items %}
+        <optgroup label="{{ district }}">
+            {% for block in blocks %}
+                <option value="{{ block }}" {% if query == block %}selected{% endif %}>
+                    {{ block }}
+                </option>
+            {% endfor %}
+        </optgroup>
+    {% endfor %}
+</select>
+
+    <!-- Username-wise input -->
+    <input type="text" name="username" class="form-control form-control-sm" 
+           placeholder="Enter Username" value="{{ username }}" style="max-width: 250px;">
+
+    <!-- Buttons -->
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-sm btn-primary">Search</button>
+        <a href="{% url 'manage_block_member' %}" class="btn btn-sm btn-secondary">Reset</a>
+    </div>
+</form>
+
+<a href="{% url 'add_block_member' %}" class="btn btn-success mb-3">Add Block Member</a>
+
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <!-- Heading for Personal & Official Details -->
+      <tr>
+        <th colspan="16">Personal Details</th>
+        <th colspan="13">Official Details</th>
+      </tr>
+      <!-- Column Names -->
+      <tr>
+        <!-- Personal Details -->
+        <th>Username</th>
+        <th>Full Name</th>
+        <th>Father/Mother Name</th>
+        <th>DOB</th>
+        <th>Gender</th>
+        <th>Mobile</th>
+        <th>Alt Mobile</th>
+        <th>Email</th>
+        <th>Aadhar/Govt ID</th>
+        <th>Permanent Address</th>
+        <th>Current Address</th>
+        <th>State</th>
+        <th>District</th>
+        <th>Block</th>
+        <th>City/Village</th>
+        <th>Pincode</th>
+
+        <!-- Official Details -->
+        <th>Assigned State</th>
+        <th>Assigned District</th>
+        <th>Assigned Block</th>
+        <th>Role</th>
+        <th>Designation</th>
+        <th>Booths Handled</th>
+        <th>Experience</th>
+        <th>Reference Person</th>
+        <th>Photo</th>
+        <th>Address Proof</th>
+        <th>Date Added</th>
+        <th>Active</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for member in members %}
+      <tr>
+        <td>{{ member.username }}</td>
+        <td>{{ member.full_name }}</td>
+        <td>{{ member.father_or_mother_name }}</td>
+        <td>{{ member.date_of_birth|date:"d M Y" }}</td>
+        <td>{{ member.gender }}</td>
+        <td>{{ member.mobile_number }}</td>
+        <td>{{ member.alternate_mobile_number }}</td>
+        <td>{{ member.email }}</td>
+        <td>{{ member.aadhar_or_govt_id }}</td>
+        <td>{{ member.permanent_address|truncatechars:20 }}</td>
+        <td>{{ member.current_address|truncatechars:20 }}</td>
+        <td>{{ member.state_name }}</td>
+        <td>{{ member.district }}</td>
+        <td>{{ member.block_name }}</td>
+        <td>{{ member.village_town_city }}</td>
+        <td>{{ member.pincode }}</td>
+
+        <td>{{ member.assigned_state }}</td>
+        <td>{{ member.assigned_district }}</td>
+        <td>{{ member.assigned_block }}</td>
+        <td>{{ member.role.role_name }}</td>
+        <td>{{ member.designation }}</td>
+        <td>{{ member.booths_handled }}</td>
+        <td>{{ member.volunteer_experience }}</td>
+        <td>{{ member.reference_person }}</td>
+        <td>
+          {% if member.photo %}
+            <a href="{{ member.photo.url }}" target="_blank">View</a>
+          {% else %} N/A {% endif %}
+        </td>
+        <td>
+          {% if member.address_proof %}
+            <a href="{{ member.address_proof.url }}" target="_blank">View</a>
+          {% else %} N/A {% endif %}
+        </td>
+        <td>{{ member.created_at|date:"d M Y, H:i" }}</td>
+        <td>
+          <input type="checkbox"
+                 class="toggle-active"
+                 data-model="block"
+                 data-id="{{ member.id }}"
+                 {% if member.is_active %}checked{% endif %}>
+        </td>
+        <td>
+          <a href="{% url 'edit_block_member' member.id %}" class="btn btn-sm btn-primary">Edit</a>
+          <form action="{% url 'delete_block_member' member.id %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-danger"
+                    onclick="return confirm('Are you sure you want to delete this member?');">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="29" class="text-center">No block level members found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const csrfToken = document.getElementById('csrf-token').value;
+
+  document.querySelectorAll('.toggle-active').forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+      const modelName = this.dataset.model;
+      const memberId = this.dataset.id;
+      const isActive = this.checked;
+
+      fetch(`/toggle-active/${modelName}/${memberId}/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrfToken,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ active: isActive }),
+      })
+      .then(response => {
+        if (!response.ok) throw new Error(`Network error: ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        if (!data.success) {
+          alert('Failed: ' + (data.error || 'Unknown error'));
+          this.checked = !isActive;
+        }
+      })
+      .catch(err => {
+        alert('Error: ' + err.message);
+        this.checked = !isActive;
+      });
+    });
+  });
+</script>
+
+{% endblock %}
