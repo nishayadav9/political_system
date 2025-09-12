@@ -85,27 +85,41 @@
             <textarea class="form-control" id="current_address" name="current_address" rows="2"></textarea>
           </div>
 
+          <!-- State Dropdown -->
           <div class="col-6 col-md-6 col-lg-4">
             <label for="state" class="form-label">State</label>
-            <input type="text" class="form-control" id="state" name="state" value="{{ state_name }}" readonly />
-          </div>
-
-          <div class="col-6 col-md-6 col-lg-4">
-            <label for="district" class="form-label">District</label>
-            <select class="form-select" id="district" name="district" required>
-              <option value="" disabled selected>Select District</option>
-              {% for d in districts %}
-                  <option value="{{ d }}">{{ d }}</option>
+            <select class="form-select" id="state" name="state" required>
+              <option value="">-- Select State --</option>
+              {% for s in states %}
+                <option value="{{ s }}">{{ s }}</option>
               {% endfor %}
             </select>
           </div>
 
+          <!-- District Dropdown -->
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="district" class="form-label">District</label>
+            <select class="form-select" id="district" name="district" required>
+              <option value="">-- Select District --</option>
+            </select>
+          </div>
+
+          <!-- Block Dropdown -->
           <div class="col-6 col-md-6 col-lg-4">
             <label for="block_tehsil_taluka" class="form-label">Block / Tehsil / Taluka</label>
             <select class="form-select" id="block_tehsil_taluka" name="block_tehsil_taluka" required>
-                <option value="" disabled selected>Select Block</option>
+              <option value="">-- Select Block --</option>
             </select>
           </div>
+
+          <!-- Panchayat Dropdown -->
+          <div class="col-6 col-md-6 col-lg-4">
+            <label for="assigned_panchayat" class="form-label">Panchayat</label>
+            <select class="form-select" id="assigned_panchayat" name="assigned_panchayat">
+              <option value="">-- Select Panchayat --</option>
+            </select>
+          </div>
+
 
           <div class="col-6 col-md-6 col-lg-4">
             <label for="village_town_city" class="form-label">Village / Town / City</label>
@@ -230,69 +244,72 @@
   </form>
 </div>
 
-<!-- Bihar locations JSON for JS -->
-<script type="application/json" id="bihar-locations">
-    [
-        {% for loc in locations %}
-        {
-            "district_name": "{{ loc.district_name }}",
-            "block_name": "{{ loc.block_name|escapejs }}"
-        }{% if not forloop.last %},{% endif %}
-        {% endfor %}
-    ]
+<script type="application/json" id="location-data">
+[
+  {% for loc in locations %}
+  {
+    "state": "{{ loc.state_name }}",
+    "district": "{{ loc.district_name }}",
+    "block": "{{ loc.block_name }}",
+    "panchayat": "{{ loc.panchayat_name|default_if_none:'' }}"
+  }{% if not forloop.last %},{% endif %}
+  {% endfor %}
+]
 </script>
 
 <script>
-    // Auto-generate password of 5 characters
-    function generatePassword(length) {
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        let pass = "";
-        for (let i = 0; i < length; i++) {
-            pass += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return pass;
-    }
+document.addEventListener("DOMContentLoaded", function () {
+    const locationData = JSON.parse(document.getElementById("location-data").textContent);
 
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("password").value = generatePassword(5); // 5 characters
-    });
-
-    // District -> Block auto populate & assigned field auto fill
-    const biharLocations = JSON.parse(document.getElementById('bihar-locations').textContent);
-
+    const stateSelect = document.getElementById("state");
     const districtSelect = document.getElementById("district");
     const blockSelect = document.getElementById("block_tehsil_taluka");
-    const assignedDistrict = document.getElementById("assigned_district");
-    const assignedBlock = document.getElementById("assigned_block");
-    const assignedState = document.getElementById("assigned_state");
+    const panchayatSelect = document.getElementById("assigned_panchayat");
 
-    // Convert list to {district_name: "block1, block2, ..."}
-    const locationsMap = {};
-    biharLocations.forEach(loc => {
-        locationsMap[loc.district_name] = loc.block_name;
+    function populateDropdown(selectElement, items) {
+        selectElement.innerHTML = '<option value="">-- Select --</option>';
+        items.forEach(item => {
+            const opt = document.createElement("option");
+            opt.value = item;
+            opt.textContent = item;
+            selectElement.appendChild(opt);
+        });
+    }
+
+    stateSelect.addEventListener("change", function () {
+        const selectedState = this.value;
+        const districts = [...new Set(locationData
+            .filter(l => l.state === selectedState)
+            .map(l => l.district)
+        )];
+        populateDropdown(districtSelect, districts);
+        populateDropdown(blockSelect, []);
+        populateDropdown(panchayatSelect, []);
     });
 
-    districtSelect.addEventListener("change", function() {
-        const district = this.value;
-        blockSelect.innerHTML = '<option value="" disabled selected>Select Block</option>';
-        if (locationsMap[district]) {
-            const blocks = locationsMap[district].split(",").map(b => b.trim());
-            blocks.forEach(block => {
-                const option = document.createElement("option");
-                option.value = block;
-                option.textContent = block;
-                blockSelect.appendChild(option);
-            });
-        }
-
-        assignedState.value = "{{ state_name }}";
-        assignedDistrict.value = district;
-        assignedBlock.value = "";
+    districtSelect.addEventListener("change", function () {
+        const selectedState = stateSelect.value;
+        const selectedDistrict = this.value;
+        const blocks = [...new Set(locationData
+            .filter(l => l.state === selectedState && l.district === selectedDistrict)
+            .map(l => l.block)
+        )];
+        populateDropdown(blockSelect, blocks);
+        populateDropdown(panchayatSelect, []);
     });
 
-    blockSelect.addEventListener("change", function() {
-        assignedBlock.value = this.value;
+    blockSelect.addEventListener("change", function () {
+        const selectedState = stateSelect.value;
+        const selectedDistrict = districtSelect.value;
+        const selectedBlock = this.value;
+        const panchayats = [...new Set(locationData
+            .filter(l => l.state === selectedState && l.district === selectedDistrict && l.block === selectedBlock)
+            .map(l => l.panchayat)
+            .filter(p => p !== "")
+        )];
+        populateDropdown(panchayatSelect, panchayats);
     });
+});
 </script>
 
 {% endblock %}

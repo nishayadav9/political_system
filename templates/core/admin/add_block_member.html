@@ -89,9 +89,15 @@
         <textarea name="current_address" class="form-control" rows="2"></textarea>
       </div>
 
+      <!-- 🔥 STATE DROPDOWN (Bihar/Jharkhand) -->
       <div class="col-6 col-md-4">
         <label>State</label>
-        <input type="text" name="state_name" id="state" class="form-control" value="Bihar" readonly />
+        <select name="state_name" id="state" class="form-select" required>
+          <option value="">-- Select State --</option>
+          {% for state in states %}
+            <option value="{{ state }}" {% if state == selected_state %}selected{% endif %}>{{ state }}</option>
+          {% endfor %}
+        </select>
       </div>
 
       <div class="col-6 col-md-4">
@@ -218,50 +224,46 @@ $(document).ready(function(){
 
     generatePassword();
 
+    const stateSelect = $('#state');
     const districtSelect = $('#district');
     const blockSelect = $('#block');
-    const officialDistrictInput = $('input[name="assigned_district"]');
-    const officialBlockInput = $('input[name="assigned_block"]');
-    const officialStateInput = $('input[name="assigned_state"]');
 
-    function autofillOfficialDetails() {
-        officialStateInput.val('Bihar');
-        officialDistrictInput.val(districtSelect.val());
-        officialBlockInput.val(blockSelect.val());
+    function loadDistricts(state){
+        $.ajax({
+            url: "{% url 'ajax_get_districts' %}",
+            data: { 'state': state },
+            success: function(data){
+                districtSelect.empty().append('<option value="">-- Select District --</option>');
+                if(data.districts){
+                    data.districts.forEach(function(d){
+                        districtSelect.append('<option value="'+d+'">'+d+'</option>');
+                    });
+                }
+                blockSelect.empty().append('<option value="">-- Select Block --</option>');
+            }
+        });
     }
 
-    districtSelect.on('change', function(){
-        let districtName = $(this).val().trim();
-        blockSelect.empty().append('<option value="">-- Loading --</option>');
-
-        if(districtName){
-            $.ajax({
-                url: "{% url 'ajax_get_blocks' %}",
-                data: { 'district': districtName },
-                success: function(data){
-                    blockSelect.empty().append('<option value="">-- Select Block --</option>');
-                    if(data.blocks && data.blocks.length > 0){
-                        data.blocks.sort().forEach(function(b){
-                            blockSelect.append('<option value="'+b+'">'+b+'</option>');
-                        });
-                    } else {
-                        blockSelect.append('<option value="">-- No Blocks Found --</option>');
-                    }
-                    autofillOfficialDetails();
-                },
-                error: function(){
-                    blockSelect.empty().append('<option value="">-- Select Block --</option>');
-                    autofillOfficialDetails();
-                }
-            });
-        } else {
-            blockSelect.empty().append('<option value="">-- Select Block --</option>');
-            autofillOfficialDetails();
-        }
+    stateSelect.on('change', function(){
+        loadDistricts($(this).val());
     });
 
-    blockSelect.on('change', function(){
-        autofillOfficialDetails();
+    districtSelect.on('change', function(){
+        let districtName = $(this).val();
+        blockSelect.empty().append('<option value="">-- Loading --</option>');
+
+        $.ajax({
+            url: "{% url 'ajax_get_blocks' %}",
+            data: { 'district': districtName },
+            success: function(data){
+                blockSelect.empty().append('<option value="">-- Select Block --</option>');
+                if(data.blocks){
+                    data.blocks.forEach(function(b){
+                        blockSelect.append('<option value="'+b+'">'+b+'</option>');
+                    });
+                }
+            }
+        });
     });
 
     function generatePassword(length = 10){

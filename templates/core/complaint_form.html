@@ -44,7 +44,7 @@
     width: 50%;
   }
 
-  /* Remove number input arrows (spinner) */
+  /* Remove number input arrows */
   input[type=number]::-webkit-outer-spin-button,
   input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -157,30 +157,34 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label>State</label>
-                    <input type="text" name="state" class="form-control" value="Bihar" readonly>
-                </div>
-
-                <div class="col-md-4">
-                    <label>District</label>
-                    <select id="id_district" name="district" class="form-control" required>
-                        <option value="" disabled selected>Select District</option>
-                        {% for d in districts %}
-                            <option value="{{ d }}">{{ d }}</option>
+                    <label for="state">State</label>
+                    <select id="state" name="state" class="form-control" onchange="populateDistricts()">
+                        <option value="">Select State</option>
+                        {% for state in states %}
+                            <option value="{{ state }}">{{ state }}</option>
                         {% endfor %}
                     </select>
                 </div>
 
                 <div class="col-md-4">
-                    <label>Block</label>
-                    <select id="id_block" name="block" class="form-control" required>
-                        <option value="" disabled selected>Select Block</option>
+                    <label for="district">District</label>
+                    <select id="district" name="district" class="form-control" onchange="populateBlocks()">
+                        <option value="">Select District</option>
                     </select>
                 </div>
 
                 <div class="col-md-4">
-                    <label>Panchayat</label>
-                    <input type="text" name="panchayat" class="form-control" placeholder="Enter Panchayat" required>
+                    <label for="block">Block</label>
+                    <select id="block" name="block" class="form-control">
+                        <option value="">Select Block</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="panchayat">Panchayat</label>
+                    <select id="panchayat" name="panchayat" class="form-control">
+                        <option value="">Select Panchayat</option>
+                    </select>
                 </div>
 
                 <div class="col-md-4">
@@ -195,49 +199,49 @@
             </div>
         </section>
 
-       <!-- Complaint Details Section -->
-<section class="mb-5">
-    <h4 style="font-size: 30px;">Complaint Details</h4>
-    <div class="row g-3">
-        <div class="col-md-4">
-            <label>Issue Type</label>
-            <select name="issue_type" class="form-control" required>
-                <option value="">Select Issue Type</option>
-                <option value="crime">Crime</option>
-                <option value="education">Education</option>
-                <option value="road">Road</option>
-                <option value="water_supply">Water Supply</option>
-                <option value="electricity">Electricity</option>
-                <option value="health">Health</option>
-                <option value="corruption">Corruption</option>
-                <option value="public_safety">Public Safety</option>
-                <option value="transportation">Transportation</option>
-                <option value="environment">Environment</option>
-                <option value="others">Others</option>
-            </select>
-        </div>
+        <!-- Complaint Details Section -->
+        <section class="mb-5">
+            <h4 style="font-size: 30px;">Complaint Details</h4>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label>Issue Type</label>
+                    <select name="issue_type" class="form-control" required>
+                        <option value="">Select Issue Type</option>
+                        <option value="crime">Crime</option>
+                        <option value="education">Education</option>
+                        <option value="road">Road</option>
+                        <option value="water_supply">Water Supply</option>
+                        <option value="electricity">Electricity</option>
+                        <option value="health">Health</option>
+                        <option value="corruption">Corruption</option>
+                        <option value="public_safety">Public Safety</option>
+                        <option value="transportation">Transportation</option>
+                        <option value="environment">Environment</option>
+                        <option value="others">Others</option>
+                    </select>
+                </div>
 
-        <div class="col-md-4">
-            <label>Title</label>
-            <input type="text" name="title" class="form-control" required>
-        </div>
+                <div class="col-md-4">
+                    <label>Title</label>
+                    <input type="text" name="title" class="form-control" required>
+                </div>
 
-        <div class="col-md-4">
-            <label>Description</label>
-            <textarea name="description" class="form-control" rows="1" required></textarea>
-        </div>
+                <div class="col-md-4">
+                    <label>Description</label>
+                    <textarea name="description" class="form-control" rows="1" required></textarea>
+                </div>
 
-        <div class="col-md-4">
-            <label>Upload Photo related to your complaint (optional)</label>
-            <input type="file" name="upload_photo" class="form-control">
-        </div>
+                <div class="col-md-4">
+                    <label>Upload Photo (optional)</label>
+                    <input type="file" name="upload_photo" class="form-control">
+                </div>
 
-        <div class="col-md-4">
-            <label>Upload Video related to your complaint (optional)</label>
-            <input type="file" name="upload_video" class="form-control">
-        </div>
-    </div>
-</section>
+                <div class="col-md-4">
+                    <label>Upload Video (optional)</label>
+                    <input type="file" name="upload_video" class="form-control">
+                </div>
+            </div>
+        </section>
 
         <div class="text-center mt-4">
             <button type="submit">Verify Mobile No</button>
@@ -245,35 +249,85 @@
     </form>
 </div>
 
-<!-- Bihar locations JSON for JS -->
+<!-- JSON data -->
 {{ locations|json_script:"bihar-locations" }}
+{{ locations_jharkhand|json_script:"jharkhand-locations" }}
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const biharLocations = JSON.parse(document.getElementById('bihar-locations').textContent);
-    const districtSelect = document.getElementById('id_district');
-    const blockSelect = document.getElementById('id_block');
+    const biharLocations = JSON.parse(document.getElementById("bihar-locations").textContent);
+    const jharkhandLocations = JSON.parse(document.getElementById("jharkhand-locations").textContent);
 
-    const locationsMap = {};
-    biharLocations.forEach(loc => {
-        locationsMap[loc.district_name.trim()] = loc.block_name.split(',').map(b => b.trim());
-    });
+    function populateDistricts() {
+        const state = document.getElementById("state").value;
+        const districtDropdown = document.getElementById("district");
+        const blockDropdown = document.getElementById("block");
+        const panchayatDropdown = document.getElementById("panchayat");
 
-    districtSelect.addEventListener('change', function() {
-        const district = this.value.trim();
-        blockSelect.innerHTML = '<option value="" disabled selected>Select Block</option>';
+        districtDropdown.innerHTML = '<option value="">Select District</option>';
+        blockDropdown.innerHTML = '<option value="">Select Block</option>';
+        panchayatDropdown.innerHTML = '<option value="">Select Panchayat</option>';
 
-        if (locationsMap[district]) {
-            locationsMap[district].forEach(block => {
-                const opt = document.createElement('option');
-                opt.value = block;
-                opt.textContent = block;
-                blockSelect.appendChild(opt);
-            });
-        }
-    });
-});
+        let locations = state === "Bihar" ? biharLocations : (state === "Jharkhand" ? jharkhandLocations : []);
+        const districts = [...new Set(locations.map(loc => loc.district_name))];
+
+        districts.forEach(d => {
+            let opt = document.createElement("option");
+            opt.value = d;
+            opt.textContent = d;
+            districtDropdown.appendChild(opt);
+        });
+    }
+
+    function populateBlocks() {
+        const state = document.getElementById("state").value;
+        const district = document.getElementById("district").value;
+        const blockDropdown = document.getElementById("block");
+        const panchayatDropdown = document.getElementById("panchayat");
+
+        blockDropdown.innerHTML = '<option value="">Select Block</option>';
+        panchayatDropdown.innerHTML = '<option value="">Select Panchayat</option>';
+
+        let locations = state === "Bihar" ? biharLocations : (state === "Jharkhand" ? jharkhandLocations : []);
+        const selectedDistrict = locations.filter(loc => loc.district_name === district);
+
+        selectedDistrict.forEach(loc => {
+            let opt = document.createElement("option");
+            opt.value = loc.block_name;
+            opt.textContent = loc.block_name;
+            blockDropdown.appendChild(opt);
+        });
+    }
+
+    function populatePanchayats() {
+        const state = document.getElementById("state").value;
+        const district = document.getElementById("district").value;
+        const block = document.getElementById("block").value;
+        const panchayatDropdown = document.getElementById("panchayat");
+
+        panchayatDropdown.innerHTML = '<option value="">Select Panchayat</option>';
+
+        let locations = state === "Bihar" ? biharLocations : (state === "Jharkhand" ? jharkhandLocations : []);
+        const selectedDistrict = locations.filter(loc => loc.district_name === district);
+
+        selectedDistrict.forEach(loc => {
+            if (loc.block_name === block) {
+                loc.panchayats.forEach(p => {
+                    let opt = document.createElement("option");
+                    opt.value = p;
+                    opt.textContent = p;
+                    panchayatDropdown.appendChild(opt);
+                });
+            }
+        });
+    }
+
+    document.getElementById("district").addEventListener("change", populateBlocks);
+    document.getElementById("block").addEventListener("change", populatePanchayats);
+
+    // On page load
+    window.onload = function() {
+        populateDistricts();
+    };
 </script>
-
 
 {% endblock %}

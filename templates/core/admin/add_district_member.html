@@ -85,7 +85,8 @@
                 <div>
                     <label for="state_name" class="block text-gray-600 font-medium mb-1">State Name</label>
                     <select id="state_name" name="state_name" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                        <option value="Bihar" selected>Bihar</option>
+                        <option value="Bihar" {% if state_name == "Bihar" %}selected{% endif %}>Bihar</option>
+                        <option value="Jharkhand" {% if state_name == "Jharkhand" %}selected{% endif %}>Jharkhand</option>
                     </select>
                 </div>
 
@@ -196,10 +197,15 @@
 
 <script>
 const rolesData = {{ roles_json|safe }};
+const locationsData = {{ locations_json|safe }};  // Added: JSON of Bihar & Jharkhand locations
+
+const stateSelect = document.getElementById('state_name');
+const districtSelect = document.getElementById('district');
+const blockSelect = document.getElementById('block');
+
 const levelSelect = document.getElementById('id_location_level');
 const roleSelect = document.getElementById('role-select');
 
-// Populate Role Options
 function populateRoleOptions(level) {
     roleSelect.innerHTML = '<option value="">Select Role</option>';
     rolesData.filter(r => r.level === level).forEach(role=>{
@@ -212,55 +218,59 @@ function populateRoleOptions(level) {
 levelSelect.addEventListener('change', ()=>populateRoleOptions(levelSelect.value));
 window.addEventListener('DOMContentLoaded', ()=>populateRoleOptions(levelSelect.value));
 
-// Personal Details
-const districtSelect = document.getElementById('district');
-const blockSelect = document.getElementById('block');
+// Populate districts based on selected state
+function populateDistricts() {
+    const state = stateSelect.value;
+    districtSelect.innerHTML = '<option value="">-- Select District --</option>';
+    blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
 
-// Official Details
+    if(locationsData[state]){
+        const districts = Object.keys(locationsData[state]).sort();
+        districts.forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d;
+            opt.textContent = d;
+            districtSelect.appendChild(opt);
+        });
+    }
+    autofillOfficialDetails();
+}
+
+// Populate blocks based on selected district
+function populateBlocks() {
+    const state = stateSelect.value;
+    const district = districtSelect.value;
+
+    blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
+    if(locationsData[state] && locationsData[state][district]){
+        const blocks = locationsData[state][district].sort();
+        blocks.forEach(b => {
+            const opt = document.createElement('option');
+            opt.value = b;
+            opt.textContent = b;
+            blockSelect.appendChild(opt);
+        });
+    }
+    autofillOfficialDetails();
+}
+
+// Official details autofill
 const officialStateInput = document.getElementById('assigned_state');
 const officialDistrictInput = document.getElementById('assigned_district');
 const officialBlockInput = document.getElementById('assigned_block');
 
-// Sort district options alphabetically
-function sortDistrictOptions(selectElem) {
-    let options = Array.from(selectElem.options);
-    let first = options.shift();
-    options.sort((a,b)=>a.text.localeCompare(b.text));
-    selectElem.innerHTML = "";
-    selectElem.appendChild(first);
-    options.forEach(opt=>selectElem.appendChild(opt));
-}
-sortDistrictOptions(districtSelect);
-
-// Autofill Official Details
 function autofillOfficialDetails() {
-    officialStateInput.value = 'Bihar';
+    officialStateInput.value = stateSelect.value;
     officialDistrictInput.value = districtSelect.value;
     officialBlockInput.value = blockSelect.value;
 }
 
-districtSelect.addEventListener('change', function(){
-    blockSelect.innerHTML = '<option value="">-- Loading --</option>';
-    if(districtSelect.value){
-        fetch(`/ajax/get-blocks/?district=${districtSelect.value}`)
-        .then(res => res.json())
-        .then(data => {
-            blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
-            const sortedBlocks = data.blocks.sort((a,b)=>a.localeCompare(b));
-            sortedBlocks.forEach(b => {
-                const opt = document.createElement('option');
-                opt.value = b;
-                opt.textContent = b;
-                blockSelect.appendChild(opt);
-            });
-            autofillOfficialDetails();
-        });
-    } else {
-        blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
-        autofillOfficialDetails();
-    }
-});
+stateSelect.addEventListener('change', populateDistricts);
+districtSelect.addEventListener('change', populateBlocks);
+blockSelect.addEventListener('change', autofillOfficialDetails);
 
-blockSelect.addEventListener('change', ()=>autofillOfficialDetails());
+// Initialize
+window.addEventListener('DOMContentLoaded', populateDistricts);
+
 </script>
 {% endblock %}
