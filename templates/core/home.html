@@ -271,7 +271,6 @@
 </section>
 
 
-
 <section class="bg-gradient-to-r from-purple-700 via-teal-500 to-orange-600 text-white py-16 sm:py-20 lg:py-24">
   <div class="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16 lg:gap-20">
     
@@ -288,13 +287,12 @@
       </a>
     </div>
     
-    <!-- Right Images with overlapping circles -->
-    <div class="lg:w-1/2 relative flex justify-center items-center min-h-[260px] sm:min-h-[320px] lg:min-h-[360px]">
+    <!-- Right Images -->
+    <div class="lg:w-1/2 relative flex flex-col sm:flex-col lg:flex-row justify-center items-center gap-6 sm:gap-10">
       
       <!-- Circle 1 -->
       <div 
-        class="absolute rounded-full overflow-hidden shadow-2xl border-4 sm:border-8 border-white/90 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96"
-        style="left: 0; top: 50%; transform: translateY(-50%)"
+        class="relative rounded-full overflow-hidden shadow-2xl border-4 sm:border-8 border-white/90 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96"
       >
         <img 
           alt="{% blocktrans %}Solve{% endblocktrans %}" 
@@ -303,10 +301,9 @@
         />
       </div>
 
-      <!-- Circle 2 overlapping circle 1 -->
+      <!-- Circle 2 -->
       <div 
-        class="absolute rounded-full overflow-hidden shadow-2xl border-4 sm:border-8 border-white/90 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96"
-        style="left: 8rem; sm:left: 10rem; lg:left: 14rem; top: 40%; transform: translateY(-40%)"
+        class="relative rounded-full overflow-hidden shadow-2xl border-4 sm:border-8 border-white/90 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96"
       >
         <img 
           src="{% static 'core/images/first_2.webp' %}" 
@@ -317,13 +314,14 @@
 
       <!-- Glowing Ring -->
       <div 
-        class="absolute rounded-full bg-teal-400 opacity-20 blur-3xl w-60 h-60 sm:w-96 sm:h-96 lg:w-[28rem] lg:h-[28rem]"
-        style="left: 4rem; sm:left: 8rem; lg:left: 10rem; top: 50%; transform: translateY(-50%)"
+        class="absolute rounded-full bg-teal-400 opacity-20 blur-3xl w-60 h-60 sm:w-96 sm:h-96 lg:w-[28rem] lg:h-[28rem] hidden lg:block"
+        style="left: 4rem; lg:left: 10rem; top: 50%; transform: translateY(-50%)"
       ></div>
     </div>
 
   </div>
 </section>
+
 
 
 
@@ -381,14 +379,13 @@
 
 
 
-
 <section class="relative bg-[#fdfdfd] py-24 overflow-hidden">
   <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
 
     <!-- Left Content -->
     <div>
-      <h2 class="text-4xl font-extrabold text-gray-900 mb-6">{% blocktrans %}Why Choose Jan Samadhan?{% endblocktrans %}</h2>
-      <p class="text-lg text-gray-600 mb-6">{% blocktrans %}Jan Samadhan bridges the gap between people and politicians. We make it easy to file complaints, forward them to the right authorities, and keep you informed every step of the way.{% endblocktrans %}</p>
+      <h2 class="text-4xl sm:text-3xl font-extrabold text-gray-900 mb-6">{% blocktrans %}Why Choose Jan Samadhan?{% endblocktrans %}</h2>
+      <p class="text-lg sm:text-base text-gray-600 mb-6">{% blocktrans %}Jan Samadhan bridges the gap between people and politicians. We make it easy to file complaints, forward them to the right authorities, and keep you informed every step of the way.{% endblocktrans %}</p>
 
       <ul class="space-y-4">
         <li class="flex items-center text-gray-700">
@@ -404,14 +401,14 @@
     </div>
 
     <!-- Right Image with Rotation & Shadow -->
-    <div class="relative w-full flex justify-center">
+    <div class="relative w-full flex justify-center mt-10 md:mt-0">
       <!-- Decorative rotated background -->
-      <div class="absolute top-[-40px] right-[-40px] w-80 h-80 bg-purple-100 transform rotate-45 rounded-3xl z-0"></div>
+      <div class="absolute top-[-40px] right-[-40px] w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 bg-purple-100 transform rotate-45 rounded-3xl z-0"></div>
 
       <!-- Foreground image -->
-      <div class="relative z-10 transform rotate-3 shadow-xl rounded-2xl overflow-hidden border border-white">
+      <div class="relative z-10 transform rotate-3 shadow-xl rounded-2xl overflow-hidden border border-white w-full max-w-md sm:max-w-lg md:max-w-xl">
         <img src="{% static 'core/images/second1.jpg' %}" alt="Why Choose Us"
-             class="w-[600px] h-[500px] object-cover rounded-2xl" />
+             class="w-full h-auto object-cover rounded-2xl" />
       </div>
     </div>
 
@@ -421,20 +418,19 @@
 
 
 
-
 <section class="bg-pink-50 py-24">
   <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-4xl font-extrabold text-center text-green-800 mb-16">
+    <h2 class="text-3xl sm:text-4xl font-extrabold text-center text-green-800 mb-16">
       {% blocktrans %}Our Commitment to You{% endblocktrans %}
     </h2>
 
-    <div class="flex justify-between items-center relative space-x-12">
+    <div class="relative flex flex-col md:flex-row items-center md:justify-between space-y-12 md:space-y-0 md:space-x-12">
 
       <!-- Line between steps -->
-      <div class="absolute top-1/2 left-12 right-12 border-t-2 border-gray-300 -translate-y-1/2"></div>
+      <div class="hidden md:block absolute top-1/2 left-12 right-12 border-t-2 border-gray-300 -translate-y-1/2"></div>
 
       <!-- Step 1 -->
-      <div class="relative z-10 flex flex-col items-center text-center max-w-xs">
+      <div class="relative z-10 flex flex-col items-center text-center max-w-xs mx-auto md:mx-0">
         <div class="w-16 h-16 rounded-full border-4 border-gray-600 bg-white flex items-center justify-center font-bold text-gray-700 text-xl hover:bg-gray-600 hover:text-white transition cursor-pointer">
           1
         </div>
@@ -443,26 +439,27 @@
       </div>
 
       <!-- Step 2 -->
-      <div class="relative z-10 flex flex-col items-center text-center max-w-xs">
+      <div class="relative z-10 flex flex-col items-center text-center max-w-xs mx-auto md:mx-0">
         <div class="w-16 h-16 rounded-full border-4 border-gray-600 bg-white flex items-center justify-center font-bold text-gray-700 text-xl hover:bg-gray-600 hover:text-white transition cursor-pointer">
           2
         </div>
-        <h2 class="mt-4 font-semibold text-lg text-gray-800">{% blocktrans %}Privacy{% endblocktrans %}</h2>
+        <h3 class="mt-4 font-semibold text-lg text-gray-800">{% blocktrans %}Privacy{% endblocktrans %}</h3>
         <p class="mt-2 text-gray-600">{% blocktrans %}Your data is secure with us, protected under strict privacy policies.{% endblocktrans %}</p>
       </div>
 
       <!-- Step 3 -->
-      <div class="relative z-10 flex flex-col items-center text-center max-w-xs">
+      <div class="relative z-10 flex flex-col items-center text-center max-w-xs mx-auto md:mx-0">
         <div class="w-16 h-16 rounded-full border-4 border-gray-600 bg-white flex items-center justify-center font-bold text-gray-700 text-xl hover:bg-gray-600 hover:text-white transition cursor-pointer">
           3
         </div>
-        <h2 class="mt-4 font-semibold text-lg text-gray-800">{% blocktrans %}Support{% endblocktrans %}</h2>
+        <h3 class="mt-4 font-semibold text-lg text-gray-800">{% blocktrans %}Support{% endblocktrans %}</h3>
         <p class="mt-2 text-gray-600">{% blocktrans %}Dedicated help and guidance throughout your complaint journey.{% endblocktrans %}</p>
       </div>
 
     </div>
   </div>
 </section>
+
 
 
 {% endblock %}
