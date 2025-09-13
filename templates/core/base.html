@@ -37,26 +37,34 @@
        alt="Logo" 
        style="height: 400px; width: auto; display: block;">
 
-  <div id="janSamadhan"
-       style="position: absolute; top: 206px; left: 263px;
-              color: black; font-size: 16px; font-weight: bold;
-              background-color: yellow;
-              padding: 3px 25px 3px 20px;
-              pointer-events: none;
-              white-space: nowrap;
-              display: inline-block;
-              clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);">
+  <div id="janSamadhan">
     जन समाधान
   </div>
 </a>
 
 <style>
-/* Mobile screen ke liye left thoda kam */
+/* Default (large screen) styling */
+#janSamadhan {
+  position: absolute;
+  top: 206px;
+  left: 263px;
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: yellow;
+  padding: 3px 25px 3px 20px;
+  pointer-events: none;
+  white-space: nowrap;
+  display: inline-block;
+  clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+/* Mobile screen ke liye override */
 @media (max-width: 768px) {
   #janSamadhan {
-    left: 100px; /* yaha apko adjust karna padega jab tak sahi lage */
-    top: 150px;  /* optional, agar upar niche bhi adjust karna ho */
-    font-size: 14px; /* optional, mobile par thoda chhota karne ke liye */
+    left: 160px; /* yaha adjust karo jab tak sahi lage */
+    top: 150px;
+    font-size: 14px;
     padding: 2px 18px;
   }
 }
