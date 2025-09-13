@@ -116,6 +116,7 @@ class Location(models.Model):
     state_name = models.CharField(max_length=100)
     district_name = models.CharField(max_length=100)
     block_name = models.CharField(max_length=100)
+    panchayat_name = models.CharField(max_length=255, null=True, blank=True)  # ye hona chahiye
 
     pincode = models.CharField(max_length=10, null=True, blank=True)  # ✅ naya field
 

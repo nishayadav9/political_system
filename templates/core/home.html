@@ -189,6 +189,13 @@
   section:hover .clip-path-diagonal-left {
     clip-path: polygon(0 0, 100% 0, 70% 100%, 0% 100%);
   }
+
+  @media (max-width: 768px) {
+  .clip-path-diagonal-left, .clip-path-diagonal-right {
+    clip-path: none; /* Mobile pe diagonal hata do */
+  }
+}
+
 </style>
 
 

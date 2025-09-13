@@ -9058,33 +9058,97 @@ from core.models import User, Role, Location
 
 @superuser_required
 def add_booth_member(request):
-    # -----------------------
-    # Bihar & Jharkhand locations
-    # -----------------------
+   
+    # ----------------------- Locations -----------------------
+    # Bihar locations
     bihar_locations = [
-        {"district_name": "Araria", "block_name": "Araria, Bhargama, Forbesganj, Jokihat, Kursakatta, Narpatganj, Palasi, Raniganj, Sikti"},
-        {"district_name": "Arwal", "block_name": "Arwal, Kaler, Karpi, Kurtha"},
-        {"district_name": "Aurangabad", "block_name": "Aurangabad, Barun, Deo, Goh, Haspura, Kutumba, Madanpur, Nabinagar, Obra, Rafiganj"},
-        # ... (yaha aapka purana Bihar data continue karein)
+        {
+            "district_name": "Araria",
+            "blocks": [
+                {
+                    "block_name": "Araria",
+                    "panchayats": [
+                        "Araria Basti", "Azamnagar Kusiyar Gawon", "Azmatpur Basantpur", "Bahgi Pokharia",
+                        "Bairgachhi Belwa", "Bangawan Bangama", "Bansbari Bansbari", "Barakamatchistipur Haria",
+                        "Basantpur Basantpur", "Baturbari Baturbari", "Belbari Araria Basti", "Belsandi Araria Basti",
+                        "Belwa Araria Basti", "Bhadwar Araria Basti", "Bhairoganj Araria Basti", "Bhanghi Araria Basti",
+                        "Bhawanipur Araria Basti", "Bhorhar Araria Basti", "Chakorwa Araria Basti", "Dahrahra Araria Basti",
+                        "Damiya Araria Basti", "Dargahiganj Araria Basti", "Dombana Araria Basti", "Dumari Araria Basti",
+                        "Fatehpur Araria Basti", "Gadhgawan Araria Basti", "Gandhi Araria Basti", "Gangauli Araria Basti",
+                        "Ganj Araria Basti", "Gogri Araria Basti", "Gopalpur Araria Basti"
+                    ]
+                },
+                {
+                    "block_name": "Forbesganj",
+                    "panchayats": [
+                        "Forbesganj", "Araria", "Bhargama", "Raniganj", "Sikti", "Palasi",
+                        "Jokihat", "Kursakatta", "Narpatganj", "Hanskosa", "Hardia", "Haripur",
+                        "Hasanpur Khurd", "Hathwa", "Gadaha", "Ganj Bhag", "Ghiwba", "Ghoraghat",
+                        "Gogi", "Gopalpur", "Gurmahi", "Halhalia", "Halhalia Jagir"
+                    ]
+                }
+            ]
+        },
+        {
+            "district_name": "Arwal",
+            "blocks": [
+                {
+                    "block_name": "Arwal",
+                    "panchayats": ["PanchayatA", "PanchayatB", "PanchayatC"]
+                }
+            ]
+        }
     ]
 
+    # Jharkhand locations
     jharkhand_locations = [
-        {"district_name": "Ranchi", "block_name": "Angara, Burmu, Bero, Chanho, Kanke, Mandar, Namkum, Ormanjhi, Ratu, Silli"},
-        {"district_name": "Dumka", "block_name": "Dumka, Jarmundi, Jama, Kathikund, Masalia, Ramgarh, Ranishwar, Saraiyahat, Shikaripara, Gopikandar"},
-        # ... (yaha Jharkhand ka pura district/block data dalein)
+        {
+            "district_name": "Bokaro",
+            "blocks": [
+                {
+                    "block_name": "Bermo",
+                    "panchayats": ["Bermo", "Tetulmari", "Barmasia", "Jaridih", "Karo"]
+                },
+                {
+                    "block_name": "Chas",
+                    "panchayats": ["Chas", "Chandrapura", "Bandhgora", "Bermo", "Tetulmari"]
+                },
+                {
+                    "block_name": "Chandankiyari",
+                    "panchayats": ["Chandankiyari", "Kundri", "Jhalda", "Panchbaria", "Nawadih"]
+                }
+            ]
+        }
     ]
 
-    # ✅ Insert locations into DB (both states)
-    for state, loc_list in {"Bihar": bihar_locations, "Jharkhand": jharkhand_locations}.items():
-        for loc in loc_list:
-            for block in loc["block_name"].split(","):
-                block = block.strip()
-                if not Location.objects.filter(state_name=state, district_name=loc["district_name"], block_name=block).exists():
-                    Location.objects.create(state_name=state, district_name=loc["district_name"], block_name=block)
+# ----------------------- Flatten locations for DB -----------------------
+    locations_data = []
+    for state_name, state_locations in [("Bihar", bihar_locations), ("Jharkhand", jharkhand_locations)]:
+        for district in state_locations:
+            district_name = district["district_name"]
+            for block in district["blocks"]:
+                block_name = block["block_name"]
+                for panchayat in block["panchayats"]:
+                    locations_data.append({
+                        "state_name": state_name,
+                        "district_name": district_name,
+                        "block_name": block_name,
+                        "panchayat_name": panchayat
+                    })
 
-    # ✅ GET distinct districts state-wise
-    bihar_districts = list(Location.objects.filter(state_name="Bihar").values_list("district_name", flat=True).distinct())
-    jharkhand_districts = list(Location.objects.filter(state_name="Jharkhand").values_list("district_name", flat=True).distinct())
+    # ----------------------- Save locations in DB -----------------------
+
+    # Save locations in DB if not exists
+    for loc in locations_data:
+        Location.objects.get_or_create(
+            state_name=loc["state_name"],
+            district_name=loc["district_name"],
+            block_name=loc["block_name"],
+            panchayat_name=loc["panchayat_name"]
+        )
+
+    # States for dropdown
+    states = list(Location.objects.values_list("state_name", flat=True).distinct())
 
     # Password generator
     def generate_password(length=10):
@@ -9093,18 +9157,15 @@ def add_booth_member(request):
 
     if request.method == 'POST':
         username = request.POST.get('username')
-
-        # Username check
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists. Please choose another.")
             return redirect('add_booth_member')
 
-        # Collect form data
+        # Personal info
         full_name = request.POST.get('full_name')
         father_or_mother_name = request.POST.get('father_or_mother_name')
         dob_str = request.POST.get('date_of_birth')
         date_of_birth = parse_date(dob_str) if dob_str else None
-
         gender = request.POST.get('gender')
         mobile_number = request.POST.get('mobile_number')
         alternate_mobile_number = request.POST.get('alternate_mobile_number') or None
@@ -9113,13 +9174,14 @@ def add_booth_member(request):
         permanent_address = request.POST.get('permanent_address')
         current_address = request.POST.get('current_address') or None
 
-        # ✅ State selection from form
+        # Location info
         state = request.POST.get('state')
         district = request.POST.get('district')
         block_tehsil_taluka = request.POST.get('block_tehsil_taluka')
+        assigned_panchayat = request.POST.get('assigned_panchayat') or None
+
         village_town_city = request.POST.get('village_town_city')
         pincode = request.POST.get('pincode')
-
         booth_number = request.POST.get('booth_number') or None
         ward_name = request.POST.get('ward_name') or None
         assigned_area = request.POST.get('assigned_area') or None
@@ -9131,23 +9193,22 @@ def add_booth_member(request):
         assigned_state = state
         assigned_district = district
         assigned_block = block_tehsil_taluka
-        assigned_panchayat = request.POST.get('assigned_panchayat') or None
 
+        # Files
         photo = request.FILES.get('photo')
         id_proof = request.FILES.get('id_proof')
         address_proof = request.FILES.get('address_proof')
         digital_signature = request.FILES.get('digital_signature')
 
+        # Role
         role_id = request.POST.get('designation')
         role_instance = get_object_or_404(Role, id=role_id) if role_id else None
-
-        location_id = request.POST.get('location')
-        location_instance = get_object_or_404(Location, id=location_id) if location_id else None
-
         designation = role_instance.role_name if role_instance else None
+
+        # Password
         password = request.POST.get('password') or generate_password()
 
-        # ✅ Create user
+        # Create user
         user = User(
             username=username,
             full_name=full_name,
@@ -9177,7 +9238,6 @@ def add_booth_member(request):
             assigned_panchayat=assigned_panchayat,
             designation=designation,
             role=role_instance,
-            location=location_instance,
             photo=photo,
             id_proof=id_proof,
             address_proof=address_proof,
@@ -9186,16 +9246,16 @@ def add_booth_member(request):
         )
         user.set_password(password)
         user.save()
-
         messages.success(request, f"Booth Member successfully created. Password: {password}")
         return redirect('manage_booth_member')
 
+    # GET request → send states + generated password
     return render(request, 'core/admin/add_booth_member.html', {
         'booth_roles': Role.objects.filter(level='booth'),
-        'locations': Location.objects.all(),
-        'bihar_districts': bihar_districts,
-        'jharkhand_districts': jharkhand_districts,
-        'states': ["Bihar", "Jharkhand"]  # ✅ better variable name
+        'states': states,
+        'generated_password': generate_password(),
+        'locations': Location.objects.all()  # <-- ye add karna zaruri hai
+
     })
 
 def manage_booth_member(request):

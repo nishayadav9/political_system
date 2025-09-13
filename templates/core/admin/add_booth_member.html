@@ -25,26 +25,23 @@
       </div>
       <div class="card-body">
         <div class="row g-3">
+          <!-- Personal fields -->
           <div class="col-6 col-md-6 col-lg-4">
             <label for="username" class="form-label">Username</label>
             <input type="text" class="form-control" id="username" name="username" required />
           </div>
-
           <div class="col-6 col-md-6 col-lg-4">
             <label for="full_name" class="form-label">Full Name</label>
             <input type="text" class="form-control" id="full_name" name="full_name" required />
           </div>
-
           <div class="col-6 col-md-6 col-lg-4">
             <label for="father_or_mother_name" class="form-label">Father’s/Mother’s Name</label>
             <input type="text" class="form-control" id="father_or_mother_name" name="father_or_mother_name" required />
           </div>
-
           <div class="col-6 col-md-6 col-lg-4">
             <label for="date_of_birth" class="form-label">Date of Birth</label>
             <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required />
           </div>
-
           <div class="col-6 col-md-6 col-lg-4">
             <label for="gender" class="form-label">Gender</label>
             <select class="form-select" id="gender" name="gender" required>
@@ -54,32 +51,26 @@
               <option value="Other">Other</option>
             </select>
           </div>
-
           <div class="col-6 col-md-6 col-lg-4">
             <label for="mobile_number" class="form-label">Mobile Number</label>
             <input type="tel" class="form-control" id="mobile_number" name="mobile_number" required pattern="[0-9]{10}" placeholder="10-digit number" />
           </div>
-
           <div class="col-6 col-md-6 col-lg-4">
             <label for="alternate_mobile_number" class="form-label">Alternate Mobile Number</label>
             <input type="tel" class="form-control" id="alternate_mobile_number" name="alternate_mobile_number" pattern="[0-9]{10}" placeholder="10-digit number" />
           </div>
-
           <div class="col-6 col-md-6 col-lg-4">
             <label for="email" class="form-label">Email Address</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="example@mail.com" required />
           </div>
-
           <div class="col-6 col-md-6 col-lg-4">
             <label for="aadhar_or_govt_id" class="form-label">Aadhar Number / Govt ID</label>
             <input type="text" class="form-control" id="aadhar_or_govt_id" name="aadhar_or_govt_id" required />
           </div>
-
           <div class="col-6 col-md-6 col-lg-4">
             <label for="permanent_address" class="form-label">Permanent Address</label>
             <textarea class="form-control" id="permanent_address" name="permanent_address" rows="2" required></textarea>
           </div>
-
           <div class="col-6 col-md-6 col-lg-4">
             <label for="current_address" class="form-label">Current Address</label>
             <textarea class="form-control" id="current_address" name="current_address" rows="2"></textarea>
@@ -112,14 +103,13 @@
             </select>
           </div>
 
-          <!-- Panchayat Dropdown -->
+          <!-- Panchayat Dropdown (Personal Details) -->
           <div class="col-6 col-md-6 col-lg-4">
-            <label for="assigned_panchayat" class="form-label">Panchayat</label>
-            <select class="form-select" id="assigned_panchayat" name="assigned_panchayat">
+            <label for="personal_panchayat" class="form-label">Panchayat</label>
+            <select class="form-select" id="personal_panchayat" name="personal_panchayat">
               <option value="">-- Select Panchayat --</option>
             </select>
           </div>
-
 
           <div class="col-6 col-md-6 col-lg-4">
             <label for="village_town_city" class="form-label">Village / Town / City</label>
@@ -229,9 +219,10 @@
           </div>
 
           <div class="col-6 col-md-6 col-lg-4">
-            <label for="password" class="form-label">Generated Password</label>
-            <input type="text" name="password" id="password" class="form-control" readonly>
-          </div>
+    <label for="password" class="form-label">Generated Password</label>
+    <input type="text" name="password" id="password" class="form-control" readonly value="{{ generated_password }}">
+</div>
+
 
         </div>
       </div>
@@ -244,13 +235,14 @@
   </form>
 </div>
 
+<!-- JSON data for cascading dropdowns -->
 <script type="application/json" id="location-data">
 [
   {% for loc in locations %}
   {
-    "state": "{{ loc.state_name }}",
-    "district": "{{ loc.district_name }}",
-    "block": "{{ loc.block_name }}",
+    "state": "{{ loc.state_name|default_if_none:'' }}",
+    "district": "{{ loc.district_name|default_if_none:'' }}",
+    "block": "{{ loc.block_name|default_if_none:'' }}",
     "panchayat": "{{ loc.panchayat_name|default_if_none:'' }}"
   }{% if not forloop.last %},{% endif %}
   {% endfor %}
@@ -264,51 +256,73 @@ document.addEventListener("DOMContentLoaded", function () {
     const stateSelect = document.getElementById("state");
     const districtSelect = document.getElementById("district");
     const blockSelect = document.getElementById("block_tehsil_taluka");
-    const panchayatSelect = document.getElementById("assigned_panchayat");
+    const panchayatSelect = document.getElementById("personal_panchayat"); // updated
 
-    function populateDropdown(selectElement, items) {
-        selectElement.innerHTML = '<option value="">-- Select --</option>';
+    // Official details fields
+    const assignedStateInput = document.getElementById("assigned_state");
+    const assignedDistrictInput = document.getElementById("assigned_district");
+    const assignedBlockInput = document.getElementById("assigned_block");
+    const assignedPanchayatInput = document.getElementById("assigned_panchayat");
+
+    function populateDropdown(selectElement, items, placeholder="-- Select --") {
+        selectElement.innerHTML = `<option value="">${placeholder}</option>`;
         items.forEach(item => {
-            const opt = document.createElement("option");
-            opt.value = item;
-            opt.textContent = item;
-            selectElement.appendChild(opt);
+            if(item && item.trim() !== "") {
+                const opt = document.createElement("option");
+                opt.value = item.trim();
+                opt.textContent = item.trim();
+                selectElement.appendChild(opt);
+            }
         });
     }
 
+    function updateOfficialDetails() {
+        assignedStateInput.value = stateSelect.value.trim();
+        assignedDistrictInput.value = districtSelect.value.trim();
+        assignedBlockInput.value = blockSelect.value.trim();
+        assignedPanchayatInput.value = panchayatSelect.value.trim();
+    }
+
     stateSelect.addEventListener("change", function () {
-        const selectedState = this.value;
+        const selectedState = this.value.trim();
         const districts = [...new Set(locationData
-            .filter(l => l.state === selectedState)
+            .filter(l => l.state.trim() === selectedState)
             .map(l => l.district)
+            .filter(d => d && d.trim() !== "")
         )];
-        populateDropdown(districtSelect, districts);
-        populateDropdown(blockSelect, []);
-        populateDropdown(panchayatSelect, []);
+        populateDropdown(districtSelect, districts, "-- Select District --");
+        populateDropdown(blockSelect, [], "-- Select Block --");
+        populateDropdown(panchayatSelect, [], "-- Select Panchayat --");
+        updateOfficialDetails();
     });
 
     districtSelect.addEventListener("change", function () {
-        const selectedState = stateSelect.value;
-        const selectedDistrict = this.value;
+        const selectedState = stateSelect.value.trim();
+        const selectedDistrict = this.value.trim();
         const blocks = [...new Set(locationData
-            .filter(l => l.state === selectedState && l.district === selectedDistrict)
+            .filter(l => l.state.trim() === selectedState && l.district.trim() === selectedDistrict)
             .map(l => l.block)
+            .filter(b => b && b.trim() !== "")
         )];
-        populateDropdown(blockSelect, blocks);
-        populateDropdown(panchayatSelect, []);
+        populateDropdown(blockSelect, blocks, "-- Select Block --");
+        populateDropdown(panchayatSelect, [], "-- Select Panchayat --");
+        updateOfficialDetails();
     });
 
     blockSelect.addEventListener("change", function () {
-        const selectedState = stateSelect.value;
-        const selectedDistrict = districtSelect.value;
-        const selectedBlock = this.value;
+        const selectedState = stateSelect.value.trim();
+        const selectedDistrict = districtSelect.value.trim();
+        const selectedBlock = this.value.trim();
         const panchayats = [...new Set(locationData
-            .filter(l => l.state === selectedState && l.district === selectedDistrict && l.block === selectedBlock)
+            .filter(l => l.state.trim() === selectedState && l.district.trim() === selectedDistrict && l.block.trim() === selectedBlock)
             .map(l => l.panchayat)
-            .filter(p => p !== "")
+            .filter(p => p && p.trim() !== "")
         )];
-        populateDropdown(panchayatSelect, panchayats);
+        populateDropdown(panchayatSelect, panchayats, "-- Select Panchayat --");
+        updateOfficialDetails();
     });
+
+    panchayatSelect.addEventListener("change", updateOfficialDetails);
 });
 </script>
 
