@@ -272,28 +272,28 @@
 
 
 
-
-<section class="bg-gradient-to-r from-purple-700 via-teal-500 to-orange-600 text-white py-24">
-  <div class="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-20">
+<section class="bg-gradient-to-r from-purple-700 via-teal-500 to-orange-600 text-white py-16 sm:py-20 lg:py-24">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16 lg:gap-20">
     
     <!-- Left Text Block -->
-    <div class="lg:w-1/2 space-y-8">
-      <h2 class="text-5xl font-extrabold leading-tight drop-shadow-lg">
+    <div class="lg:w-1/2 text-center lg:text-left space-y-6 sm:space-y-8">
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight drop-shadow-lg">
         {% blocktrans %}Empower Your Voice{% endblocktrans %}
       </h2>
-      <p class="text-lg text-white/80 max-w-lg">
+      <p class="text-base sm:text-lg text-white/80 max-w-lg mx-auto lg:mx-0">
         {% blocktrans %}Jan Samadhan empowers you with transparency and accountability. Raise your concerns and track them with ease.{% endblocktrans %}
       </p>
-      <a class="inline-block bg-white text-teal-700 hover:bg-teal-100 transition px-10 py-4 rounded-full font-bold text-lg shadow-lg">
+      <a class="inline-block bg-white text-teal-700 hover:bg-teal-100 transition px-6 sm:px-10 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg shadow-lg">
         {% blocktrans %}Get Started Now{% endblocktrans %}
       </a>
     </div>
     
     <!-- Right Images with overlapping circles -->
-    <div class="lg:w-1/2 relative flex justify-center items-center" style="min-height: 360px;">
+    <div class="lg:w-1/2 relative flex justify-center items-center min-h-[260px] sm:min-h-[320px] lg:min-h-[360px]">
+      
       <!-- Circle 1 -->
       <div 
-        class="absolute w-96 h-96 rounded-full overflow-hidden shadow-2xl border-8 border-white/90"
+        class="absolute rounded-full overflow-hidden shadow-2xl border-4 sm:border-8 border-white/90 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96"
         style="left: 0; top: 50%; transform: translateY(-50%)"
       >
         <img 
@@ -305,8 +305,8 @@
 
       <!-- Circle 2 overlapping circle 1 -->
       <div 
-        class="absolute w-96 h-96 rounded-full overflow-hidden shadow-2xl border-8 border-white/90"
-        style="left: 14rem; top: 40%; transform: translateY(-40%)"
+        class="absolute rounded-full overflow-hidden shadow-2xl border-4 sm:border-8 border-white/90 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96"
+        style="left: 8rem; sm:left: 10rem; lg:left: 14rem; top: 40%; transform: translateY(-40%)"
       >
         <img 
           src="{% static 'core/images/first_2.webp' %}" 
@@ -315,15 +315,16 @@
         />
       </div>
 
-      <!-- Optional subtle glowing ring behind -->
+      <!-- Glowing Ring -->
       <div 
-        class="absolute w-[28rem] h-[28rem] rounded-full bg-teal-400 opacity-20 blur-3xl"
-        style="left: 10rem; top: 50%; transform: translateY(-50%)"
+        class="absolute rounded-full bg-teal-400 opacity-20 blur-3xl w-60 h-60 sm:w-96 sm:h-96 lg:w-[28rem] lg:h-[28rem]"
+        style="left: 4rem; sm:left: 8rem; lg:left: 10rem; top: 50%; transform: translateY(-50%)"
       ></div>
     </div>
 
   </div>
 </section>
+
 
 
 <section class="bg-gradient-to-r from-pastel-blue-100 via-pastel-purple-100 to-pastel-pink-100 py-20">
