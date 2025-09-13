@@ -36,11 +36,13 @@
 <a href="{% url 'home' %}" class="relative inline-block">
   <img src="{% static 'core/images/logo-removebg-preview.png' %}" 
        alt="Logo" 
-       class="h-20 sm:h-24 md:h-28 w-auto">
+       class="w-auto max-w-full h-auto">
 
-  <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
-              text-black font-bold bg-yellow-400 px-4 py-1 text-xs sm:text-sm md:text-base"
-       style="clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);">
+  <div class="absolute" 
+       style="top: 50%; left: 50%; transform: translate(-50%, -50%);
+              color: black; font-weight: bold; background-color: yellow; 
+              padding: 5px 20px;
+              clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);">
     जन समाधान
   </div>
 </a>
