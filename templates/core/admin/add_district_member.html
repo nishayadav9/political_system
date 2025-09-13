@@ -22,10 +22,7 @@
             </h5>
 
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div>
-                    <label for="username" class="block text-gray-600 font-medium mb-1">Username</label>
-                    <input type="text" id="username" name="username" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required />
-                </div>
+                
 
                 <div>
                     <label for="full_name" class="block text-gray-600 font-medium mb-1">Full Name</label>
@@ -114,80 +111,88 @@
             </div>
         </div>
 
-        <!-- OFFICIAL DETAILS -->
+       <!-- OFFICIAL DETAILS -->
+<div>
+    <h5 class="text-lg font-semibold text-green-700 uppercase tracking-wider border-l-4 border-green-500 bg-green-50 px-3 py-2 mb-4 mt-6">
+        Official Details
+    </h5>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+
         <div>
-            <h5 class="text-lg font-semibold text-green-700 uppercase tracking-wider border-l-4 border-green-500 bg-green-50 px-3 py-2 mb-4 mt-6">
-                Official Details
-            </h5>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div>
-                    <label for="id_location_level" class="block text-gray-600 font-medium mb-1">Select Location Level</label>
-                    <select name="location_level" id="id_location_level" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" required>
-                        <option value="">-- Select Level --</option>
-                        <option value="state">State</option>
-                        <option value="district">District</option>
-                        <option value="block">Block</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="role-select" class="block text-gray-600 font-medium mb-1">Role</label>
-                    <select name="role" id="role-select" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" required>
-                        <option value="">Select Role</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="assigned_state" class="block text-gray-600 font-medium mb-1">Assigned State</label>
-                    <input type="text" id="assigned_state" name="assigned_state" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" readonly />
-                </div>
-
-                <div>
-                    <label for="assigned_district" class="block text-gray-600 font-medium mb-1">Assigned District</label>
-                    <input type="text" id="assigned_district" name="assigned_district" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" readonly />
-                </div>
-
-                <div>
-                    <label for="assigned_block" class="block text-gray-600 font-medium mb-1">Assigned Block</label>
-                    <input type="text" id="assigned_block" name="assigned_block" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" readonly />
-                </div>
-
-                <div>
-                    <label for="local_area_knowledge" class="block text-gray-600 font-medium mb-1">Local Area Knowledge</label>
-                    <select id="local_area_knowledge" name="local_area_knowledge" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400">
-                        <option value="">-- Select --</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="political_experience_years" class="block text-gray-600 font-medium mb-1">Political Experience (years)</label>
-                    <input type="number" id="political_experience_years" name="political_experience_years" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" min="0" />
-                </div>
-
-                <div>
-                    <label for="photo" class="block text-gray-600 font-medium mb-1">Upload Photo</label>
-                    <input type="file" id="photo" name="photo" accept="image/*" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" />
-                </div>
-
-                <div>
-                    <label for="id_proof" class="block text-gray-600 font-medium mb-1">Upload ID Proof</label>
-                    <input type="file" id="id_proof" name="id_proof" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" />
-                </div>
-
-                <div class="col-span-2 md:col-span-3">
-                    <label class="block text-gray-600 font-medium mb-1">Password</label>
-                    <input type="text" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" name="password" value="{{ generated_password }}" readonly />
-                </div>
-
-                <div class="col-span-2 md:col-span-3 flex items-center mt-2">
-                    <input type="checkbox" name="is_active" id="is_active" class="h-5 w-5 text-blue-600 focus:ring-blue-400 border-gray-300 rounded" checked />
-                    <label for="is_active" class="ml-2 block text-gray-700 font-medium">Active</label>
-                </div>
-            </div>
+            <label for="id_location_level" class="block text-gray-600 font-medium mb-1">Select Location Level</label>
+            <select name="location_level" id="id_location_level" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" required>
+                <option value="">-- Select Level --</option>
+                <option value="state">State</option>
+                <option value="district">District</option>
+                <option value="block">Block</option>
+            </select>
         </div>
+
+        <div>
+            <label for="role-select" class="block text-gray-600 font-medium mb-1">Role</label>
+            <select name="role" id="role-select" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" required>
+                <option value="">Select Role</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="assigned_state" class="block text-gray-600 font-medium mb-1">Assigned State</label>
+            <input type="text" id="assigned_state" name="assigned_state" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" readonly />
+        </div>
+
+        <div>
+            <label for="assigned_district" class="block text-gray-600 font-medium mb-1">Assigned District</label>
+            <input type="text" id="assigned_district" name="assigned_district" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" readonly />
+        </div>
+
+        <div>
+            <label for="assigned_block" class="block text-gray-600 font-medium mb-1">Assigned Block</label>
+            <input type="text" id="assigned_block" name="assigned_block" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" readonly />
+        </div>
+
+        <div>
+            <label for="local_area_knowledge" class="block text-gray-600 font-medium mb-1">Local Area Knowledge</label>
+            <select id="local_area_knowledge" name="local_area_knowledge" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400">
+                <option value="">-- Select --</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="political_experience_years" class="block text-gray-600 font-medium mb-1">Political Experience (years)</label>
+            <input type="number" id="political_experience_years" name="political_experience_years" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" min="0" />
+        </div>
+
+        <div>
+            <label for="photo" class="block text-gray-600 font-medium mb-1">Upload Photo</label>
+            <input type="file" id="photo" name="photo" accept="image/*" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" />
+        </div>
+
+        <div>
+            <label for="id_proof" class="block text-gray-600 font-medium mb-1">Upload ID Proof</label>
+            <input type="file" id="id_proof" name="id_proof" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" />
+        </div>
+
+        <!-- Username field moved here -->
+        <div>
+            <label for="username" class="block text-gray-600 font-medium mb-1">Username</label>
+            <input type="text" id="username" name="username" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" required />
+        </div>
+
+        <!-- Password field -->
+        <div class="col-span-2 md:col-span-3">
+            <label class="block text-gray-600 font-medium mb-1">Password</label>
+            <input type="text" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400" name="password" value="{{ generated_password }}" readonly />
+        </div>
+
+        <div class="col-span-2 md:col-span-3 flex items-center mt-2">
+            <input type="checkbox" name="is_active" id="is_active" class="h-5 w-5 text-blue-600 focus:ring-blue-400 border-gray-300 rounded" checked />
+            <label for="is_active" class="ml-2 block text-gray-700 font-medium">Active</label>
+        </div>
+    </div>
+</div>
 
         <div class="text-center mt-6">
             <button type="submit" class="bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition">Add Member</button>

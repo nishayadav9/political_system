@@ -138,103 +138,103 @@ button.btn {
   {% csrf_token %}
 
   <!-- Section 1: Personal Details -->
-  <div class="form-section">
-    <h4>Personal Details</h4>
-    <div class="form-grid">
-      <div class="form-group">{{ form.username.label_tag }}{{ form.username }}{{ form.username.errors }}</div>
-      <div class="form-group">{{ form.full_name.label_tag }}{{ form.full_name }}{{ form.full_name.errors }}</div>
-      <div class="form-group">{{ form.father_or_mother_name.label_tag }}{{ form.father_or_mother_name }}{{ form.father_or_mother_name.errors }}</div>
+<div class="form-section">
+  <h4>Personal Details</h4>
+  <div class="form-grid">
+    <div class="form-group">{{ form.full_name.label_tag }}{{ form.full_name }}{{ form.full_name.errors }}</div>
+    <div class="form-group">{{ form.father_or_mother_name.label_tag }}{{ form.father_or_mother_name }}{{ form.father_or_mother_name.errors }}</div>
 
-      <div class="form-group">
-        <label for="id_date_of_birth">Date of Birth</label>
-        <input type="date" name="date_of_birth" class="form-control" id="id_date_of_birth" value="{{ form.date_of_birth.value|default_if_none:'' }}">
-        {{ form.date_of_birth.errors }}
-      </div>
-      <div class="form-group">{{ form.gender.label_tag }}{{ form.gender }}{{ form.gender.errors }}</div>
-      <div class="form-group">{{ form.mobile_number.label_tag }}{{ form.mobile_number }}{{ form.mobile_number.errors }}</div>
-      <div class="form-group">{{ form.alternate_mobile_number.label_tag }}{{ form.alternate_mobile_number }}{{ form.alternate_mobile_number.errors }}</div>
-      <div class="form-group">{{ form.email.label_tag }}{{ form.email }}{{ form.email.errors }}</div>
-      <div class="form-group">{{ form.aadhar_or_govt_id.label_tag }}{{ form.aadhar_or_govt_id }}{{ form.aadhar_or_govt_id.errors }}</div>
+    <div class="form-group">
+      <label for="id_date_of_birth">Date of Birth</label>
+      <input type="date" name="date_of_birth" class="form-control" id="id_date_of_birth" value="{{ form.date_of_birth.value|default_if_none:'' }}">
+      {{ form.date_of_birth.errors }}
+    </div>
+    <div class="form-group">{{ form.gender.label_tag }}{{ form.gender }}{{ form.gender.errors }}</div>
+    <div class="form-group">{{ form.mobile_number.label_tag }}{{ form.mobile_number }}{{ form.mobile_number.errors }}</div>
+    <div class="form-group">{{ form.alternate_mobile_number.label_tag }}{{ form.alternate_mobile_number }}{{ form.alternate_mobile_number.errors }}</div>
+    <div class="form-group">{{ form.email.label_tag }}{{ form.email }}{{ form.email.errors }}</div>
+    <div class="form-group">{{ form.aadhar_or_govt_id.label_tag }}{{ form.aadhar_or_govt_id }}{{ form.aadhar_or_govt_id.errors }}</div>
 
-      <div class="form-group">{{ form.permanent_address.label_tag }}{{ form.permanent_address }}{{ form.permanent_address.errors }}</div>
-      <div class="form-group">{{ form.current_address.label_tag }}{{ form.current_address }}{{ form.current_address.errors }}</div>
+    <div class="form-group">{{ form.permanent_address.label_tag }}{{ form.permanent_address }}{{ form.permanent_address.errors }}</div>
+    <div class="form-group">{{ form.current_address.label_tag }}{{ form.current_address }}{{ form.current_address.errors }}</div>
 
-      <!-- State Selection -->
-      <div class="form-group">
-        <label for="id_state">State</label>
-        <select id="id_state" name="state" class="form-control">
-          <option value="" disabled selected>Select State</option>
-          {% for st in states %}
-            <option value="{{ st }}">{{ st }}</option>
-          {% endfor %}
-        </select>
-      </div>
+    <!-- State Selection -->
+    <div class="form-group">
+      <label for="id_state">State</label>
+      <select id="id_state" name="state" class="form-control">
+        <option value="" disabled selected>Select State</option>
+        {% for st in states %}
+          <option value="{{ st }}">{{ st }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-      <!-- District, Block, Panchayat -->
-      <div class="form-group">
-        <label for="id_district">District</label>
-        <select id="id_district" name="district" class="form-control">
-          <option value="" disabled selected>Select District</option>
-        </select>
-      </div>
+    <!-- District, Block, Panchayat -->
+    <div class="form-group">
+      <label for="id_district">District</label>
+      <select id="id_district" name="district" class="form-control">
+        <option value="" disabled selected>Select District</option>
+      </select>
+    </div>
 
-      <div class="form-group">
-        <label for="id_block">Block / Tehsil / Taluka</label>
-        <select id="id_block" name="block_tehsil_taluka" class="form-control">
-          <option value="" disabled selected>Select Block</option>
-        </select>
-      </div>
+    <div class="form-group">
+      <label for="id_block">Block / Tehsil / Taluka</label>
+      <select id="id_block" name="block_tehsil_taluka" class="form-control">
+        <option value="" disabled selected>Select Block</option>
+      </select>
+    </div>
 
+    <div class="form-group">
+      <label for="id_panchayat">Panchayat</label>
+      <select id="id_panchayat" name="panchayat" class="form-control">
+        <option value="" disabled selected>Select Panchayat</option>
+      </select>
+    </div>
 
+    <div class="form-group">{{ form.village_town_city.label_tag }}{{ form.village_town_city }}{{ form.village_town_city.errors }}</div>
+    <div class="form-group">{{ form.pincode.label_tag }}{{ form.pincode }}{{ form.pincode.errors }}</div>
+  </div>
+</div>
 
-      
-      
-      <div class="form-group">
-        <label for="id_panchayat">Panchayat</label>
-        <select id="id_panchayat" name="panchayat" class="form-control">
-          <option value="" disabled selected>Select Panchayat</option>
-        </select>
-      </div>
+<!-- Section 2: Official & Other Details -->
+<div class="form-section">
+  <h4>Official & Other Details</h4>
+  <div class="form-grid official">
 
-      <div class="form-group">{{ form.village_town_city.label_tag }}{{ form.village_town_city }}{{ form.village_town_city.errors }}</div>
-      <div class="form-group">{{ form.pincode.label_tag }}{{ form.pincode }}{{ form.pincode.errors }}</div>
+    <div class="form-group">{{ form.role.label_tag }}{{ form.role }}{{ form.role.errors }}</div>
+    <div class="form-group">{{ form.location_level.label_tag }}{{ form.location_level }}{{ form.location_level.errors }}</div>
+
+    <div class="form-group">
+      <label for="id_assigned_state">Assigned State</label>
+      <input type="text" name="assigned_state" class="form-control" id="id_assigned_state" readonly>
+    </div>
+
+    <div class="form-group">
+      <label for="id_assigned_districts">Assigned Districts</label>
+      <input type="text" name="assigned_districts" class="form-control" id="id_assigned_districts">
+      {{ form.assigned_districts.errors }}
+    </div>
+
+    <div class="form-group">{{ form.political_experience_years.label_tag }}{{ form.political_experience_years }}{{ form.political_experience_years.errors }}</div>
+    <div class="form-group">{{ form.photo.label_tag }}{{ form.photo }}{{ form.photo.errors }}</div>
+    <div class="form-group">{{ form.id_proof.label_tag }}{{ form.id_proof }}{{ form.id_proof.errors }}</div>
+    <div class="form-group">{{ form.digital_signature.label_tag }}{{ form.digital_signature }}{{ form.digital_signature.errors }}</div>
+
+    <!-- Username moved here -->
+    <div class="form-group">{{ form.username.label_tag }}{{ form.username }}{{ form.username.errors }}</div>
+
+    <!-- Password field -->
+    <div class="form-group">
+      <label for="password-display">Password</label>
+      <input type="text" id="password-display" class="form-control" value="{{ form.password.value|default_if_none:'' }}" />
+      {{ form.password.as_hidden }}
+    </div>
+
+    <div class="form-check" style="align-self:center;">
+      {{ form.is_active }} {{ form.is_active.label_tag }}
     </div>
   </div>
-
-  <!-- Section 2: Official & Other Details -->
-  <div class="form-section">
-    <h4>Official & Other Details</h4>
-    <div class="form-grid official">
-      <div class="form-group">{{ form.role.label_tag }}{{ form.role }}{{ form.role.errors }}</div>
-      <div class="form-group">{{ form.location_level.label_tag }}{{ form.location_level }}{{ form.location_level.errors }}</div>
-
-      <div class="form-group">
-        <label for="id_assigned_state">Assigned State</label>
-        <input type="text" name="assigned_state" class="form-control" id="id_assigned_state" readonly>
-      </div>
-
-      <div class="form-group">
-        <label for="id_assigned_districts">Assigned Districts</label>
-        <input type="text" name="assigned_districts" class="form-control" id="id_assigned_districts">
-        {{ form.assigned_districts.errors }}
-      </div>
-
-      <div class="form-group">{{ form.political_experience_years.label_tag }}{{ form.political_experience_years }}{{ form.political_experience_years.errors }}</div>
-      <div class="form-group">{{ form.photo.label_tag }}{{ form.photo }}{{ form.photo.errors }}</div>
-      <div class="form-group">{{ form.id_proof.label_tag }}{{ form.id_proof }}{{ form.id_proof.errors }}</div>
-      <div class="form-group">{{ form.digital_signature.label_tag }}{{ form.digital_signature }}{{ form.digital_signature.errors }}</div>
-
-      <div class="form-group">
-        <label for="password-display">Password</label>
-        <input type="text" id="password-display" class="form-control" value="{{ form.password.value|default_if_none:'' }}" />
-        {{ form.password.as_hidden }}
-      </div>
-
-      <div class="form-check" style="align-self:center;">
-        {{ form.is_active }} {{ form.is_active.label_tag }}
-      </div>
-    </div>
-  </div>
+</div>
 
   <div class="form-group">
     <button type="submit" class="btn btn-primary">Add Member</button>
