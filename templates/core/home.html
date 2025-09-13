@@ -9,11 +9,21 @@
   }
 </style>
 
-<div style="position: relative; width: 100vw; overflow: hidden; margin-bottom: 40px;">
-  <img src="{% static 'core/images/banner1.jpeg' %}"
-       alt="{% trans 'Banner Image' %}"
-       style="width: 100%; height: auto; display: block; object-fit: contain;">
+<div class="w-full overflow-hidden">
+  <img src="{% static 'core/images/banner1.jpeg' %}" 
+       alt="{% trans 'Banner Image' %}" 
+       class="w-full h-auto sm:h-[200px] md:h-[300px] lg:h-[400px] xl:h-[500px] object-cover">
 </div>
+
+
+
+
+<style>
+  body {
+  overflow-x: hidden;
+}
+
+</style>
 <section class="py-16 bg-gray-50">
   <div class="max-w-7xl mx-auto text-center px-6">
     <h2 class="text-4xl font-extrabold text-green-900">
