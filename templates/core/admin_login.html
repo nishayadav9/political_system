@@ -2,8 +2,9 @@
 {% load static %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center vh-100" style="background: url('{% static 'core/images/partylogin.jpg' %}') no-repeat center center fixed; background-size: cover;">
-  <div class="login-card text-white" style="max-width: 400px; width: 100%; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); color: white;">
+<div class="d-flex justify-content-center align-items-center vh-100"
+     style="background: url('{% static 'core/images/partylogin1.jpg' %}') no-repeat center center; background-size: 70% auto; background-attachment: scroll; background-color: #f8f9fa;">
+  <div class="login-card text-black" style="max-width: 400px; width: 100%; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); color: white;">
     <h3 class="text-center mb-4">Admin Login</h3>
 
     {% if messages %}
