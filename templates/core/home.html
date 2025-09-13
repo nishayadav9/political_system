@@ -4,24 +4,24 @@
 
 {% block content %}
 <style>
-  body {
-    overflow-x: hidden;
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Horizontal scroll hata dega */
   }
 </style>
 
-<div class="w-full overflow-hidden">
+
+<div class="w-full overflow-hidden relative">
   <img src="{% static 'core/images/banner1.jpeg' %}" 
        alt="{% trans 'Banner Image' %}" 
-       class="w-full h-auto sm:h-[200px] md:h-[300px] lg:h-[400px] xl:h-[500px] object-cover">
+       class="w-full h-auto sm:h-[200px] md:h-[300px] lg:h-[400px] xl:h-[500px] object-cover object-center">
 </div>
 
 
 
 
-<style>
-  body {
-  overflow-x: hidden;
-}
+
 
 </style>
 <section class="py-16 bg-gray-50">
