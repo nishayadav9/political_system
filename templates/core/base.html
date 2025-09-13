@@ -30,54 +30,75 @@
 
 <!-- Navbar -->
 <nav class="fixed top-0 w-full z-50 bg-gradient-to-r from-teal-800 via-teal-600 to-green-500 shadow-lg h-28 flex items-center px-6">
-  <div class="flex justify-between items-center w-full">
+  <div class="w-full flex justify-between items-center">
 
     <!-- Logo -->
-    <a href="{% url 'home' %}" class="relative inline-block">
+    <a href="{% url 'home' %}" style="position: relative; display: inline-block;">
       <img src="{% static 'core/images/logo-removebg-preview.png' %}" 
            alt="Logo" 
-           class="h-20 sm:h-24 md:h-28 w-auto">
-      <div class="absolute text-black font-bold bg-yellow-400 px-4 py-1 text-xs sm:text-sm md:text-base"
-           style="top:50%; left:50%; transform: translate(-50%, -50%); clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);">
+           style="height: 300px; width: auto; display: block;">
+      <div id="janSamadhan" style="position: absolute; top: 206px; left: 263px;
+                color: black; font-size: 16px; font-weight: bold;
+                background-color: yellow;
+                padding: 3px 25px 3px 20px; 
+                pointer-events: none;
+                white-space: nowrap;
+                display: inline-block;
+                clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);">
         जन समाधान
       </div>
     </a>
 
-    <!-- Desktop Links -->
-    <div class="hidden lg:flex items-center space-x-8">
-      <!-- Left Links -->
-      <ul class="flex items-center space-x-6">
-        <li><a href="{% url 'home' %}" class="text-yellow-400 font-semibold hover:text-white">Home</a></li>
-        <li><a href="{% url 'complaint_form' %}" class="text-yellow-400 font-semibold hover:text-white">Complaint Form</a></li>
-        <li><a href="{% url 'track_complaint' %}" class="text-yellow-400 font-semibold hover:text-white">Track Complaints</a></li>
-      </ul>
-
-      <!-- Right Items -->
-      <div class="flex items-center space-x-6 ml-6">
-        <!-- Language Selector -->
-        <form action="{% url 'set_language' %}" method="post">
-          {% csrf_token %}
-          <select name="language" onchange="this.form.submit()" class="bg-teal-800 text-white px-2 py-1 rounded-md">
-            <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
-            <option value="hi" {% if request.LANGUAGE_CODE == 'hi' %}selected{% endif %}>Hindi</option>
-          </select>
-        </form>
-
-        <!-- Login -->
-        <a href="{% url 'public_otp_login' %}" 
-           class="bg-white text-teal-800 rounded-full p-2 flex items-center justify-center shadow-md w-12 h-12 hover:bg-green-200 hover:text-teal-900 transition-all">
-          <i class="fas fa-user text-lg"></i>
-        </a>
-      </div>
-    </div>
-
     <!-- Hamburger for mobile -->
-    <button id="openSidebar" class="lg:hidden text-white text-3xl focus:outline-none">
+    <button id="openSidebar" class="lg:hidden text-white text-3xl ml-4 focus:outline-none">
       <i class="fas fa-bars"></i>
     </button>
+
+    <!-- Desktop Links -->
+    <ul class="hidden lg:flex items-center space-x-8 mr-4 ml-auto">
+      <!-- Left group: Home, Complaint Form, Track Complaint -->
+      <div class="flex items-center space-x-8">
+        <li>
+          <a href="{% url 'home' %}" 
+             class="text-yellow-400 font-semibold hover:text-white transition-all border-b-2 border-transparent hover:border-white {% if request.path == '/' %}border-white{% endif %}">
+            {% blocktrans %}Home{% endblocktrans %}
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'complaint_form' %}" 
+             class="text-yellow-400 font-semibold hover:text-white transition-all border-b-2 border-transparent hover:border-white {% if request.path == '/complaint/' %}border-white{% endif %}">
+            {% blocktrans %}Complaint Form{% endblocktrans %}
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'track_complaint' %}" 
+             class="text-yellow-400 font-semibold hover:text-white transition-all border-b-2 border-transparent hover:border-white {% if request.path == '/track/' %}border-white{% endif %}">
+            {% blocktrans %}Track Complaints{% endblocktrans %}
+          </a>
+        </li>
+      </div>
+
+      <!-- Right group: Language selector + Login -->
+      <div class="flex items-center space-x-6">
+        <li>
+          <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <select name="language" onchange="this.form.submit()" class="bg-teal-800 text-white px-2 py-1 rounded-md">
+              <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>{% blocktrans %}English{% endblocktrans %}</option>
+              <option value="hi" {% if request.LANGUAGE_CODE == 'hi' %}selected{% endif %}>{% blocktrans %}Hindi{% endblocktrans %}</option>
+            </select>
+          </form>
+        </li>
+        <li>
+          <a href="{% url 'public_otp_login' %}" 
+             class="bg-white text-teal-800 rounded-full p-2 flex items-center justify-center shadow-md w-12 h-12 hover:bg-green-200 hover:text-teal-900 transition-all">
+            <i class="fas fa-user text-lg"></i>
+          </a>
+        </li>
+      </div>
+    </ul>
   </div>
 </nav>
-
 
 <!-- Sidebar Offcanvas -->
 <div class="fixed inset-0 bg-black bg-opacity-50 hidden z-40" id="sidebarBackdrop"></div>
