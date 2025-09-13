@@ -33,21 +33,53 @@
   <div class="w-full flex justify-between items-center">
 
     <!-- Logo -->
-    <a href="{% url 'home' %}" style="position: relative; display: inline-block;">
-      <img src="{% static 'core/images/logo-removebg-preview.png' %}" 
-           alt="Logo" 
-           style="height: 400px; width: auto; display: block;">
-      <div id="janSamadhan" style="position: absolute; top: 206px; left: 263px;
-                color: black; font-size: 16px; font-weight: bold;
-                background-color: yellow;
-                padding: 3px 25px 3px 20px; 
-                pointer-events: none;
-                white-space: nowrap;
-                display: inline-block;
-                clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);">
-        जन समाधान
-      </div>
-    </a>
+<a href="{% url 'home' %}" style="position: relative; display: inline-block;">
+  <img src="{% static 'core/images/logo-removebg-preview.png' %}" 
+       alt="Logo" 
+       style="height: 400px; width: auto; display: block;"
+       class="logo-img">
+       
+  <div id="janSamadhan" style="position: absolute; top: 206px; left: 263px;
+            color: black; font-size: 16px; font-weight: bold;
+            background-color: yellow;
+            padding: 3px 25px 3px 20px; 
+            pointer-events: none;
+            white-space: nowrap;
+            display: inline-block;
+            clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);"
+       class="logo-text">
+    जन समाधान
+  </div>
+</a>
+
+<!-- Add this CSS somewhere in your <head> or CSS file -->
+<style>
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .logo-img {
+      height: 200px; /* chhota kar diya mobile ke liye */
+    }
+    .logo-text {
+      top: 100px;  /* image ke proportion ke hisab se adjust karo */
+      left: 130px;
+      font-size: 12px;
+      padding: 2px 15px 2px 12px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo-img {
+      height: 150px;
+    }
+    .logo-text {
+      top: 75px;
+      left: 95px;
+      font-size: 10px;
+      padding: 1px 10px 1px 8px;
+    }
+  }
+</style>
+
 
     <!-- Hamburger for mobile -->
     <button id="openSidebar" class="lg:hidden text-white text-3xl ml-4 focus:outline-none">
