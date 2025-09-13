@@ -32,22 +32,36 @@
 <nav class="fixed top-0 w-full z-50 bg-gradient-to-r from-teal-800 via-teal-600 to-green-500 shadow-lg h-28 flex items-center px-6">
   <div class="w-full flex justify-between items-center">
 
-    <!-- Logo -->
     <a href="{% url 'home' %}" style="position: relative; display: inline-block;">
-      <img src="{% static 'core/images/logo-removebg-preview.png' %}" 
-           alt="Logo" 
-           style="height: 400px; width: auto; display: block;">
-      <div id="janSamadhan" style="position: absolute; top: 206px; left: 263px;
-                color: black; font-size: 16px; font-weight: bold;
-                background-color: yellow;
-                padding: 3px 25px 3px 20px; 
-                pointer-events: none;
-                white-space: nowrap;
-                display: inline-block;
-                clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);">
-        जन समाधान
-      </div>
-    </a>
+  <img src="{% static 'core/images/logo-removebg-preview.png' %}" 
+       alt="Logo" 
+       style="height: 400px; width: auto; display: block;">
+
+  <div id="janSamadhan"
+       style="position: absolute; top: 206px; left: 263px;
+              color: black; font-size: 16px; font-weight: bold;
+              background-color: yellow;
+              padding: 3px 25px 3px 20px;
+              pointer-events: none;
+              white-space: nowrap;
+              display: inline-block;
+              clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);">
+    जन समाधान
+  </div>
+</a>
+
+<style>
+/* Mobile screen ke liye left thoda kam */
+@media (max-width: 768px) {
+  #janSamadhan {
+    left: 200px; /* yaha apko adjust karna padega jab tak sahi lage */
+    top: 150px;  /* optional, agar upar niche bhi adjust karna ho */
+    font-size: 14px; /* optional, mobile par thoda chhota karne ke liye */
+    padding: 2px 18px;
+  }
+}
+</style>
+
 
     <!-- Hamburger for mobile -->
     <button id="openSidebar" class="lg:hidden text-white text-3xl ml-4 focus:outline-none">
