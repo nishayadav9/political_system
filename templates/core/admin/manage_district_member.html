@@ -1,13 +1,12 @@
 {% extends 'core/admin/base.html' %}
 
 {% block content %}
-
 <style>
   .table-container {
     width: 100%;
     max-height: 600px;
-    overflow-x: auto;    
-    overflow-y: auto;    
+    overflow-x: auto;
+    overflow-y: auto;
     margin-top: 1rem;
     border-radius: 12px;
     background: #fff;
@@ -109,7 +108,6 @@
   </div>
 </form>
 
-
 <a href="{% url 'add_district_member' %}" class="btn btn-success mb-3">➕ Add New Member</a>
 
 <div class="table-container">
@@ -121,6 +119,7 @@
       </tr>
       <tr>
         <th>Username</th>
+        <th>Password</th>
         <th>Full Name</th>
         <th>Father/Mother Name</th>
         <th>DOB</th>
@@ -136,7 +135,6 @@
         <th>Block/Tehsil</th>
         <th>Village/Town/City</th>
         <th>Pincode</th>
-
         <th>Role</th>
         <th>Assigned District(s)</th>
         <th>Local Knowledge</th>
@@ -151,6 +149,7 @@
       {% for member in members %}
       <tr>
         <td>{{ member.username }}</td>
+        <td>{{ member.plain_password|default:"-" }}</td>
         <td>{{ member.full_name|default:"-" }}</td>
         <td>{{ member.father_or_mother_name|default:"-" }}</td>
         <td>{{ member.date_of_birth|date:"d M Y"|default:"-" }}</td>
@@ -171,22 +170,17 @@
         <td>{{ member.village_town_city|default:"-" }}</td>
         <td>{{ member.pincode|default:"-" }}</td>
 
-<td>
-  {% if member.role %}
-    {{ member.role.role_name|default:"-" }}
-  {% else %}
-    -
-  {% endif %}
-</td>
+        <td>{% if member.role %}{{ member.role.role_name }}{% else %}-{% endif %}</td>
         <td title="{{ member.assigned_district }}">{{ member.assigned_district|truncatechars:20|default:"-" }}</td>
         <td>{{ member.local_area_knowledge|default:"-" }}</td>
         <td>{{ member.political_experience_years|default:"-" }}</td>
         <td>{{ member.created_at|date:"d M Y, H:i" }}</td>
         <td>
           <input type="checkbox" class="toggle-active"
-                 data-model="district" data-id="{{ member.id }}"
+                 data-id="{{ member.id }}"
                  {% if member.is_active %}checked{% endif %}>
         </td>
+
         <td>
           <a href="{% url 'edit_district_member' member.id %}" class="btn btn-sm btn-primary">Edit</a>
           <form method="POST" action="{% url 'delete_district_member' member.id %}" style="display:inline;" onsubmit="return confirm('Delete {{ member.full_name|default:member.username }}?');">
@@ -204,17 +198,18 @@
   </table>
 </div>
 
-
+<!-- CSRF Token hidden input -->
+<input type="hidden" id="csrf-token" value="{{ csrf_token }}">
 
 <script>
   const csrfToken = document.getElementById('csrf-token').value;
+
   document.querySelectorAll('.toggle-active').forEach(checkbox => {
     checkbox.addEventListener('change', function () {
-      const modelName = this.dataset.model;
       const memberId = this.dataset.id;
       const isActive = this.checked;
 
-      fetch(`/toggle-active/${modelName}/${memberId}/`, {
+      fetch(`/toggle-active/${memberId}/`, {
         method: 'POST',
         headers: {
           'X-CSRFToken': csrfToken,
@@ -236,5 +231,4 @@
     });
   });
 </script>
-
 {% endblock %}

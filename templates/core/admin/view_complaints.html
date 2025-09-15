@@ -111,8 +111,69 @@
               <td>{{ complaint.village|default:"-" }}</td>
               <td>{{ complaint.pincode|default:"-" }}</td>
               <td class="text-capitalize">{{ complaint.issue_type|default:"-" }}</td>
-              <td>{{ complaint.title|default:"-" }}</td>
-             <td style="max-width:200px; white-space: pre-wrap;">{{ complaint.description|truncatechars:80 }}</td>
+              <!-- Title Column -->
+<td style="max-width:150px; position: relative;">
+  <div class="text-truncate" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+    {{ complaint.title|default:"-" }}
+  </div>
+
+  {% if complaint.title|length > 50 %}
+  <!-- View Button -->
+  <button type="button" class="btn btn-sm btn-primary mt-1" data-bs-toggle="modal" data-bs-target="#titleModal{{ complaint.id }}">
+    More
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="titleModal{{ complaint.id }}" tabindex="-1" aria-labelledby="titleModalLabel{{ complaint.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="titleModalLabel{{ complaint.id }}">Full Title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {{ complaint.title }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</td>
+
+<!-- Description Column -->
+<td style="max-width:200px; position: relative;">
+  <div style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+    {{ complaint.description|default:"-" }}
+  </div>
+
+  {% if complaint.description|length > 80 %}
+  <!-- View Button -->
+  <button type="button" class="btn btn-sm btn-warning mt-1" data-bs-toggle="modal" data-bs-target="#descModal{{ complaint.id }}">
+    More
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="descModal{{ complaint.id }}" tabindex="-1" aria-labelledby="descModalLabel{{ complaint.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="descModalLabel{{ complaint.id }}">Full Description</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {{ complaint.description }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</td>
 
               <!-- Upload Photo -->
               <td class="text-center">

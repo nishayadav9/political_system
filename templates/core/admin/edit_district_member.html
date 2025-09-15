@@ -92,29 +92,38 @@
         <textarea id="current_address" name="current_address" rows="3" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">{{ member.current_address|default_if_none:'' }}</textarea>
       </div>
 
-      <div>
-        <label for="state_name" class="block text-gray-600 font-medium mb-1">State Name</label>
-        <select id="state_name" name="state_name" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-          <option value="Bihar" selected>Bihar</option>
-        </select>
-      </div>
+     <div>
+  <label for="state_name" class="block text-gray-600 font-medium mb-1">State Name</label>
+  <select id="state_name" name="state_name" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+    <option value="">-- Select State --</option>
+    {% for state in states %}
+      <option value="{{ state.state_name }}" {% if member.state == state.state_name %}selected{% endif %}>{{ state.state_name }}</option>
+    {% endfor %}
+  </select>
+</div>
 
-      <div>
-        <label for="district" class="block text-gray-600 font-medium mb-1">District Name</label>
-        <select id="district" name="district" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-          <option value="">-- Select District --</option>
-          {% for d in districts %}
-            <option value="{{ d }}" {% if member.district == d %}selected{% endif %}>{{ d }}</option>
-          {% endfor %}
-        </select>
-      </div>
+<div>
+  <label for="district" class="block text-gray-600 font-medium mb-1">District Name</label>
+  <select id="district" name="district" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+    <option value="">-- Select District --</option>
+    {% for state in states %}
+      {% if state.state_name == member.state %}
+        {% for dist in state.districts %}
+          <option value="{{ dist.district_name }}" {% if member.district == dist.district_name %}selected{% endif %}>
+            {{ dist.district_name }}
+          </option>
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </select>
+</div>
 
-      <div>
-        <label for="block" class="block text-gray-600 font-medium mb-1">Block</label>
-        <select id="block" name="block" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-          <option value="">-- Select Block --</option>
-        </select>
-      </div>
+<div>
+  <label for="block" class="block text-gray-600 font-medium mb-1">Block</label>
+  <select id="block" name="block" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+    <option value="">-- Select Block --</option>
+  </select>
+</div>
 
       <div>
         <label for="pincode" class="block text-gray-600 font-medium mb-1">Pincode</label>
@@ -212,33 +221,35 @@
 
 <script>
 const rolesData = {{ roles_json|safe }};
+const states = {{ states|safe }};
+const memberRoleId = "{{ member.role.id|default:'' }}";
+const memberBlock = "{{ member.block|default:'' }}";
+
+// Select elements
 const levelSelect = document.getElementById('id_location_level');
 const roleSelect = document.getElementById('role-select');
+const stateSelect = document.getElementById('state_name');
+const districtSelect = document.getElementById('district');
+const blockSelect = document.getElementById('block');
+const officialStateInput = document.getElementById('assigned_state');
+const officialDistrictInput = document.getElementById('assigned_district');
+const officialBlockInput = document.getElementById('assigned_block');
 
-// Populate Role Options
+// ---------- Role Dropdown ----------
 function populateRoleOptions(level) {
     roleSelect.innerHTML = '<option value="">Select Role</option>';
     rolesData.filter(r => r.level === level).forEach(role=>{
         const opt = document.createElement('option');
         opt.value = role.id;
         opt.textContent = role.name;
-        if('{{ member.role.id|default:"" }}' == role.id){ opt.selected = true; }
+        if(memberRoleId == role.id){ opt.selected = true; }
         roleSelect.appendChild(opt);
     });
 }
 levelSelect.addEventListener('change', ()=>populateRoleOptions(levelSelect.value));
 window.addEventListener('DOMContentLoaded', ()=>populateRoleOptions(levelSelect.value));
 
-// Personal Details
-const districtSelect = document.getElementById('district');
-const blockSelect = document.getElementById('block');
-
-// Official Details
-const officialStateInput = document.getElementById('assigned_state');
-const officialDistrictInput = document.getElementById('assigned_district');
-const officialBlockInput = document.getElementById('assigned_block');
-
-// Sort district options alphabetically
+// ---------- District Sorting ----------
 function sortDistrictOptions(selectElem) {
     let options = Array.from(selectElem.options);
     let first = options.shift(); // ignore first "-- Select --"
@@ -247,41 +258,64 @@ function sortDistrictOptions(selectElem) {
     selectElem.appendChild(first);
     options.forEach(opt=>selectElem.appendChild(opt));
 }
-sortDistrictOptions(districtSelect);
 
-// Autofill Official Details (district + block both)
-function autofillOfficialDetails() {
-    officialStateInput.value = 'Bihar';
-    officialDistrictInput.value = districtSelect.value;
-    officialBlockInput.value = blockSelect.value;
+// ---------- Populate Districts Based on State ----------
+function populateDistricts(selectedState) {
+    districtSelect.innerHTML = '<option value="">-- Select District --</option>';
+    states.forEach(state => {
+        if(state.state_name === selectedState){
+            state.districts.forEach(dist => {
+                const opt = document.createElement('option');
+                opt.value = dist.district_name;
+                opt.textContent = dist.district_name;
+                if("{{ member.district|default:'' }}" === dist.district_name){
+                    opt.selected = true;
+                }
+                districtSelect.appendChild(opt);
+            });
+        }
+    });
+    sortDistrictOptions(districtSelect);
+    populateBlocks(districtSelect.value);
 }
 
-// Event Listeners
-districtSelect.addEventListener('change', function(){
-    blockSelect.innerHTML = '<option value="">-- Loading --</option>';
-
-    if(districtSelect.value){
-        fetch(`/ajax/get-blocks/?district=${districtSelect.value}`)
-        .then(res => res.json())
-        .then(data => {
-            blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
-            const sortedBlocks = data.blocks.sort((a,b)=>a.localeCompare(b));
-            sortedBlocks.forEach(b => {
-                const opt = document.createElement('option');
-                opt.value = b;
-                opt.textContent = b;
-                if('{{ member.block|default:"" }}' == b){ opt.selected = true; }
-                blockSelect.appendChild(opt);
-            });
-            autofillOfficialDetails();
+// ---------- Populate Blocks Based on District ----------
+function populateBlocks(selectedDistrict) {
+    blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
+    states.forEach(state => {
+        state.districts.forEach(dist => {
+            if(dist.district_name === selectedDistrict){
+                dist.block_name.split(',').forEach(block => {
+                    const opt = document.createElement('option');
+                    opt.value = block.trim();
+                    opt.textContent = block.trim();
+                    if(block.trim() === memberBlock){ opt.selected = true; }
+                    blockSelect.appendChild(opt);
+                });
+            }
         });
-    } else {
-        blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
-        autofillOfficialDetails();
+    });
+    autofillOfficialDetails();
+}
+
+// ---------- Autofill Official Details ----------
+function autofillOfficialDetails() {
+    officialStateInput.value = stateSelect.value || '';
+    officialDistrictInput.value = districtSelect.value || '';
+    officialBlockInput.value = blockSelect.value || '';
+}
+
+// ---------- Event Listeners ----------
+stateSelect.addEventListener('change', () => populateDistricts(stateSelect.value));
+districtSelect.addEventListener('change', () => populateBlocks(districtSelect.value));
+blockSelect.addEventListener('change', autofillOfficialDetails);
+
+// ---------- On Page Load ----------
+window.addEventListener('DOMContentLoaded', () => {
+    if(stateSelect.value){
+        populateDistricts(stateSelect.value);
     }
 });
-
-blockSelect.addEventListener('change', ()=>autofillOfficialDetails());
 </script>
 
 {% endblock %}

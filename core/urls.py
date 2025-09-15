@@ -81,7 +81,7 @@ path('hod/logout/', views.hod_logout, name='hod_logout'),
 
     path('admin-login/', admin_login, name='admin_login'),
     path('hod-dashboard/', views.hod_dashboard, name='hod_dashboard'),
-    path('toggle-active/<str:model_name>/<int:object_id>/', views.toggle_active, name='toggle_active'),
+path('toggle-active/<int:member_id>/', views.toggle_active_status, name='toggle_active_status'),
 
 
     
@@ -301,6 +301,10 @@ path('booth/messages/received/', views.booth_receive_messages, name='booth_recei
     path('hod/receive-messages/', views.hod_receive_messages, name='hod_receive_messages'),
 
     path('complaints/<int:pk>/update-notice/', views.district_update_public_notice, name='district_update_public_notice'),
+
+
+
+
 
 ]
 

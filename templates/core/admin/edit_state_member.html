@@ -216,30 +216,30 @@ input[type="file"] {
       </div>
 
       <div class="form-group">
-        <label for="id_state">State</label>
-        <input type="text" id="id_state" name="state" class="form-control" value="Bihar" readonly>
-      </div>
+    <label for="id_state">State</label>
+    <select id="id_state" name="state" class="form-control">
+        <option value="">-- Select State --</option>
+        {% for s in states %}
+            <option value="{{ s.name }}" {% if member.state == s.name %}selected{% endif %}>{{ s.name }}</option>
+        {% endfor %}
+    </select>
+</div>
+
 
       <div class="form-group">
-        <label for="id_district">District</label>
-        <select id="id_district" name="district" class="form-control">
-          <option value="" disabled>Select District</option>
-          {% for d in districts %}
-            <option value="{{ d }}" {% if member.district == d %}selected{% endif %}>{{ d }}</option>
-          {% endfor %}
-        </select>
-      </div>
+    <label for="id_district">District</label>
+    <select id="id_district" name="district" class="form-control">
+        <option value="">-- Select District --</option>
+    </select>
+</div>
 
       <div class="form-group">
-        <label for="id_block">Block / Tehsil / Taluka</label>
-        <select id="id_block" name="block_tehsil_taluka" class="form-control">
-          {% if member.block_tehsil_taluka %}
-            <option value="{{ member.block_tehsil_taluka }}" selected>{{ member.block_tehsil_taluka }}</option>
-          {% else %}
-            <option value="" disabled selected>Select Block</option>
-          {% endif %}
-        </select>
-      </div>
+    <label for="id_block">Block / Tehsil / Taluka</label>
+    <select id="id_block" name="block_tehsil_taluka" class="form-control">
+        <option value="">-- Select Block --</option>
+    </select>
+</div>
+
 
       <div class="form-group">
         <label for="id_village_town_city">Village/Town/City</label>
@@ -314,5 +314,61 @@ input[type="file"] {
     <a href="{% url 'manage_state_member' %}" class="btn btn-secondary">Cancel</a>
   </div>
 </form>
+
+<script>
+const states = {{ states|safe }};
+const stateSelect = document.getElementById('id_state');
+const districtSelect = document.getElementById('id_district');
+const blockSelect = document.getElementById('id_block');
+
+const memberDistrict = "{{ member.district|default:'' }}";
+const memberBlock = "{{ member.block_tehsil_taluka|default:'' }}";
+
+// Populate districts based on selected state
+function populateDistricts(selectedState){
+    districtSelect.innerHTML = '<option value="">-- Select District --</option>';
+    blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
+    const state = states.find(s => s.name === selectedState);
+    if(state){
+        state.districts.forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d.name;
+            opt.textContent = d.name;
+            if(d.name === memberDistrict){ opt.selected = true; }
+            districtSelect.appendChild(opt);
+        });
+    }
+    if(districtSelect.value) populateBlocks(districtSelect.value);
+}
+
+// Populate blocks based on selected district
+function populateBlocks(selectedDistrict){
+    blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
+    const state = states.find(s => s.name === stateSelect.value);
+    if(state){
+        const district = state.districts.find(d => d.name === selectedDistrict);
+        if(district){
+            district.blocks.forEach(b => {
+                const opt = document.createElement('option');
+                opt.value = b;
+                opt.textContent = b;
+                if(b === memberBlock){ opt.selected = true; }
+                blockSelect.appendChild(opt);
+            });
+        }
+    }
+}
+
+// Event listeners
+stateSelect.addEventListener('change', ()=>populateDistricts(stateSelect.value));
+districtSelect.addEventListener('change', ()=>populateBlocks(districtSelect.value));
+
+// Populate on page load if member already has state/district
+window.addEventListener('DOMContentLoaded', ()=>{
+    if(stateSelect.value){
+        populateDistricts(stateSelect.value);
+    }
+});
+</script>
 
 {% endblock %}

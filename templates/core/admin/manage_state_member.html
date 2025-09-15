@@ -125,6 +125,8 @@
       <tr>
         <!-- Personal Details -->
         <th>Username</th>
+        <th>Password</th> <!-- ✅ New Column -->
+
         <th>Full Name</th>
         <th>Gender</th>
         <th>DOB</th>
@@ -163,6 +165,8 @@
       <tr>
         <!-- Personal -->
         <td>{{ member.username }}</td>
+        <td>{{ member.plain_password|default:"-" }}</td> <!-- ✅ New Column -->
+
         <td>{{ member.full_name }}</td>
         <td>{{ member.gender|default:"-" }}</td>
         <td>{% if member.date_of_birth %}{{ member.date_of_birth|date:"d M Y" }}{% else %}-{% endif %}</td>
@@ -215,37 +219,42 @@
 </div>
 
 <script>
-  const csrfToken = document.getElementById('csrf-token').value;
-  document.querySelectorAll('.toggle-active').forEach(checkbox => {
-    checkbox.addEventListener('change', function () {
-      const modelName = this.dataset.model;
-      const memberId = this.dataset.id;
-      const isActive = this.checked;
+const csrfToken = document.getElementById('csrf-token').value;
 
-      fetch(`/toggle-active/${modelName}/${memberId}/`, {
-        method: 'POST',
-        headers: {
-          'X-CSRFToken': csrfToken,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ active: isActive }),
-      })
-        .then(response => {
-          if (!response.ok) throw new Error(`Network error: ${response.status}`);
-          return response.json();
-        })
-        .then(data => {
-          if (!data.success) {
-            alert('Failed to update status: ' + (data.error || 'Unknown error'));
-            this.checked = !isActive;
-          }
-        })
-        .catch((err) => {
-          alert('Error updating status: ' + err.message);
-          this.checked = !isActive;
-        });
+document.querySelectorAll('.toggle-active').forEach(checkbox => {
+  checkbox.addEventListener('change', function () {
+    const memberId = this.dataset.id;
+    const isActive = this.checked;
+
+    fetch(`/toggle-active/${memberId}/`, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrfToken,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',  // ✅ ensure server returns JSON
+      },
+      body: JSON.stringify({ active: isActive }),
+    })
+    .then(response => {
+      if (!response.ok) {
+        // Agar server 500/403/404 return kare, throw kar do
+        throw new Error(`Server returned ${response.status}`);
+      }
+      return response.json(); // ye line sirf tab chalegi jab JSON aaye
+    })
+    .then(data => {
+      if (!data.success) {
+        alert('Failed to update status: ' + (data.error || 'Unknown error'));
+        this.checked = !isActive; // revert checkbox
+      }
+    })
+    .catch(err => {
+      alert('Error updating status: ' + err.message);
+      this.checked = !isActive; // revert checkbox
     });
   });
+});
 </script>
+
 
 {% endblock %}

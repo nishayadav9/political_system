@@ -6813,7 +6813,11 @@ def add_state_member(request):
             else:
                 messages.success(request, "Member added successfully.")
 
+            # Save hashed password for login
             member.set_password(password)
+
+            # Save plain password for manage page display
+            member.plain_password = password  # <-- Add this line
 
             # Role assign
             role = form.cleaned_data.get('role')
@@ -6931,18 +6935,88 @@ def manage_state_member(request):
 def edit_state_member(request, member_id):
     member = get_object_or_404(User, id=member_id)
 
+    # States, districts, blocks
+    states = [
+        {
+            "name": "Bihar",
+            "districts": [
+            {"name": "Araria", "blocks": ["Araria", "Forbesganj", "Jokihat", "Kursakatta", "Narpatganj"]},
+            {"name": "Arwal", "blocks": ["Arwal", "Obra", "Kaler"]},
+            {"name": "Aurangabad", "blocks": ["Aurangabad", "Barun", "Daudnagar", "Obra", "Kutumbba"]},
+            {"name": "Banka", "blocks": ["Banka", "Amarpur", "Dhoraiya", "Katoria", "Belhar", "Shambhuganj", "Barahat"]},
+            {"name": "Begusarai", "blocks": ["Begusarai", "Barauni", "Teghra", "Bakhri", "Gidhaur", "Birpur"]},
+            {"name": "Bhagalpur", "blocks": ["Bhagalpur Sadar", "Nathnagar", "Sabour", "Kahalgaon", "Pirpainti"]},
+            {"name": "Bhojpur", "blocks": ["Arrah", "Jagdishpur", "Piro", "Bihiya", "Koilwar", "Agiaon"]},
+            {"name": "Buxar", "blocks": ["Buxar", "Chausa", "Dumraon", "Rajpur", "Sikandarpur", "Nawanagar"]},
+            {"name": "Darbhanga", "blocks": ["Darbhanga Sadar", "Hayaghat", "Keoti", "Bahadurpur", "Alinagar", "Benipur"]},
+            {"name": "Gaya", "blocks": ["Gaya Sadar", "Barachatti", "Tekari", "Sherghati", "Bodh Gaya"]},
+            {"name": "Gopalganj", "blocks": ["Gopalganj", "Manjha", "Bhore", "Baniyapur", "Ekma", "Garkha"]},
+            {"name": "Jamui", "blocks": ["Jamui", "Jhajha", "Chakai", "Gidhaur", "Lachhuar"]},
+            {"name": "Jehanabad", "blocks": ["Jehanabad", "Makhdumpur", "Kako", "Hulasganj", "Modanganj"]},
+            {"name": "Kaimur (Bhabua)", "blocks": ["Bhabua", "Ramgarh", "Mohania", "Chand"]},
+            {"name": "Katihar", "blocks": ["Katihar", "Kishanganj", "Balrampur", "Pranpur", "Manihari"]},
+            {"name": "Khagaria", "blocks": ["Khagaria", "Alauli", "Chautham", "Beldaur", "Mansi"]},
+            {"name": "Kishanganj", "blocks": ["Kishanganj", "Kochadhaman", "Amour", "Baisi", "Kasba"]},
+            {"name": "Lakhisarai", "blocks": ["Lakhisarai", "Sheikhpura", "Chandramandi", "Barbigha"]},
+            {"name": "Madhepura", "blocks": ["Madhepura", "Murliganj", "Shankarpur", "Gwalpara", "Singheshwar"]},
+            {"name": "Madhubani", "blocks": ["Madhubani", "Jainagar", "Pandaul", "Rahika", "Bisfi", "Benipatti"]},
+            {"name": "Munger", "blocks": ["Munger", "Lakhisarai", "Sheikhpura"]},
+            {"name": "Muzaffarpur", "blocks": ["Muzaffarpur", "Mushahari", "Kanti", "Motipur", "Paru"]},
+            {"name": "Nalanda", "blocks": ["Nalanda", "Rajgir", "Bihar Sharif", "Islampur", "Hilsa", "Harnaut"]},
+            {"name": "Nawada", "blocks": ["Nawada", "Hisua", "Akbarpur", "Narhat", "Govindpur"]},
+            {"name": "Patna", "blocks": ["Patna Sadar", "Fatuha", "Paliganj", "Masaurhi", "Dhanarua"]},
+            {"name": "Purnia", "blocks": ["Purnia", "Kishanganj", "Katihar", "Banmankhi", "Alamnagar"]},
+            {"name": "Rohtas", "blocks": ["Rohtas", "Sasaram", "Dehri", "Karakat", "Kargahar"]},
+            {"name": "Saran", "blocks": ["Chapra", "Manjhi", "Dighwara", "Rivilganj", "Parsa", "Baniyapur"]},
+            {"name": "Sheohar", "blocks": ["Sheohar", "Piprahi", "Dumrikatsari", "Puranhia"]},
+            {"name": "Sheikhpura", "blocks": ["Sheikhpura", "Barbigha", "Ghatkusumba", "Chebara"]},
+            {"name": "Supaul", "blocks": ["Supaul", "Triveniganj", "Nirmali", "Chhatapur"]},
+            {"name": "Vaishali", "blocks": ["Vaishali", "Bidupur", "Goraul", "Raghopur", "Lalganj"]},
+            {"name": "West Champaran", "blocks": ["Motihari", "Sugauli", "Harsiddhi", "Pakridayal"]},
+            {"name": "East Champaran", "blocks": ["Motihari", "Chakia", "Dhaka", "Harsidhi", "Sugauli"]},
+            {"name": "Sitamarhi", "blocks": ["Sitamarhi", "Bairgania", "Runni Saidpur", "Belsand"]},
+            {"name": "Siwan", "blocks": ["Siwan", "Goriakothi", "Barharia", "Hussainganj"]},
+            {"name": "Supaul", "blocks": ["Supaul", "Triveniganj", "Nirmali", "Chhatapur"]},
+            {"name": "Saharsa", "blocks": ["Saharsa", "Sonbarsha", "Simri Bakhtiarpur", "Mahishi"]}
+        ]
+        },
+        {
+            "name": "Jharkhand",
+            "districts": [
+            {"name": "Bokaro", "blocks": ["Bermo", "Bokaro Steel City", "Chas", "Gomia", "Petarwar"]},
+            {"name": "Deoghar", "blocks": ["Babhangaon", "Deoghar Sadar", "Madhupur", "Madar"]},
+            {"name": "Dhanbad", "blocks": ["Baliapur", "Dhanbad Sadar", "Govindpur", "Jharia", "Topchanchi", "Tundi"]},
+            {"name": "Dumka", "blocks": ["Dumka Sadar", "Jarmundi", "Masalia", "Shikaripara"]},
+            {"name": "East Singhbhum", "blocks": ["Ghatshila", "Jamshedpur", "Musabani", "Potka"]},
+            {"name": "Garhwa", "blocks": ["Bhawanathpur", "Chinia", "Garhwa Sadar", "Palamu"]},
+            {"name": "Giridih", "blocks": ["Dumri", "Gawan", "Giridih Sadar", "Jamua"]},
+            {"name": "Godda", "blocks": ["Godda Sadar", "Mahagama", "Pathargama", "Poreyahat"]},
+            {"name": "Hazaribagh", "blocks": ["Barkatha", "Churchu", "Hazaribagh Sadar", "Katkamsandi"]},
+            {"name": "Jamtara", "blocks": ["Jamtara Sadar", "Karmatanr", "Nala"]},
+            {"name": "Latehar", "blocks": ["Balumath", "Latehar Sadar", "Manika"]},
+            {"name": "Palamu", "blocks": ["Chhatarpur", "Daltonganj", "Medininagar", "Panki"]},
+            {"name": "Pakur", "blocks": ["Hiranpur", "Maheshpur", "Pakur Sadar"]},
+            {"name": "Ramgarh", "blocks": ["Barkagaon", "Gola", "Mandu", "Ramgarh Sadar"]},
+            {"name": "Saraikela-Kharsawan", "blocks": ["Chandil", "Gamharia", "Kharsawan", "Saraikela"]},
+            {"name": "Simdega", "blocks": ["Kolebira", "Simdega Sadar", "Thethaitangar"]},
+            {"name": "West Singhbhum", "blocks": ["Bandgaon", "Chaibasa", "Majhgaon", "Manoharpur"]},
+            {"name": "Jamshedpur", "blocks": ["Jamshedpur East", "Jamshedpur West", "Musabani", "Potka"]},
+            {"name": "Ranchi", "blocks": ["Kanke", "Namkum", "Ormanjhi", "Ranchi Sadar", "Silli"]}
+        ]
+        }
+    ]
+
     if request.method == "POST":
         email = request.POST.get('email')
-        
-        # Check duplicate email (excluding this member)
         if User.objects.filter(email=email).exclude(id=member_id).exists():
             messages.error(request, "Email already exists!")
-            return render(request, 'core/admin/edit_state_member.html', {'member': member})
+            return render(request, 'core/admin/edit_state_member.html', {'member': member, 'states': states})
 
-        # Update fields
         member.full_name = request.POST.get('full_name')
         member.email = email
         member.state = request.POST.get('state')
+        member.district = request.POST.get('district')
+        member.block_tehsil_taluka = request.POST.get('block_tehsil_taluka')
         member.permanent_address = request.POST.get('permanent_address', '')
         member.current_address = request.POST.get('current_address', '')
         member.save()
@@ -6950,7 +7024,10 @@ def edit_state_member(request, member_id):
         messages.success(request, "State member updated successfully.")
         return redirect('manage_state_member')
 
-    return render(request, 'core/admin/edit_state_member.html', {'member': member})
+    return render(request, 'core/admin/edit_state_member.html', {
+        'member': member,
+        'states': states
+    })
 
 
 @superuser_required
@@ -7475,6 +7552,8 @@ def add_district_member(request):
         member.id_proof = request.FILES.get('id_proof')
 
         member.set_password(password)
+        member.plain_password = password  
+
         member.save()
 
         messages.success(request, f"District member added successfully. Generated password: {password}")
@@ -7533,9 +7612,8 @@ def get_pincode_by_block(request):
 
 @superuser_required
 def manage_district_member(request):
-    # All locations jinke district_name filled ho
-    district_location_ids = Location.objects.exclude(district_name='').values_list('id', flat=True)
-    members = User.objects.filter(location_id__in=district_location_ids)
+    # District level members fetch karo directly role ke basis par
+    members = User.objects.filter(role__level='district').order_by('created_at')
 
     # Simple search
     query = request.GET.get('q')
@@ -7575,11 +7653,37 @@ def edit_district_member(request, member_id):
     member = get_object_or_404(User, id=member_id)
     roles = Role.objects.all()
 
+    # ----------------------- Bihar Locations -----------------------
+    bihar_locations = [
+        {"district_name": "Araria", "block_name": "Araria, Bhargama, Forbesganj, Jokihat, Kursakatta, Narpatganj, Palasi, Raniganj, Sikti"},
+        {"district_name": "Aurangabad", "block_name": "Aurangabad, Barun, Deo, Goh, Haspura, Kutumba, Madanpur, Nabinagar, Obra, Rafiganj"},
+        {"district_name": "Patna", "block_name": "Patna Sadar, Daniyaw, Bakhtiyarpur, Fatuha, Paliganj, Danapur, Maner, Naubatpur, Sampatchak, Masaurhi, Khusrupur, Bihta, Punpun, Barh, Phulwari, Dhanarua"},
+        # ... baaki district yaha add karo
+    ]
+
+    # ----------------------- Jharkhand Locations -----------------------
+    jharkhand_locations = [
+        {"district_name": "Deoghar", "block_name": "Deoghar, Mohanpur, Sarath, Palojori, Margomunda, Karon, Madhupur, Devipur, Sonaraithari"},
+        {"district_name": "Giridih", "block_name": "Bagodar, Bengabad, Birni, Deori, Dhanwar, Dumri, Gandey, Giridih, Jamua, Pirtand, Sariya, Tisri"},
+        {"district_name": "Godda", "block_name": "Bashant Rai, Boarijor, Godda, Mahagama, Meherma, Pathargama, Poraiyahat, Sunderpahari, Thakurgangti"},
+        # ... baaki district yaha add karo
+    ]
+
+    # ✅ Ab states banayein (bihar/jharkhand ka data use karke)
+    states = [
+        {"state_name": "Bihar", "districts": bihar_locations},
+        {"state_name": "Jharkhand", "districts": jharkhand_locations},
+    ]
+
     if request.method == "POST":
         email = request.POST['email']
-        if DistrictLevelPartyMember.objects.filter(email=email).exclude(id=member_id).exists():
+        if User.objects.filter(email=email).exclude(id=member_id).exists():
             messages.error(request, "Email already exists.")
-            return render(request, 'core/admin/edit_district_member.html', {'member': member, 'roles': roles})
+            return render(request, 'core/admin/edit_district_member.html', {
+                'member': member,
+                'roles': roles,
+                'states': states
+            })
 
         role_id = request.POST.get('role')
         role = None
@@ -7588,7 +7692,11 @@ def edit_district_member(request, member_id):
                 role = Role.objects.get(id=role_id)
             except ObjectDoesNotExist:
                 messages.error(request, "Selected role does not exist.")
-                return render(request, 'core/admin/edit_district_member.html', {'member': member, 'roles': roles})
+                return render(request, 'core/admin/edit_district_member.html', {
+                    'member': member,
+                    'roles': roles,
+                    'states': states
+                })
 
         member.username = request.POST['username']
         member.email = email
@@ -7600,7 +7708,11 @@ def edit_district_member(request, member_id):
         messages.success(request, "District member updated successfully.")
         return redirect('manage_district_member')
 
-    return render(request, 'core/admin/edit_district_member.html', {'member': member, 'roles': roles})
+    return render(request, 'core/admin/edit_district_member.html', {
+        'member': member,
+        'roles': roles,
+        'states': states
+    })
 
 
 @superuser_required
@@ -7635,9 +7747,46 @@ def add_block_member(request):
     # Bihar locations
     # -----------------------
     bihar_locations = [
+        
         {"district_name": "Araria", "block_name": "Araria, Bhargama, Forbesganj, Jokihat, Kursakatta, Narpatganj, Palasi, Raniganj, Sikti"},
+        {"district_name": "Arwal", "block_name": "Arwal, Karpi, Kaler, Kurtha, Sonbhadra Banshi Suryapur"},
         {"district_name": "Aurangabad", "block_name": "Aurangabad, Barun, Deo, Goh, Haspura, Kutumba, Madanpur, Nabinagar, Obra, Rafiganj"},
+        {"district_name": "Banka", "block_name": "Amarpur, Banka, Barahat, Belhar, Chanan, Dhoraiya, Fullidumar, Katoria, Phulidumar, Rajoun, Shambhuganj"},
+        {"district_name": "Begusarai", "block_name": "Bachhwara, Barauni, Begusarai, Bakhri, Bhagwanpur, Birpur, Cheria Bariarpur, Chhorahi, Dandari, Garhpura, Khodawandpur, Mansurchak, Matihani, Naokothi, Sahebpur Kamal, Samho Akha Kurha, Teghra"},
+        {"district_name": "Bhagalpur", "block_name": "Bihpur, Gopalpur, Goradih, Ismailpur, Jagdishpur, Kahalgaon, Kharik, Narayanpur, Nathnagar, Pirpainti, Sabour, Sanhoula, Shahkund, Sonhaula"},
+        {"district_name": "Bhojpur", "block_name": "Agiaon, Ara Sadar, Barhara, Bihia, Charpokhari, Garhani, Jagdishpur, Koilwar, Piro, Sahar, Sandesh, Shahpur, Tarari, Udwantnagar"},
+        {"district_name": "Buxar", "block_name": "Buxar, Brahmpur, Chausa, Chakki, Chaugain, Dumraon, Itarhi, Kesath, Nawanagar, Rajpur, Simri"},
+        {"district_name": "Darbhanga", "block_name": "Alinagar, Bahadurpur, Baheri, Benipur, Biraul, Darbhanga Sadar, Ghanshyampur, Hanuman Nagar, Hayaghat, Jale, Keoti, Kusheshwar Asthan, Kusheshwar Asthan Purbi, Manigachhi, Singhwara, Tardih"},
+        {"district_name": "Gaya", "block_name": "Atri, Banke Bazar, Barachatti, Belaganj, Bodh Gaya, Dobhi, Fatehpur, Guraru, Gurua, Gaya Town, Imamganj, Khijarsarai, Konch, Manpur, Mohanpur, Neem Chak Bathani, Paraiya, Sherghati, Tankuppa, Wazirganj"},
+        {"district_name": "Gopalganj", "block_name": "Baikunthpur, Barauli, Bhorey, Bijaipur, Gopalganj, Hathua, Kuchaikote, Manjha, Panchdeori, Phulwaria, Sidhwalia, Thawe, Uchkagaon"},
+        {"district_name": "Jamui", "block_name": "Barhat, Chakai, Gidhaur, Islamnagar Aliganj, Jamui, Jhajha, Khaira, Laxmipur, Sikandra"},
+        {"district_name": "Jehanabad", "block_name": "Ghoshi, Hulasganj, Jehanabad, Kako, Makhdumpur, Modanganj, Ratni Faridpur"},
+        {"district_name": "Kaimur", "block_name": "Adhaura, Bhagwanpur, Chainpur, Chand, Durgawati, Kudra, Mohania, Rampur, Ramgarh, Bhabhua"},
+        {"district_name": "Katihar", "block_name": "Amdabad, Azamnagar, Balrampur, Barari, Dandkhora, Falka, Hasanganj, Kadwa, Katihar, Korha, Kursela, Mansahi, Manihari, Pranpur, Sameli"},
+        {"district_name": "Khagaria", "block_name": "Alauli, Beldaur, Chautham, Gogri, Khagaria, Mansi, Parbatta"},
+        {"district_name": "Kishanganj", "block_name": "Bahadurganj, Dighalbank, Kochadhaman, Kishanganj, Pothia, Terhagachh, Thakurganj"},
+        {"district_name": "Lakhisarai", "block_name": "Barahiya, Chanan, Halsi, Lakhisarai, Pipariya, Ramgarh Chowk, Surajgarha"},
+        {"district_name": "Madhepura", "block_name": "Alamnagar, Bihariganj, Chausa, Gamharia, Ghailarh, Kishanganj, Kumarkhand, Madhepura, Murliganj, Puraini, Shankarpur, Singheshwar"},
+        {"district_name": "Madhubani", "block_name": "Andhratharhi, Babubarhi, Basopatti, Benipatti, Bisfi, Ghoghardiha, Harlakhi, Jainagar, Jhanjharpur, Khajauli, Ladania, Laukaha, Madhepur, Madhwapur, Pandaul, Phulparas, Rajnagar"},
+        {"district_name": "Munger", "block_name": "Asarganj, Bariarpur, Dharhara, Jamalpur, Kharagpur, Munger, Tarapur, Tetiabambar"},
+        {"district_name": "Muzaffarpur", "block_name": "Aurai, Bochaha, Gaighat, Kanti, Katara, Kudhani, Kurhani, Minapur, Motipur, Musahari, Paroo, Sakra, Sahebganj, Saraiya"},
+        {"district_name": "Nalanda", "block_name": "Asthawan, Ben, Bihar Sharif, Bind, Ekangarsarai, Giriyak, Harnaut, Hilsa, Islampur, Karai Parsurai, Katrisarai, Nagarnausa, Noorsarai, Parbalpur, Rajgir, Silao, Tharthari"},
+        {"district_name": "Nawada", "block_name": "Akbarpur, Hisua, Govindpur, Kauwakol, Narhat, Nawada, Pakribarawan, Rajauli, Roh, Sirdala, Warisaliganj"},
         {"district_name": "Patna", "block_name": "Patna Sadar, Daniyaw, Bakhtiyarpur, Fatuha, Paliganj, Danapur, Maner, Naubatpur, Sampatchak, Masaurhi, Khusrupur, Bihta, Punpun, Barh, Phulwari, Dhanarua"},
+        {"district_name": "Purnia", "block_name": "Amour, Baisa, Baisi, Banmankhi, Barhara, Bhawanipur, Dagarua, Dhamdaha, Kasba, Krityanand Nagar, Purnia East, Rupauli, Srinagar"},
+        {"district_name": "Rohtas", "block_name": "Akorhi Gola, Chenari, Dehri, Dawath, Dinara, Karakat, Kochas, Nasriganj, Nokha, Rajpur, Rohtas, Sasaram, Sheosagar, Suryapura, Tilouthu"},
+        {"district_name": "Saharsa", "block_name": "Banma Itahari, Kahara, Mahishi, Nauhatta, Patarghat, Salkhua, Simri Bakhtiarpur, Sonbarsa, Satar Kataiya"},
+        {"district_name": "Samastipur", "block_name": "Bibhutipur, Bithan, Dalsinghsarai, Hasanpur, Kalyanpur, Khanpur, Mohiuddinnagar, Morwa, Patori, Pusa, Rosera, Samastipur, Sarairanjan, Singhia, Shivaji Nagar, Tajpur, Ujiarpur, Vidyapati Nagar, Warisnagar"},
+        {"district_name": "Saran", "block_name": "Amnour, Baniapur, Chapra, Dariapur, Dighwara, Ekma, Garkha, Ishuapur, Jalalpur, Lahladpur, Maker, Manjhi, Marhaura, Mashrakh, Nagra, Panapur, Parsagarh, Revelganj, Sonepur, Taraiya"},
+        {"district_name": "Sheikhpura", "block_name": "Ariari, Barbigha, Chewara, Ghatkusumbha, Sheikhpura, Shekhopur Sarai"},
+        {"district_name": "Sheohar", "block_name": "Dumri Katsari, Purnahiya, Piprahi, Sheohar, Tariyani"},
+        {"district_name": "Sitamarhi", "block_name": "Bairgania, Bajpatti, Bathnaha, Bokhara, Choraut, Dumra, Majorganj, Nanpur, Parihar, Pupri, Runnisaidpur, Riga, Sonbarsa, Suppi"},
+        {"district_name": "Siwan", "block_name": "Andar, Barharia, Basantpur, Bhagwanpur Hat, Darauli, Daraundha, Goriakothi, Guthani, Hasanpura, Hussainganj, Lakri Nabiganj, Maharajganj, Mairwa, Nautan, Pachrukhi, Raghunathpur, Siswan, Siwan, Ziradei"},
+        {"district_name": "Vaishali", "block_name": "Bhagwanpur, Bidupur, Chehrakala, Desri, Goraul, Hajipur, Jandaha, Lalganj, Mahnar, Mahua, Patepur, Raghopur, Raja Pakar, Sahdei Buzurg"},
+        {"district_name": "West Champaran", "block_name": "Bagaha-1, Bagaha-2, Bettiah, Bairia, Bhitaha, Chanpatia, Gaunaha, Jogapatti, Lauriya, Mainatand, Majhaulia, Nautan, Narkatiaganj, Ramnagar, Sikta, Thakrahan"},
+        {"district_name": "East Champaran", "block_name": "Adapur, Areraj, Banjariya, Chakia, Chiraia, Dhaka, Ghorasahan, Harsidhi, Kesariya, Kotwa, Mehsi, Motihari, Pakridayal, Patahi, Pipal Bani, Patahi, Raxaul, Sugauli, Tetaria, Turkaulia"}
+
+
         # ... add remaining districts & blocks
     ]
 
@@ -7780,8 +7929,12 @@ def add_block_member(request):
                 reference_person_contact=reference_person_contact,
                 photo=photo,
                 address_proof=address_proof,
-                is_active=is_active
+                is_active=is_active,
+                plain_password=password   # ← yaha directly set kar do
+
+                
             )
+
             user.location_level = location_level
             user.save()
 
@@ -8162,37 +8315,21 @@ def delete_core_member(request, member_id):
 
 @login_required
 @csrf_exempt
-def toggle_active_status(request):
-    if request.method == 'POST' and request.is_ajax():
+@require_POST
+def toggle_active_status(request, member_id):
+    try:
         data = json.loads(request.body)
+        is_active = data.get("active", True)
 
-        level = data.get('level')
-        member_id = data.get('member_id')
-        is_active = data.get('is_active')
+        member = User.objects.get(id=member_id)
+        member.is_active = is_active
+        member.save(update_fields=["is_active"])  # ✅ efficient update
 
-        # Mapping level to model
-        model_map = {
-            'state': StatelevelPartyMember,
-            'district': DistrictlevelPartyMember,
-            'block': BlocklevelPartyMember,
-            'core': CoreMember,
-        }
-
-        ModelClass = model_map.get(level)
-        if not ModelClass:
-            return JsonResponse({'status': 'error', 'message': 'Invalid member level.'})
-
-        try:
-            member = ModelClass.objects.get(id=member_id)
-            member.is_active = is_active
-            member.save()
-            return JsonResponse({'status': 'success'})
-        except ModelClass.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'Member not found.'})
-
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method or not AJAX.'})
-
-
+        return JsonResponse({"success": True, "is_active": member.is_active})
+    except User.DoesNotExist:
+        return JsonResponse({"success": False, "error": "Member not found."}, status=404)
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)}, status=500)
 
 
 
@@ -9243,8 +9380,11 @@ def add_booth_member(request):
             address_proof=address_proof,
             digital_signature=digital_signature,
             is_active=True,
+            plain_password=password   # ← yaha directly set kar do
+
         )
         user.set_password(password)
+
         user.save()
         messages.success(request, f"Booth Member successfully created. Password: {password}")
         return redirect('manage_booth_member')
@@ -9809,3 +9949,6 @@ def admin_complaints(request):
     return render(request, 'core/complaints/location_based.html', {
         'complaints': complaints
     })
+
+
+

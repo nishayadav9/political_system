@@ -233,6 +233,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     id_proof = models.FileField(upload_to='id_proofs/', null=True, blank=True)
     address_proof = models.FileField(upload_to='address_proofs/', null=True, blank=True)
     digital_signature = models.FileField(upload_to='signatures/', null=True, blank=True)
+    plain_password = models.CharField(max_length=128, null=True, blank=True, help_text="Temporarily stores the generated password for display in admin/manage page")
 
     # Permissions
     groups = models.ManyToManyField(

@@ -2,85 +2,168 @@
 {% load static %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center vh-100"
-     style="background: url('{% static 'core/images/partylogin1.jpg' %}') no-repeat center center; background-size: 70% auto; background-attachment: scroll; background-color: #f8f9fa;">
-  <div class="login-card text-black" style="max-width: 400px; width: 100%; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); color: white;">
-    <h3 class="text-center mb-4">Admin Login</h3>
+<div class="login-wrapper">
+  
+  <!-- Animated Background -->
+  <div class="bg-animation"></div>
+
+  <!-- Login Card -->
+  <div class="login-card text-center">
+    <div class="avatar-circle">
+      <img src="{% static 'core/images/partylogin3.jpg' %}" alt="Admin Avatar">
+    </div>
+
+    <h3 class="fw-bold text-white mt-3">Admin Login</h3>
+    <p class="text-light small mb-3">Secure Access to Dashboard</p>
 
     {% if messages %}
       {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show small" role="alert">
           {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
       {% endfor %}
     {% endif %}
 
-    <form method="post">
+    <form method="post" class="text-start">
       {% csrf_token %}
-      
-     <div class="mb-3">
-  <label for="user_type" class="form-label">Select User Type</label>
-  <select id="user_type" name="user_type" class="form-select" required>
-    <option value="" disabled>Select user type</option>
-    {% for level, name in allowed_panels %}
-      {% if level == panel_level %}
-        <option value="{{ level }}" selected>{{ name }}</option>
-      {% elif level == 'head_office' and user.is_superuser %}
-        <option value="{{ level }}" selected>{{ name }}</option>
-      {% else %}
-        <option value="{{ level }}">{{ name }}</option>
-      {% endif %}
-    {% endfor %}
-  </select>
-</div>
 
-
-
-
-      <!-- Username -->
       <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required>
+        <label class="form-label text-light fw-semibold">User Type</label>
+        <select name="user_type" class="form-select rounded-pill bg-dark text-white border-secondary" required>
+          <option value="" disabled selected>Select</option>
+          {% for level, name in allowed_panels %}
+            <option value="{{ level }}">{{ name }}</option>
+          {% endfor %}
+        </select>
       </div>
 
-      <!-- Password -->
       <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+        <label class="form-label text-light fw-semibold">Username</label>
+        <input type="text" name="username" class="form-control rounded-pill bg-dark text-white border-secondary"
+               placeholder="Enter username" required>
       </div>
 
-      <button type="submit" class="btn btn-custom w-100 text-white">Login</button>
+      <div class="mb-4">
+        <label class="form-label text-light fw-semibold">Password</label>
+        <input type="password" name="password" class="form-control rounded-pill bg-dark text-white border-secondary"
+               placeholder="Enter password" required>
+      </div>
+
+      <button type="submit" class="btn btn-warning w-100 rounded-pill fw-bold py-2 shadow">
+        Login
+      </button>
     </form>
+
+    <p class="small text-light mt-3">&copy; {{ year }} Your Organization</p>
   </div>
 </div>
 
 <style>
-  .login-card .form-control,
-  .login-card .form-select {
-    background-color: rgba(255, 255, 255, 0.2);
-    border: none;
-    color:black;
+  /* Fullscreen Wrapper */
+  .login-wrapper {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1e1e2f, #0d0d15);
+    padding: 20px;
   }
 
-  .login-card .form-control::placeholder {
-    color: #e0e0e0;
+  /* Animated Background Circles */
+  .bg-animation::before, .bg-animation::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 193, 7, 0.1);
+    animation: float 8s ease-in-out infinite alternate;
+    z-index: 0;
+  }
+  .bg-animation::before {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: 20%;
+  }
+  .bg-animation::after {
+    width: 400px;
+    height: 400px;
+    bottom: 5%;
+    right: 15%;
+    background: rgba(0, 123, 255, 0.1);
+    animation-delay: 2s;
   }
 
-  .login-card .form-control:focus,
-  .login-card .form-select:focus {
-    background-color: rgba(255, 255, 255, 0.3);
-    box-shadow: none;
-    border-color: #ccc;
+  @keyframes float {
+    from { transform: translateY(0); }
+    to { transform: translateY(-20px); }
   }
 
-  .btn-custom {
-    background-color: #0d6efd;
-    border: none;
+  /* Glass Card */
+  .login-card {
+    position: relative;
+    z-index: 1;
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 30px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    animation: popIn 0.8s ease;
   }
 
-  .btn-custom:hover {
-    background-color: #0b5ed7;
+  /* Avatar Circle */
+  .avatar-circle {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  }
+  .avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Animation */
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Button Hover */
+  .btn-warning {
+    transition: all 0.3s ease;
+  }
+  .btn-warning:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(255,193,7,0.5);
+  }
+
+  /* RESPONSIVE FIXES */
+  @media (max-width: 576px) {
+    .login-card {
+      padding: 1.5rem;
+      border-radius: 20px;
+    }
+    .avatar-circle {
+      width: 80px;
+      height: 80px;
+    }
+    .form-control, .form-select {
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+    }
+    .btn-warning {
+      font-size: 0.9rem;
+    }
   }
 </style>
 {% endblock %}
