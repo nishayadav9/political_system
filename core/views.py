@@ -7494,7 +7494,25 @@ def add_district_member(request):
     blocks = []  # initially empty, JS will populate based on district selection
 
     if request.method == "POST":
+        username = request.POST.get('username')  # ✅ yaha pehle define karo
+
         email = request.POST['email']
+        
+            # -----------------------
+        # Username duplicate check (NEW ✅)
+        # -----------------------
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "This username is already taken. Please choose another one.")
+            return render(request, 'core/admin/add_district_member.html', {
+                'roles': roles,
+                'roles_json': roles_json,
+                'districts': districts,
+                'blocks': blocks,
+                'generated_password': request.POST.get('password', ''),
+                'locations_json': locations_json,
+                'state_name': selected_state
+            })
+
 
         # Email duplicate check
         if User.objects.filter(email=email).exists():
@@ -9169,33 +9187,189 @@ def add_booth_member(request):
     # ----------------------- Locations -----------------------
     # Bihar locations
     bihar_locations = [
-        {
-            "district_name": "Araria",
-            "blocks": [
-                {
-                    "block_name": "Araria",
-                    "panchayats": [
-                        "Araria Basti", "Azamnagar Kusiyar Gawon", "Azmatpur Basantpur", "Bahgi Pokharia",
-                        "Bairgachhi Belwa", "Bangawan Bangama", "Bansbari Bansbari", "Barakamatchistipur Haria",
-                        "Basantpur Basantpur", "Baturbari Baturbari", "Belbari Araria Basti", "Belsandi Araria Basti",
-                        "Belwa Araria Basti", "Bhadwar Araria Basti", "Bhairoganj Araria Basti", "Bhanghi Araria Basti",
-                        "Bhawanipur Araria Basti", "Bhorhar Araria Basti", "Chakorwa Araria Basti", "Dahrahra Araria Basti",
-                        "Damiya Araria Basti", "Dargahiganj Araria Basti", "Dombana Araria Basti", "Dumari Araria Basti",
-                        "Fatehpur Araria Basti", "Gadhgawan Araria Basti", "Gandhi Araria Basti", "Gangauli Araria Basti",
-                        "Ganj Araria Basti", "Gogri Araria Basti", "Gopalpur Araria Basti"
-                    ]
-                },
-                {
-                    "block_name": "Forbesganj",
-                    "panchayats": [
-                        "Forbesganj", "Araria", "Bhargama", "Raniganj", "Sikti", "Palasi",
-                        "Jokihat", "Kursakatta", "Narpatganj", "Hanskosa", "Hardia", "Haripur",
-                        "Hasanpur Khurd", "Hathwa", "Gadaha", "Ganj Bhag", "Ghiwba", "Ghoraghat",
-                        "Gogi", "Gopalpur", "Gurmahi", "Halhalia", "Halhalia Jagir"
-                    ]
-                }
-            ]
-        },
+    {
+        "district_name": "Araria",
+        "blocks": [
+            {
+                "block_name": "Araria",
+                "panchayats": [
+                    "Araria Basti", "Azamnagar Kusiyar Gawon", "Azmatpur Basantpur", "Bahgi Pokharia",
+                    "Bairgachhi Belwa", "Bangawan Bangama", "Bansbari Bansbari", "Barakamatchistipur Haria",
+                    "Basantpur Basantpur", "Baturbari Baturbari", "Belbari Araria Basti", "Belsandi Araria Basti",
+                    "Belwa Araria Basti", "Bhadwar Araria Basti", "Bhairoganj Araria Basti", "Bhanghi Araria Basti",
+                    "Bhawanipur Araria Basti", "Bhorhar Araria Basti", "Chakorwa Araria Basti", "Dahrahra Araria Basti",
+                    "Damiya Araria Basti", "Dargahiganj Araria Basti", "Dombana Araria Basti", "Dumari Araria Basti",
+                    "Fatehpur Araria Basti", "Gadhgawan Araria Basti", "Gandhi Araria Basti", "Gangauli Araria Basti",
+                    "Ganj Araria Basti", "Gogri Araria Basti", "Gopalpur Araria Basti"
+                ]
+            },
+            {
+                "block_name": "Forbesganj",
+                "panchayats": [
+                    "Forbesganj", "Araria", "Bhargama", "Raniganj", "Sikti", "Palasi", "Jokihat", "Kursakatta",
+                    "Narpatganj", "Hanskosa", "Hardia", "Haripur", "Hasanpur Khurd", "Hathwa", "Gadaha", "Ganj Bhag",
+                    "Ghiwba", "Ghoraghat", "Gogi", "Gopalpur", "Gurmahi", "Halhalia", "Halhalia Jagir"
+                ]
+            }
+        ]
+    },
+    {
+        "district_name": "Arwal",
+        "blocks": [
+            {
+                "block_name": "Arwal",
+                "panchayats": [
+                    "Arwal Bazar", "Babhani", "Babhani Kalan", "Babhani Khurd", "Babhani Purab", "Babhani Paschim",
+                    "Babhani West", "Babhani East", "Babhani Khas", "Babhani South", "Babhani North", "Babhani Purab",
+                    "Babhani Paschim", "Babhani West", "Babhani East", "Babhani Khas", "Babhani South", "Babhani North"
+                ]
+            }
+        ]
+    },
+    {
+        "district_name": "Aurangabad",
+        "blocks": [
+            {
+                "block_name": "Aurangabad",
+                "panchayats": [
+                    "Aurangabad Bazar", "Aurangabad East", "Aurangabad West", "Aurangabad North", "Aurangabad South",
+                    "Aurangabad Khas", "Aurangabad Purab", "Aurangabad Paschim", "Aurangabad Khas", "Aurangabad Purab",
+                    "Aurangabad Paschim", "Aurangabad Khas", "Aurangabad Purab", "Aurangabad Paschim", "Aurangabad Khas"
+                ]
+            }
+        ]
+    },
+    {
+        "district_name": "Banka",
+        "blocks": [
+            {
+                "block_name": "Banka",
+                "panchayats": [
+                    "Banka Bazar", "Banka East", "Banka West", "Banka North", "Banka South", "Banka Khas", "Banka Purab",
+                    "Banka Paschim", "Banka Khas", "Banka Purab", "Banka Paschim", "Banka Khas", "Banka Purab",
+                    "Banka Paschim", "Banka Khas"
+                ]
+            }
+        ]
+    },
+    {
+        "district_name": "Begusarai",
+        "blocks": [
+            {
+                "block_name": "Begusarai",
+                "panchayats": [
+                    "Begusarai Bazar", "Begusarai East", "Begusarai West", "Begusarai North", "Begusarai South",
+                    "Begusarai Khas", "Begusarai Purab", "Begusarai Paschim", "Begusarai Khas", "Begusarai Purab",
+                    "Begusarai Paschim", "Begusarai Khas", "Begusarai Purab", "Begusarai Paschim", "Begusarai Khas"
+                ]
+            }
+        ]
+    },
+    {
+        "district_name": "Bhagalpur",
+        "blocks": [
+            {
+                "block_name": "Bhagalpur",
+                "panchayats": [
+                    "Bhagalpur Bazar", "Bhagalpur East", "Bhagalpur West", "Bhagalpur North", "Bhagalpur South",
+                    "Bhagalpur Khas", "Bhagalpur Purab", "Bhagalpur Paschim", "Bhagalpur Khas", "Bhagalpur Purab",
+                    "Bhagalpur Paschim", "Bhagalpur Khas", "Bhagalpur Purab", "Bhagalpur Paschim", "Bhagalpur Khas"
+                ]
+            }
+        ]
+    },
+    {
+        "district_name": "Buxar",
+        "blocks": [
+            {
+                "block_name": "Buxar",
+                "panchayats": [
+                    "Buxar Bazar", "Buxar East", "Buxar West", "Buxar North", "Buxar South", "Buxar Khas", "Buxar Purab",
+                    "Buxar Paschim", "Buxar Khas", "Buxar Purab", "Buxar Paschim", "Buxar Khas", "Buxar Purab",
+                    "Buxar Paschim", "Buxar Khas"
+                ]
+            }
+        ]
+    },
+    {
+        "district_name": "Darbhanga",
+        "blocks": [
+            {
+                "block_name": "Darbhanga",
+                "panchayats": [
+                    "Darbhanga Bazar", "Darbhanga East", "Darbhanga West", "Darbhanga North", "Darbhanga South",
+                    "Darbhanga Khas", "Darbhanga Purab", "Darbhanga Paschim", "Darbhanga Khas", "Darbhanga Purab",
+                    "Darbhanga Paschim", "Darbhanga Khas", "Darbhanga Purab", "Darbhanga Paschim", "Darbhanga Khas"
+                ]
+            }
+        ]
+    },
+    {
+        "district_name": "East Champaran",
+        "blocks": [
+            {
+                "block_name": "East Champaran",
+                "panchayats": [
+                    "East Champaran Bazar", "East Champaran East", "East Champaran West", "East Champaran North",
+                    "East Champaran South", "East Champaran Khas", "East Champaran Purab", "East Champaran Paschim",
+                    "East Champaran Khas", "East Champaran Purab", "East Champaran Paschim", "East Champaran Khas",
+                    "East Champaran Purab", "East Champaran Paschim", "East Champaran Khas"
+                ]
+            }
+        ]
+    },
+    {
+        "district_name": "Gaya",
+        "blocks": [
+            {
+                "block_name": "Gaya",
+                "panchayats": [
+                    "Gaya Bazar", "Gaya East", "Gaya West", "Gaya North", "Gaya South", "Gaya Khas", "Gaya Purab",
+                    "Gaya Paschim", "Gaya Khas", "Gaya Purab", "Gaya Paschim", "Gaya Khas", "Gaya Purab",
+                    "Gaya Paschim", "Gaya Khas"
+                ]
+            }
+        ]
+    },
+    {
+        "district_name": "Gopalganj",
+        "blocks": [
+            {
+                "block_name": "Gopalganj",
+                "panchayats": [
+                    "Gopalganj Bazar", "Gopalganj East", "Gopalganj West", "Gopalganj North", "Gopalganj South",
+                    "Gopalganj Khas", "Gopalganj Purab", "Gopalganj Paschim", "Gopalganj Khas", "Gopalganj Purab",
+                    "Gopalganj Paschim", "Gopalganj Khas", "Gopalganj Purab", "Gopalganj Paschim", "Gopalganj Khas"
+                ]
+            }
+        ]
+    },
+    {
+        "district_name": "Jamui",
+        "blocks": [
+            {
+                "block_name": "Jamui",
+                "panchayats": [
+                    "Jamui Bazar", "Jamui East", "Jamui West", "Jamui North", "Jamui South", "Jamui Khas", "Jamui Purab",
+                    "Jamui Paschim", "Jamui Khas", "Jamui Purab", "Jamui Paschim", "Jamui Khas", "Jamui Purab",
+                    "Jamui Paschim", "Jamui Khas"
+                ]
+            }
+        ]
+    },
+    {
+        "district_name": "Jehanabad",
+        "blocks": [
+            {
+                "block_name": "Jehanabad",
+                "panchayats": [
+                    "Jehanabad Bazar", "Jehanabad East", "Jehanabad West", "Jehanabad North", "Jehanabad South",
+                    "Jehanabad Khas", "Jehanabad Purab", "Jehanabad Paschim", "Jehanabad Khas", "Jehanabad Purab",
+                    "Jehanabad Paschim", "Jehanabad Khas", "Jehanabad Purab", "Jehanabad Paschim", "Jehanabad Khas"
+                ]
+            }
+        ]
+    },
         {
             "district_name": "Arwal",
             "blocks": [
@@ -9209,24 +9383,58 @@ def add_booth_member(request):
 
     # Jharkhand locations
     jharkhand_locations = [
-        {
-            "district_name": "Bokaro",
-            "blocks": [
-                {
-                    "block_name": "Bermo",
-                    "panchayats": ["Bermo", "Tetulmari", "Barmasia", "Jaridih", "Karo"]
-                },
-                {
-                    "block_name": "Chas",
-                    "panchayats": ["Chas", "Chandrapura", "Bandhgora", "Bermo", "Tetulmari"]
-                },
-                {
-                    "block_name": "Chandankiyari",
-                    "panchayats": ["Chandankiyari", "Kundri", "Jhalda", "Panchbaria", "Nawadih"]
-                }
-            ]
-        }
-    ]
+    {
+        "district_name": "Bokaro",
+        "blocks": [
+            {
+                "block_name": "Bermo",
+                "panchayats": ["Barmasia", "Bermo", "Jaridih", "Karo", "Tetulmari"]
+            },
+            {
+                "block_name": "Chas",
+                "panchayats": ["Bandhgora", "Bermo", "Chandrapura", "Chas", "Tetulmari"]
+            },
+            {
+                "block_name": "Chandankiyari",
+                "panchayats": ["Chandankiyari", "Jhalda", "Kundri", "Nawadih", "Panchbaria"]
+            }
+        ]
+    },
+    {
+        "district_name": "Dhanbad",
+        "blocks": [
+            {
+                "block_name": "Baghmara",
+                "panchayats": ["Baghmara", "Katras", "Mahuda", "Nichitpur", "Sijua"]
+            },
+            {
+                "block_name": "Govindpur",
+                "panchayats": ["Baliapur", "Govindpur", "Kalubathan", "Kusunda", "Topchanchi"]
+            },
+            {
+                "block_name": "Tundi",
+                "panchayats": ["Barwadda", "Jharia", "Patherdih", "Sindri", "Tundi"]
+            }
+        ]
+    },
+    {
+        "district_name": "Ranchi",
+        "blocks": [
+            {
+                "block_name": "Ormanjhi",
+                "panchayats": ["Angara", "Bundu", "Chutupalu", "Muri", "Ormanjhi"]
+            },
+            {
+                "block_name": "Kanke",
+                "panchayats": ["Kanke", "Nagri", "Piska", "Ratu", "Silli"]
+            },
+            {
+                "block_name": "Namkum",
+                "panchayats": ["Doranda", "Hatia", "Itki", "Khunti Road", "Namkum"]
+            }
+        ]
+    }
+]
 
 # ----------------------- Flatten locations for DB -----------------------
     locations_data = []
