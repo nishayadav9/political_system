@@ -107,31 +107,38 @@
   <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
 
     <!-- State Complaints -->
-    <div class="bg-white shadow-xl rounded-2xl p-6 border border-gray-200 hover:shadow-2xl transition transform hover:scale-105 overflow-x-auto">
-      <h4 class="text-lg font-bold mb-4 text-gray-800 border-b border-gray-200 pb-2 flex items-center gap-2">
-        <i class="fas fa-flag text-blue-500"></i> State Complaints
-      </h4>
-      <table class="w-full min-w-[400px] border border-gray-200 rounded-lg">
-        <thead>
-          <tr class="bg-blue-50 text-gray-700 text-sm uppercase">
-            <th class="p-2 text-left border">State</th>
-            <th class="p-2 text-left border">Total</th>
-            <th class="p-2 text-left border">Accepted</th>
-            <th class="p-2 text-left border">Rejected</th>
-            <th class="p-2 text-left border">Solved</th>
-          </tr>
-        </thead>
-        <tbody class="text-gray-600 text-sm">
-          <tr class="hover:bg-blue-50 transition">
-            <td class="p-2 border font-medium">Bihar</td>
-            <td class="p-2 border font-bold text-blue-600">{{ state_complaints.total }}</td>
-            <td class="p-2 border font-bold text-green-600">{{ state_complaints.accepted }}</td>
-            <td class="p-2 border font-bold text-red-600">{{ state_complaints.rejected }}</td>
-            <td class="p-2 border font-bold text-purple-600">{{ state_complaints.solved }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<div class="bg-white shadow-xl rounded-2xl p-6 border border-gray-200 hover:shadow-2xl transition transform hover:scale-105 overflow-x-auto">
+  <h4 class="text-lg font-bold mb-4 text-gray-800 border-b border-gray-200 pb-2 flex items-center gap-2">
+    <i class="fas fa-flag text-blue-500"></i> State Complaints
+  </h4>
+  <table class="w-full min-w-[400px] border border-gray-200 rounded-lg">
+    <thead>
+      <tr class="bg-blue-50 text-gray-700 text-sm uppercase">
+        <th class="p-2 text-left border">State</th>
+        <th class="p-2 text-left border">Total</th>
+        <th class="p-2 text-left border">Accepted</th>
+        <th class="p-2 text-left border">Rejected</th>
+        <th class="p-2 text-left border">Solved</th>
+      </tr>
+    </thead>
+    <tbody class="text-gray-600 text-sm">
+      {% for item in state_complaints %}
+      <tr class="hover:bg-blue-50 transition">
+        <td class="p-2 border font-medium">{{ item.state }}</td>
+        <td class="p-2 border font-bold text-blue-600">{{ item.total }}</td>
+        <td class="p-2 border font-bold text-green-600">{{ item.accepted }}</td>
+        <td class="p-2 border font-bold text-red-600">{{ item.rejected }}</td>
+        <td class="p-2 border font-bold text-purple-600">{{ item.solved }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" class="p-2 text-center text-gray-500">No Data</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
 
     <!-- District Wise -->
     <div class="bg-white shadow-xl rounded-2xl p-6 border border-gray-200 hover:shadow-2xl transition transform hover:scale-105 overflow-x-auto">

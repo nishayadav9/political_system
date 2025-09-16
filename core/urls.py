@@ -71,8 +71,6 @@ path('block-member/delete/<int:member_id>/', views.delete_block_member, name='de
 # For Core Member
 path('core-member/add/', views.add_core_member, name='add_core_member'),
 path('core-member/manage/', views.manage_core_member, name='manage_core_member'),
-path('core-member/edit/<int:member_id>/', views.edit_core_member, name='edit_core_member'),
-path('core-member/delete/<int:member_id>/', views.delete_core_member, name='delete_core_member'),
 
 
     # Logout

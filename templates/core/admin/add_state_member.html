@@ -162,11 +162,11 @@ button.btn {
     <div class="form-group">
       <label for="id_state">State</label>
       <select id="id_state" name="state" class="form-control">
-        <option value="" disabled selected>Select State</option>
-        {% for st in states %}
-          <option value="{{ st }}">{{ st }}</option>
-        {% endfor %}
-      </select>
+  <option value="" disabled {% if not form.state.value %}selected{% endif %}>Select State</option>
+  {% for st in states %}
+    <option value="{{ st }}" {% if form.state.value == st %}selected{% endif %}>{{ st }}</option>
+  {% endfor %}
+</select>
     </div>
 
     <!-- District, Block, Panchayat -->
@@ -263,15 +263,20 @@ document.addEventListener('DOMContentLoaded', function() {
         dropdown.innerHTML = `<option value="" disabled selected>${placeholder}</option>`;
     }
 
+    // 🔥 Page load hote hi agar state already selected hai to assign kar do
+    if (stateSelect.value) {
+        assignedStateInput.value = stateSelect.value;
+    }
+
     stateSelect.addEventListener('change', function() {
         const state = this.value;
         assignedStateInput.value = state;
+
         clearDropdown(districtSelect, "Select District");
         clearDropdown(blockSelect, "Select Block");
         clearDropdown(panchayatSelect, "Select Panchayat");
 
-        if(locationsData[state]){
-            // Unique districts only
+        if (locationsData[state]) {
             const districtsSet = new Set(locationsData[state].map(loc => loc.district_name));
             districtsSet.forEach(district => {
                 const opt = document.createElement('option');
@@ -286,6 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const state = stateSelect.value;
         const district = this.value;
         assignedDistrictsInput.value = district;
+
         clearDropdown(blockSelect, "Select Block");
         clearDropdown(panchayatSelect, "Select Panchayat");
 
@@ -302,10 +308,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const state = stateSelect.value;
         const district = districtSelect.value;
         const block = this.value;
+
         clearDropdown(panchayatSelect, "Select Panchayat");
 
-        const loc = locationsData[state].find(l => l.district_name===district && l.block_name===block);
-        if(loc && loc.panchayats){
+        const loc = locationsData[state].find(
+            l => l.district_name === district && l.block_name === block
+        );
+
+        if (loc && loc.panchayats) {
             loc.panchayats.forEach(p => {
                 const opt = document.createElement('option');
                 opt.value = p;
@@ -316,6 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
 
 
 {% endblock %}

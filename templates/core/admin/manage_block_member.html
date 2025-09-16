@@ -141,7 +141,6 @@
         <th>Assigned District</th>
         <th>Assigned Block</th>
         <th>Role</th>
-        <th>Designation</th>
         <th>Booths Handled</th>
         <th>Experience</th>
         <th>Reference Person</th>
@@ -178,10 +177,9 @@
         <td>{{ member.assigned_district }}</td>
         <td>{{ member.assigned_block }}</td>
         <td>{{ member.role.role_name }}</td>
-        <td>{{ member.designation }}</td>
         <td>{{ member.booths_handled }}</td>
         <td>{{ member.volunteer_experience }}</td>
-        <td>{{ member.reference_person }}</td>
+        <td>{{ member.reference_person_name }}</td>
         <td>
           {% if member.photo %}
             <a href="{{ member.photo.url }}" target="_blank">View</a>

@@ -4076,6 +4076,22 @@ def hod_dashboard(request):
     block_complaints = get_complaint_stats('block')
     booth_complaints = get_complaint_stats('booth')
 
+
+    # -------- Complaint Stats --------
+    # State-wise complaints
+    state_complaints = (
+        Complaint.objects
+        .values("state")
+        .annotate(
+            total=Count("id"),
+            accepted=Count("id", filter=Q(status="Accepted")),
+            rejected=Count("id", filter=Q(status="Rejected")),
+            solved=Count("id", filter=Q(status="Solved"))
+        )
+        .order_by("state")
+    )
+
+
     # -------- Complaint Grouping with Accepted/Rejected/Solved --------
     district_wise_complaints = (
         Complaint.objects
@@ -4265,14 +4281,14 @@ def view_complaints(request):
     else:
         return redirect('unauthorized')
 
-    # ✅ Filter parameters from GET
-    state = "Bihar"  # fixed
+    # Filter parameters from GET
+    state = request.GET.get('state')
     district = request.GET.get('district')
     block = request.GET.get('block')
     panchayat = request.GET.get('panchayat')
 
-    complaints = complaints.filter(state=state)
-
+    if state:
+        complaints = complaints.filter(state=state)
     if district:
         complaints = complaints.filter(district=district)
     if block:
@@ -6819,6 +6835,10 @@ def add_state_member(request):
             # Save plain password for manage page display
             member.plain_password = password  # <-- Add this line
 
+            # ✅ Yaha assigned_state set karo agar blank hai
+            if not member.assigned_state:
+                member.assigned_state = member.state
+
             # Role assign
             role = form.cleaned_data.get('role')
             if not role:
@@ -7246,7 +7266,7 @@ def state_complaints_delete(request, pk):
 @login_required
 def state_complaints_accept(request, pk):
     if request.method == 'POST':
-        complaint = get_object_or_404(Complaint, pk=pk, state=request.user.state, send_to='state')
+        complaint = get_object_or_404(Complaint, pk=pk)
         complaint.status = 'Accepted'
         complaint.backend_response = 'Accepted'
         complaint.save()
@@ -7257,7 +7277,8 @@ def state_complaints_accept(request, pk):
 @login_required
 def state_complaints_reject(request, pk):
     if request.method == 'POST':
-        complaint = get_object_or_404(Complaint, pk=pk, state=request.user.state, send_to='state')
+        # send_to check remove kar diya
+        complaint = get_object_or_404(Complaint, pk=pk, state=request.user.state)
         complaint.status = 'Rejected'
         complaint.backend_response = 'Rejected'
         complaint.save()
@@ -7268,12 +7289,12 @@ def state_complaints_reject(request, pk):
 @login_required
 def state_complaints_solve(request, pk):
     if request.method == 'POST':
-        complaint = get_object_or_404(Complaint, pk=pk, state=request.user.state, send_to='state')
-        complaint.resolved_at = timezone.now()
+        complaint = get_object_or_404(Complaint, pk=pk, state=request.user.state)
         complaint.status = 'Solved'
         complaint.save()
         messages.success(request, 'Complaint marked as solved.')
     return redirect('state_admin_complaints')
+
 
 @login_required
 def state_admin_logout(request):
@@ -7463,9 +7484,12 @@ def add_district_member(request):
                     Location.objects.create(state_name=state, district_name=loc["district_name"], block_name=block)
 
     # -----------------------
-    # GET selected state
-    # -----------------------
+# GET selected state (for both GET and POST)
+# -----------------------
     selected_state = request.POST.get('state') or 'Bihar'
+    state_name = selected_state
+
+    # Fetch districts and initialize blocks
     districts = list(Location.objects.filter(state_name=selected_state).values_list('district_name', flat=True).distinct())
     blocks = []  # initially empty, JS will populate based on district selection
 
@@ -7476,7 +7500,10 @@ def add_district_member(request):
         if User.objects.filter(email=email).exists():
             messages.error(request, "This email is already registered.")
             return render(request, 'core/admin/add_district_member.html', {
-                'roles': roles, 'roles_json': roles_json, 'districts': districts, 'blocks': blocks,
+                'roles': roles,
+                'roles_json': roles_json,
+                'districts': districts,
+                'blocks': blocks,
                 'generated_password': request.POST.get('password', ''),
                 'locations_json': locations_json,
                 'state_name': selected_state
@@ -7491,7 +7518,10 @@ def add_district_member(request):
             except ObjectDoesNotExist:
                 messages.error(request, "Selected role does not exist.")
                 return render(request, 'core/admin/add_district_member.html', {
-                    'roles': roles, 'roles_json': roles_json, 'districts': districts, 'blocks': blocks,
+                    'roles': roles,
+                    'roles_json': roles_json,
+                    'districts': districts,
+                    'blocks': blocks,
                     'generated_password': request.POST.get('password', ''),
                     'locations_json': locations_json,
                     'state_name': selected_state
@@ -7501,21 +7531,32 @@ def add_district_member(request):
         if not district_name:
             messages.error(request, "Please provide the district name.")
             return render(request, 'core/admin/add_district_member.html', {
-                'roles': roles, 'roles_json': roles_json, 'districts': districts, 'blocks': blocks,
+                'roles': roles,
+                'roles_json': roles_json,
+                'districts': districts,
+                'blocks': blocks,
                 'generated_password': request.POST.get('password', ''),
                 'locations_json': locations_json,
                 'state_name': selected_state
             })
 
         block_name = request.POST.get('block') or "N/A"
-        state_name = selected_state
 
-        # Location fetch/create
-        location, _ = Location.objects.get_or_create(
+        # -----------------------
+        # Location fetch/create safely
+        # -----------------------
+        location = Location.objects.filter(
             state_name=state_name,
             district_name=district_name,
             block_name=block_name
-        )
+        ).first()
+
+        if not location:
+            location = Location.objects.create(
+                state_name=state_name,
+                district_name=district_name,
+                block_name=block_name
+            )
 
         # Password generate
         password = request.POST.get('password') or generate_random_password()
@@ -7559,7 +7600,9 @@ def add_district_member(request):
         messages.success(request, f"District member added successfully. Generated password: {password}")
         return redirect('manage_district_member')
 
+    # -----------------------
     # GET request
+    # -----------------------
     generated_password = generate_random_password()
     return render(request, 'core/admin/add_district_member.html', {
         'roles': roles,
@@ -7570,6 +7613,7 @@ def add_district_member(request):
         'locations_json': locations_json,
         'state_name': selected_state
     })
+
 # -----------------------
 # AJAX endpoints
 # -----------------------
@@ -8234,80 +8278,6 @@ def manage_core_member(request):
     return render(request, 'core/admin/manage_core_member.html', {'members': members})
 
 
-@superuser_required
-def edit_core_member(request, member_id):
-    member = get_object_or_404(User, id=member_id)
-    roles = Role.objects.all()
-
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        if User.objects.filter(email=email).exclude(id=member_id).exists():
-            messages.error(request, 'Email already exists.')
-            return render(request, 'core/admin/edit_core_member.html', {'member': member, 'roles': roles})
-
-        member.full_name = request.POST.get('full_name')
-        member.email = email
-        role_id = request.POST.get('role')
-        member.role = Role.objects.filter(id=role_id).first()
-        member.address = request.POST.get('address')
-
-        # Location update
-        location_level = request.POST.get('location_level')
-        state_name = request.POST.get('state_name')
-        district_name = request.POST.get('district_name')
-        block_name = request.POST.get('block_name')
-
-        location = None
-        if location_level == 'state' and state_name:
-            location, _ = Location.objects.get_or_create(
-                state_name=state_name, district_name='NA', block_name='NA'
-            )
-        elif location_level == 'district' and state_name and district_name:
-            location, _ = Location.objects.get_or_create(
-                state_name=state_name, district_name=district_name, block_name='NA'
-            )
-        elif location_level == 'block' and state_name and district_name and block_name:
-            location, _ = Location.objects.get_or_create(
-                state_name=state_name, district_name=district_name, block_name=block_name
-            )
-        member.location = location
-
-        # Timezone-aware time parsing
-        access_start_time_str = request.POST.get('access_start_time')
-        access_end_time_str = request.POST.get('access_end_time')
-
-        try:
-            if access_start_time_str:
-                dt = datetime.strptime(access_start_time_str, '%Y-%m-%d %H:%M')
-                member.access_start_time = timezone.make_aware(dt)
-            else:
-                member.access_start_time = None
-
-            if access_end_time_str:
-                dt = datetime.strptime(access_end_time_str, '%Y-%m-%d %H:%M')
-                member.access_end_time = timezone.make_aware(dt)
-            else:
-                member.access_end_time = None
-
-        except ValueError:
-            messages.error(request, "Access start/end time format sahi nahi hai. Format: YYYY-MM-DD HH:MM")
-            return render(request, 'core/admin/edit_core_member.html', {'member': member, 'roles': roles})
-
-        member.save()
-        messages.success(request, 'Core member updated successfully.')
-        return redirect('manage_core_member')
-
-    return render(request, 'core/admin/edit_core_member.html', {'member': member, 'roles': roles})
-
-
-@superuser_required
-def delete_core_member(request, member_id):
-    member = get_object_or_404(User, id=member_id)
-    if request.method == 'POST':
-        member.delete()
-        messages.success(request, 'Core member deleted successfully.')
-        return redirect('manage_core_member')
-    return render(request, 'core/admin/confirm_delete.html', {'member': member})
 
 # -------------------------------------------
 # TOGGLE ACTIVE STATUS (AJAX)
@@ -9643,9 +9613,8 @@ def booth_complaints_reject(request, pk):
 def booth_complaints_solve(request, pk):
     try:
         complaint = Complaint.objects.get(pk=pk)
-        complaint.status = 'Solved'
-        complaint.resolved_at = timezone.now()
-        complaint.save(update_fields=['status', 'resolved_at'])
+        complaint.status = 'Solved'  # sirf status update
+        complaint.save(update_fields=['status'])
         messages.success(request, 'Complaint marked as solved.')
     except Complaint.DoesNotExist:
         messages.error(request, 'Complaint not found.')

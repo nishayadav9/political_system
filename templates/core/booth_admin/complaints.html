@@ -61,7 +61,34 @@
                             <img src="{{ complaint.voter_id_image.url }}" alt="Voter ID" style="max-width: 80px; max-height: 80px;">
                         {% else %}-{% endif %}
                     </td>
-                    <td>{{ complaint.address }}</td>
+<td class="text-center">
+  {% if complaint.address %}
+    <!-- Button to open modal -->
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addressModal{{ complaint.id }}">
+      View
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addressModal{{ complaint.id }}" tabindex="-1" aria-labelledby="addressModalLabel{{ complaint.id }}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addressModalLabel{{ complaint.id }}">Address</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {{ complaint.address|linebreaks }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <span class="text-muted small">-</span>
+  {% endif %}
+</td>
                     <td>{{ complaint.state }}</td>
                     <td>{{ complaint.district }}</td>
                     <td>{{ complaint.block }}</td>
@@ -70,7 +97,34 @@
                     <td>{{ complaint.pincode }}</td>
                     <td class="text-capitalize">{{ complaint.issue_type }}</td>
                     <td>{{ complaint.title }}</td>
-                    <td>{{ complaint.description|truncatechars:50 }}</td>
+<td class="text-start" style="max-width: 200px;">
+  {% if complaint.description %}
+    <!-- Button to open modal -->
+    <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#descModal{{ complaint.id }}">
+      View
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="descModal{{ complaint.id }}" tabindex="-1" aria-labelledby="descModalLabel{{ complaint.id }}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="descModalLabel{{ complaint.id }}">Description</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {{ complaint.description }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <span class="text-muted small">-</span>
+  {% endif %}
+</td>
                     <td>
                         {% if complaint.upload_photo %}
                             <img src="{{ complaint.upload_photo.url }}" alt="Upload Photo" style="max-width: 80px; max-height: 80px;">

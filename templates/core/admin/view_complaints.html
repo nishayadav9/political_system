@@ -103,7 +103,34 @@
                 {% else %}-{% endif %}
               </td>
 
-              <td>{{ complaint.address|default:"-" }}</td>
+<td class="text-center">
+  {% if complaint.address %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#addressModal{{ complaint.id }}">
+      View
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addressModal{{ complaint.id }}" tabindex="-1" aria-labelledby="addressModalLabel{{ complaint.id }}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addressModalLabel{{ complaint.id }}">Address</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {{ complaint.address|linebreaks }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <span class="text-muted small">-</span>
+  {% endif %}
+</td>
              <td>{{ complaint.state|default:"-" }}</td>
              <td>{{ complaint.district|default:"-" }}</td>
              <td>{{ complaint.block|default:"-" }}</td>
@@ -301,7 +328,7 @@
       </div>
     </div>
   {% else %}
-    -
+    No Forward
   {% endif %}
 </td>
 
