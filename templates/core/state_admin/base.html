@@ -67,64 +67,35 @@
   </style>
 </head>
 <body>
+  <!-- Mobile toggle button -->
+  <button id="sidebarToggle" class="btn btn-primary d-md-none" style="position: fixed; top: 15px; left: 15px; z-index: 999;">
+    <!-- Hamburger icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="25" height="25">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
 
   <!-- Sidebar -->
-  <div class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+  <div class="sidebar" id="sidebar">
+    <!-- Close button for mobile -->
+    <button id="sidebarClose" class="btn btn-danger d-md-none mb-3" style="width: 100%;">
+      <!-- Cross icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+      Close
+    </button>
+
     <h4 style="font-size: 30px;">State Admin</h4>
     <hr style="border-color: #7f8c8d;" />
-    <a href="{% url 'state_admin_dashboard' %}" class="{% if request.resolver_match.url_name == 'state_admin_dashboard' %}active{% endif %}">
-      <!-- Dashboard icon -->
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M3 6h18M3 18h18" />
-      </svg>
-      Dashboard
-    </a>
-    <a href="{% url 'state_admin_profile' %}" class="{% if request.resolver_match.url_name == 'state_admin_profile' %}active{% endif %}">
-      <!-- Profile icon -->
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <circle cx="12" cy="7" r="4" />
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.5 21a7.5 7.5 0 0113 0" />
-      </svg>
-      Profile
-    </a>
-    <a href="{% url 'state_admin_complaints' %}" class="{% if request.resolver_match.url_name == 'state_admin_complaints' %}active{% endif %}">
-      <!-- Complaints icon -->
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19h16M4 15h16M4 11h16" />
-      </svg>
-      Complaints
-    </a>
-
-    
-<a href="{% url 'state_admin_forwarded_complaints' %}" class="{% if request.resolver_match.url_name == 'state_admin_forwarded_complaints' %}active{% endif %}">
-  <!-- Forward Complaints icon -->
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-  </svg>
-  Forward Complaints
-</a>
-
-
-<!-- Messaging Section -->
+    <a href="{% url 'state_admin_dashboard' %}" class="{% if request.resolver_match.url_name == 'state_admin_dashboard' %}active{% endif %}">Dashboard</a>
+    <a href="{% url 'state_admin_profile' %}" class="{% if request.resolver_match.url_name == 'state_admin_profile' %}active{% endif %}">Profile</a>
+    <a href="{% url 'state_admin_complaints' %}" class="{% if request.resolver_match.url_name == 'state_admin_complaints' %}active{% endif %}">Complaints</a>
+    <a href="{% url 'state_admin_forwarded_complaints' %}" class="{% if request.resolver_match.url_name == 'state_admin_forwarded_complaints' %}active{% endif %}">Forward Complaints</a>
     <hr style="border-color: #7f8c8d;" />
     <h5 style="color: #ecf0f1; margin-bottom: 0.5rem;">Messages</h5>
-    <a href="{% url 'receive_messages' %}" class="{% if request.resolver_match.url_name == 'receive_messages' %}active{% endif %}">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m0 0v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8m18 0L12 13 3 8" />
-      </svg>
-      Received Messages
-    </a>
-    
-
-    
-    <a href="{% url 'state_admin_logout' %}">
-      <!-- Logout icon -->
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
-        <polyline points="16 17 21 12 16 7" />
-      </svg>
-      Logout
-    </a>
+    <a href="{% url 'receive_messages' %}" class="{% if request.resolver_match.url_name == 'receive_messages' %}active{% endif %}">Received Messages</a>
+    <a href="{% url 'state_admin_logout' %}">Logout</a>
   </div>
 
   <!-- Main content -->
@@ -137,11 +108,42 @@
         </div>
       {% endfor %}
     {% endif %}
-
-    {% block content %}
-    <!-- Page-specific content -->
-    {% endblock %}
+    {% block content %}{% endblock %}
   </div>
+
+  <style>
+    /* Mobile sidebar hidden by default */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: -260px; /* hide sidebar */
+        width: 250px;
+        height: 100%;
+        z-index: 998;
+        transition: left 0.3s ease;
+      }
+
+      .sidebar.show {
+        left: 0; /* show sidebar */
+      }
+    }
+  </style>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('sidebarToggle');
+    const closeBtn = document.getElementById('sidebarClose');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.add('show');
+    });
+
+    closeBtn.addEventListener('click', () => {
+      sidebar.classList.remove('show');
+    });
+  </script>
+
 <script src="https://cdn.tailwindcss.com"></script>
 
 
