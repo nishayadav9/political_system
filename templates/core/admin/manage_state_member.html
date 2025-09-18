@@ -95,15 +95,23 @@
 
 
 <!-- ✅ Filter Form -->
-<form method="get" class="mb-3 d-flex gap-2">
+<form method="get" class="mb-3 d-flex gap-2 flex-wrap">
     <!-- Search Box -->
-    <input type="text" name="q" value="{{ query }}" placeholder="Search member..." class="form-control w-25">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search member..." class="form-control" style="width:180px;">
 
-   
+    <!-- State Dropdown -->
+    <select name="state" class="form-control w-auto">
+        <option value="">-- Select State --</option>
+        {% for st in states %}
+            <option value="{{ st }}" {% if st == selected_state %}selected{% endif %}>{{ st }}</option>
+        {% endfor %}
+    </select>
 
     <button type="submit" class="btn btn-primary">Filter</button>
     <a href="{% url 'manage_state_member' %}" class="btn btn-secondary">Reset</a>
 </form>
+
+
 
 
 <!-- CSRF Token for JavaScript -->

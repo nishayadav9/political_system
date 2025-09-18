@@ -88,25 +88,43 @@
 
 <h2>📋 Manage District Level Party Members</h2>
 
-<form method="get" class="row mb-3">
-  <div class="col-md-3">
-    <input type="text" name="username" class="form-control" placeholder="Search by Username" value="{{ username }}">
+<form method="get" class="row g-2 mb-3 align-items-center">
+  <!-- USERNAME SEARCH -->
+  <div class="col-12 col-sm-6 col-md-2">
+    <input type="text" name="username" 
+           class="form-control form-control-sm" 
+           placeholder="Username" 
+           value="{{ username }}">
   </div>
 
-  <div class="col-md-3">
-    <select name="district" class="form-control">
-      <option value="">All Districts</option>
+  <!-- STATE DROPDOWN -->
+  <div class="col-12 col-sm-6 col-md-2">
+    <select name="state" id="stateDropdown" class="form-select form-select-sm">
+      <option value="">State</option>
+      {% for st in states %}
+        <option value="{{ st }}" {% if st == state %}selected{% endif %}>{{ st }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- DISTRICT DROPDOWN -->
+  <div class="col-12 col-sm-6 col-md-2">
+    <select name="district" id="districtDropdown" class="form-select form-select-sm">
+      <option value="">District</option>
       {% for dist in districts %}
         <option value="{{ dist }}" {% if dist == district %}selected{% endif %}>{{ dist }}</option>
       {% endfor %}
     </select>
   </div>
 
-  <div class="col-md-2">
-    <button type="submit" class="btn btn-primary">Filter</button>
-    <a href="{% url 'manage_district_member' %}" class="btn btn-secondary">Reset</a>
+  <!-- BUTTONS -->
+  <div class="col-12 col-sm-6 col-md-2 d-flex gap-1">
+    <button type="submit" class="btn btn-primary btn-sm w-100">Search</button>
+    <a href="{% url 'manage_district_member' %}" class="btn btn-secondary btn-sm w-100">Reset</a>
   </div>
 </form>
+
+
 
 <a href="{% url 'add_district_member' %}" class="btn btn-success mb-3">➕ Add New Member</a>
 
@@ -202,8 +220,10 @@
 <input type="hidden" id="csrf-token" value="{{ csrf_token }}">
 
 <script>
+  // ---------------- CSRF Token ----------------
   const csrfToken = document.getElementById('csrf-token').value;
 
+  // ---------------- Toggle Active (AJAX) ----------------
   document.querySelectorAll('.toggle-active').forEach(checkbox => {
     checkbox.addEventListener('change', function () {
       const memberId = this.dataset.id;
@@ -230,5 +250,32 @@
       });
     });
   });
+
+  // ---------------- State → District Dynamic Dropdown ----------------
+  const stateDistrictMap = JSON.parse('{{ states_and_districts|escapejs }}');
+  const stateDropdown = document.getElementById('stateDropdown');
+  const districtDropdown = document.getElementById('districtDropdown');
+
+  function populateDistricts(state, selectedDistrict = "") {
+    districtDropdown.innerHTML = '<option value="">All Districts</option>';
+    if (state && stateDistrictMap[state]) {
+      stateDistrictMap[state].forEach(dist => {
+        const option = document.createElement('option');
+        option.value = dist;
+        option.textContent = dist;
+        if (dist === selectedDistrict) option.selected = true;
+        districtDropdown.appendChild(option);
+      });
+    }
+  }
+
+  // Populate on page load if state already selected
+  populateDistricts(stateDropdown.value, "{{ district }}");
+
+  stateDropdown.addEventListener('change', function () {
+    populateDistricts(this.value);
+  });
 </script>
+
+
 {% endblock %}

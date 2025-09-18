@@ -225,13 +225,31 @@
 <script>
 $(document).ready(function(){
 
-    generatePassword();
-
     const stateSelect = $('#state');
     const districtSelect = $('#district');
     const blockSelect = $('#block');
 
-    function loadDistricts(state){
+    // Official detail fields
+    const assignedState = $('input[name="assigned_state"]');
+    const assignedDistrict = $('input[name="assigned_district"]');
+    const assignedBlock = $('input[name="assigned_block"]');
+
+    // Password generator
+    function generatePassword(length = 10){
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$!";
+        let password = "";
+        for(let i=0;i<length;i++){
+            password += chars.charAt(Math.floor(Math.random()*chars.length));
+        }
+        $('#password').val(password);
+    }
+    generatePassword();  // generate initial password
+
+    // Load districts when state changes
+    stateSelect.on('change', function(){
+        let state = $(this).val();
+        assignedState.val(state);  // auto-fill Official field
+
         $.ajax({
             url: "{% url 'ajax_get_districts' %}",
             data: { 'state': state },
@@ -243,21 +261,21 @@ $(document).ready(function(){
                     });
                 }
                 blockSelect.empty().append('<option value="">-- Select Block --</option>');
+                assignedDistrict.val('');
+                assignedBlock.val('');
             }
         });
-    }
-
-    stateSelect.on('change', function(){
-        loadDistricts($(this).val());
     });
 
+    // Load blocks when district changes
     districtSelect.on('change', function(){
-        let districtName = $(this).val();
-        blockSelect.empty().append('<option value="">-- Loading --</option>');
+        let district = $(this).val();
+        assignedDistrict.val(district);  // auto-fill Official field
 
+        blockSelect.empty().append('<option value="">-- Loading --</option>');
         $.ajax({
             url: "{% url 'ajax_get_blocks' %}",
-            data: { 'district': districtName },
+            data: { 'district': district },
             success: function(data){
                 blockSelect.empty().append('<option value="">-- Select Block --</option>');
                 if(data.blocks){
@@ -265,18 +283,16 @@ $(document).ready(function(){
                         blockSelect.append('<option value="'+b+'">'+b+'</option>');
                     });
                 }
+                assignedBlock.val('');
             }
         });
     });
 
-    function generatePassword(length = 10){
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$!";
-        let password = "";
-        for(let i=0;i<length;i++){
-            password += chars.charAt(Math.floor(Math.random()*chars.length));
-        }
-        $('#password').val(password);
-    }
+    // When block is selected
+    blockSelect.on('change', function(){
+        let block = $(this).val();
+        assignedBlock.val(block);  // auto-fill Official field
+    });
 
 });
 </script>

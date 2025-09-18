@@ -6920,8 +6920,8 @@ def add_state_member(request):
 def manage_state_member(request):
     state_roles = Role.objects.filter(role_name__startswith='State')
 
-    # unique states list User table se nikal lenge
-    states = User.objects.filter(role__in=state_roles).values_list('state', flat=True).distinct()
+    # Unique states (only Bihar & Jharkhand)
+    states = ["Bihar", "Jharkhand"]
 
     query = request.GET.get('q', '')
     selected_state = request.GET.get('state', '')
@@ -6937,10 +6937,6 @@ def manage_state_member(request):
     # ✅ State filter
     if selected_state:
         members = members.filter(state__iexact=selected_state.strip())
-
-    # Debugging print
-    for m in members:
-        print(f"Username: {m.username}, State: {m.state}")
 
     context = {
         'members': members,
@@ -7629,7 +7625,7 @@ def add_district_member(request):
         'blocks': blocks,
         'generated_password': generated_password,
         'locations_json': locations_json,
-        'state_name': selected_state
+        'state': selected_state
     })
 
 # -----------------------
@@ -7672,41 +7668,50 @@ def get_pincode_by_block(request):
 
 
 
+import json
+
 @superuser_required
 def manage_district_member(request):
-    # District level members fetch karo directly role ke basis par
     members = User.objects.filter(role__level='district').order_by('created_at')
 
-    # Simple search
-    query = request.GET.get('q')
-    if query:
-        members = members.filter(assigned_district__icontains=query)
-
-    # Advanced search
     username = request.GET.get('username')
+    state = request.GET.get('state')
     district = request.GET.get('district')
 
     if username:
         members = members.filter(username__icontains=username)
+    if state:
+        members = members.filter(state__icontains=state)
     if district:
-        members = members.filter(assigned_district__icontains=district)
+        members = members.filter(district__icontains=district)
 
-    districts = [
-        "Araria","Arwal","Aurangabad","Banka","Begusarai","Bhagalpur","Bhojpur",
-        "Buxar","Darbhanga","Gaya","Gopalganj","Jamui","Jehanabad","Kaimur",
-        "Katihar","Khagaria","Kishanganj","Lakhisarai","Madhepura","Madhubani",
-        "Munger","Muzaffarpur","Nalanda","Nawada","Patna","Purnia","Rohtas",
-        "Saharsa","Samastipur","Saran","Sheikhpura","Sheohar","Sitamarhi","Siwan",
-        "Vaishali","Forbesganj","Mokama","Bettiah"
-    ]
+    # States and districts dictionary
+    states_and_districts = {
+        "Bihar": [
+            "Araria","Arwal","Aurangabad","Banka","Begusarai","Bhagalpur","Bhojpur",
+            "Buxar","Darbhanga","Gaya","Gopalganj","Jamui","Jehanabad","Kaimur",
+            "Katihar","Khagaria","Kishanganj","Lakhisarai","Madhepura","Madhubani",
+            "Munger","Muzaffarpur","Nalanda","Nawada","Patna","Purnia","Rohtas",
+            "Saharsa","Samastipur","Saran","Sheikhpura","Sheohar","Sitamarhi","Siwan",
+            "Vaishali","Forbesganj","Mokama","Bettiah"
+        ],
+        "Jharkhand": [
+            "Ranchi","Bokaro","Dhanbad","Hazaribagh","Jamshedpur","Deoghar","Giridih",
+            "Chatra","Garhwa","Gumla","Godda","Khunti","Latehar","Lohardaga","Pakur",
+            "Palamu","Ramgarh","Sahebganj","Simdega","West Singhbhum"
+        ]
+    }
 
     return render(request, 'core/admin/manage_district_member.html', {
         'members': members,
-        'query': query or "",
         'username': username or "",
+        'state': state or "",
         'district': district or "",
-        'districts': districts
+        'states': list(states_and_districts.keys()),
+        'districts': states_and_districts.get(state, []) if state else [],
+        'states_and_districts': json.dumps(states_and_districts)  # <-- JSON pass
     })
+
 
 
 
@@ -8024,67 +8029,113 @@ def manage_block_member(request):
     else:
         members = User.objects.filter(role__in=block_roles)
 
-    # ✅ Block-wise search
+    # ---------------- Locations ----------------
+    locations = {
+        "Bihar": {
+                "Araria": ["Araria", "Bhargama", "Forbesganj", "Jokihat", "Kursakatta", "Narpatganj", "Palasi", "Raniganj", "Sikti"],
+                "Arwal": ["Arwal", "Kaler", "Karpi", "Suryapura"],
+                "Aurangabad": ["Aurangabad", "Barun", "Daudnagar", "Kutumbba", "Madanpur", "Obra", "Rafiganj", "Rehla"],
+                "Banka": ["Amarpur", "Banka", "Barahat", "Belhar", "Bausi", "Bihat", "Chandan", "Dhuraiya", "Katoria", "Rajauli"],
+                "Begusarai": ["Begusarai", "Bakhri", "Barahi", "Barauni", "Chhaurahi", "Gidhaur", "Guraru", "Khodabandpur", "Mokama", "Teghra"],
+                "Bhagalpur": ["Bhagalpur", "Bihpur", "Gopalpur", "Ismailpur", "Kahalgaon", "Nathnagar", "Pirpainti", "Sabour", "Sahkund", "Sultanganj"],
+                "Bhojpur": ["Arrah", "Agiaon", "Bihiya", "Charpokhari", "Jagdishpur", "Koilwar", "Piro", "Sahar", "Sandesh", "Shivnarayanpur"],
+                "Buxar": ["Buxar", "Chausa", "Dumraon", "Karma", "Nawanagar", "Raghunathpur", "Sikandarpur", "Simri"],
+                "Darbhanga": ["Darbhanga", "Bahadurpur", "Biraul", "Hathua", "Hayaghat", "Jale", "Keoti", "Madhubani"],
+                "Gaya": ["Gaya Sadar", "Belaganj", "Wazirganj", "Manpur", "Bodhgaya", "Tekari", "Konch", "Mohra"],
+                "Gopalganj": ["Gopalganj", "Bhore", "Manjha", "Maharajganj", "Guthani", "Raghunathpur", "Sadar", "Siwan"],
+                "Jamui": ["Jamui", "Chakai", "Gidhaur", "Jhajha", "Lakhisarai", "Kharagpur", "Jamui Sadar"],
+                "Jehanabad": ["Jehanabad", "Makhdumpur", "Ghosi", "Ratni", "Modanganj", "Hulasganj"],
+                "Kaimur": ["Bhabua", "Kaimur Sadar", "Chainpur", "Ramgarh", "Mohania", "Nauhatta", "Mohania"],
+                "Katihar": ["Katihar", "Amdabad", "Balrampur", "Dhamdaha", "Korha", "Manihari", "Pranpur", "Sahabad", "Singheshwar"],
+                "Khagaria": ["Khagaria", "Chautham", "Gogari", "Beldaur", "Alauli", "Mansi"],
+                "Kishanganj": ["Kishanganj", "Amour", "Baisi", "Kasba", "Kochadhaman", "Thakurganj"],
+                "Lakhisarai": ["Lakhisarai", "Chanan", "Chewara", "Ghatkusumba", "Hulasganj"],
+                "Madhepura": ["Madhepura", "Alamnagar", "Brahmapur", "Gwalpara", "Madhuban"],
+                "Madhubani": ["Madhubani", "Benipatti", "Babaij", "Jhanjharpur", "Lalganj", "Phulparas", "Rajnagar", "Rahika", "Singhwara", "Pipra"],
+                "Munger": ["Munger", "Barh", "Jamalpur", "Kharagpur", "Laxmipur", "Sakra"],
+                "Muzaffarpur": ["Muzaffarpur", "Baruraj", "Paroo", "Motipur", "Kanti", "Mehnar", "Sahebganj", "Sadar", "Gopalganj"],
+                "Nalanda": ["Nalanda", "Biharsharif", "Islampur", "Rajgir", "Harnaut", "Ekangarsarai", "Hilsa", "Asthawan", "Katrisarai"],
+                "Nawada": ["Nawada", "Hisua", "Nawada Sadar", "Pakrasi", "Narhat", "Rajgir", "Warisaliganj"],
+                "Patna": ["Patna Sadar", "Daniyaw", "Bakhtiyarpur", "Fatuha", "Paliganj", "Danapur", "Maner", "Naubatpur", "Sampatchak", "Masaurhi"],
+                "Purnia": ["Purnia", "Banmankhi", "Baisi", "Dhamdaha", "Kishanganj", "Saharsha", "Rupauli"],
+                "Rohtas": ["Sasaram", "Dehri", "Bikramganj", "Chenari", "Rohtas Sadar", "Akbarpur"],
+                "Saharsa": ["Saharsa", "Mahishi", "Simri Bakhtiyarpur", "Madhepura", "Sonbarsa"],
+                "Samastipur": ["Samastipur", "Dalsinghsarai", "Rosera", "Ujiarpur", "Mohanpur", "Patori", "Sarairanjan", "Vidya"],
+                "Saran": ["Chhapra", "Marhaura", "Dighwara", "Garkha", "Pachrukhi", "Sonepur", "Sahdei Buzurg", "Amnour"],
+                "Sheikhpura": ["Sheikhpura", "Barbigha", "Chewara", "Ghatkusumba"],
+                "Sheohar": ["Sheohar", "Dumri Kusmi", "Pipra", "Mahishi"],
+                "Sitamarhi": ["Sitamarhi", "Bairgania", "Pupri", "Suppi", "Belsand", "Sonbarsa", "Riga", "Bhantabari"],
+                "Siwan": ["Siwan", "Goriakothi", "Hussainganj", "Barharia", "Maharajganj", "Siswan", "Daraundha"],
+                "Supaul": ["Supaul", "Basantpur", "Triveniganj", "Nirmali", "Kishanpur", "Saraigarh Bhaptiyahi"],
+                "Vaishali": ["Hajipur", "Mahnar", "Bidupur", "Rajapakar", "Goraul", "Desri", "Patepur", "Bikram"],
+                "West Champaran": ["Bettiah", "Narkatiaganj", "Chakia", "Bhikhanpur", "Valmikinagar", "Manihari", "Ramgarhwa"]
+            },
+
+        "Jharkhand": {
+            "Ranchi": ["Ranchi Sadar", "Kanke", "Tatisilwai"],
+            "Dhanbad": ["Dhanbad Sadar", "Jharia", "Baliapur"]
+        }
+    }
+
+    # ---------------- GET Filters ----------------
+    state_query = request.GET.get('state')
+    district_query = request.GET.get('district')
     block_query = request.GET.get('block')
+    username_query = request.GET.get('username')
+
+    # Filter members based on state
+    if state_query:
+        members = members.filter(assigned_state__icontains=state_query)
+
+    # Filter members based on district
+    if district_query:
+        members = members.filter(assigned_district__icontains=district_query)
+
+    # Filter members based on block
     if block_query:
         members = members.filter(assigned_block__icontains=block_query)
 
-    # ✅ Username-wise search
-    username_query = request.GET.get('username')
+    # Filter by username
     if username_query:
         members = members.filter(username__icontains=username_query)
 
-    # ✅ District + Block data
-    districts_blocks = {
-    "Araria": ["Araria", "Bhargama", "Forbesganj", "Jokihat", "Kursakatta", "Narpatganj", "Palasi", "Raniganj", "Sikti"],
-    "Arwal": ["Arwal", "Kaler", "Karpi", "Kurtha"],
-    "Aurangabad": ["Aurangabad", "Barun", "Deo", "Goh", "Haspura", "Kutumba", "Madanpur", "Nabinagar", "Obra", "Rafiganj"],
-    "Banka": ["Amarpur", "Banka", "Barahat", "Belhar", "Bausi", "Bihat", "Chandan", "Dhuraiya", "Katoria", "Rajauli", "Shambhuganj", "Sultanganj", "Tola", "Udwantnagar"],
-    "Begusarai": ["Bachhwara", "Bakhri", "Balia", "Barauni", "Begusarai", "Bhagwanpur", "Birpur", "Cheria Bariyarpur", "Dandari", "Garhpura", "Khodawandpur", "Mansurchak", "Matihani", "Naokothi", "Sahebpur Kamal", "Teghra", "Bihat"],
-    "Bhagalpur": ["Bihpur", "Colgong", "Goradih", "Ismailpur", "Jagdishpur", "Kahalgaon", "Kharik", "Nathnagar", "Naugachhia", "Pirpainty", "Rangra Chowk", "Sabour", "Sanhaula", "Shahkund", "Sultanganj"],
-    "Bhojpur": ["Agiaon", "Arrah", "Barhara", "Behea", "Charpokhari", "Garhani", "Jagdishpur", "Koilwar", "Piro", "Sahar", "Sandesh", "Shahpur", "Tarari", "Udwantnagar"],
-    "Buxar": ["Buxar", "Itarhi", "Chausa", "Rajpur", "Dumraon", "Nawanagar", "Brahampur", "Kesath", "Chakki", "Chougain", "Simri"],
-    "Darbhanga": ["Alinagar", "Benipur", "Biraul", "Baheri", "Bahadurpur", "Darbhanga Sadar", "Ghanshyampur", "Hayaghat", "Jale", "Keotirunway", "Kusheshwar Asthan", "Manigachhi", "Kiratpur", "Khutauna", "Muraul", "Purnahiya", "Rajnagar", "Shivnagar", "Singhwara", "Tardih", "Wazirganj", "Gaurabauram", "Khamhria"],
-    "Gaya": ["Gaya Sadar", "Belaganj", "Wazirganj", "Manpur", "Bodhgaya", "Tekari", "Konch", "Guraru", "Paraiya", "Neemchak Bathani", "Khizarsarai", "Atri", "Bathani", "Mohra", "Sherghati", "Gurua", "Amas", "Banke Bazar", "Imamganj", "Dumariya", "Dobhi", "Mohanpur", "Barachatti", "Fatehpur"],
-    "Gopalganj": ["Gopalganj", "Thawe", "Kuchaikote", "Manjha", "Sidhwaliya", "Hathua", "Baikunthpur", "Barauli", "Kateya", "Phulwariya", "Panchdewari", "Uchkagaon", "Vijayipur", "Bhorey"],
-    "Jamui": ["Jamui", "Sikandra", "Khaira", "Chakai", "Sono", "Laxmipur", "Jhajha", "Barhat", "Gidhour", "Islamnagar Aliganj"],
-    "Jehanabad": ["Jehanabad", "Makhdumpur", "Ghosi", "Hulasganj", "Ratni Faridpur", "Modanganj", "Kako"],
-    "Kaimur": ["Adhaura", "Bhabua", "Bhagwanpur", "Chainpur", "Chand", "Rampur", "Durgawati", "Kudra", "Mohania", "Nuaon", "Ramgarh"],
-    "Katihar": ["Katihar", "Barsoi", "Manihari", "Falka", "Kadwa", "Kursela", "Hasanganj", "Sameli", "Pranpur", "Korha"],
-    "Khagaria": ["Khagaria", "Beldaur", "Parbatta", "Hasanpur", "Chautham", "Mansi", "Gogri", "Simri Bakhtiyarpur"],
-    "Kishanganj": ["Kishanganj", "Bahadurganj", "Dighalbank", "Thakurganj", "Goalpokhar", "Islampur"],
-    "Lakhisarai": ["Lakhisarai", "Ramgarh Chowk", "Surajgarha", "Barahiya", "Chanan"],
-    "Madhepura": ["Madhepura", "Kumargram", "Singheshwar", "Murliganj", "Gopalpur", "Udaipur", "Alamnagar", "Shankarpur", "Madhepura Sadar"],
-    "Madhubani": ["Andhratharhi", "Babubarhi", "Basopatti", "Benipatti", "Bisfi", "Ghoghardiha", "Harlakhi", "Jhanjharpur", "Kaluahi", "Khajauli", "Ladania", "Laukahi", "Madhepur", "Madhwapur", "Pandaul", "Phulparas", "Rajnagar", "Sakri", "Shankarpur", "Tardih", "Lakhnaur"],
-    "Munger": ["Munger Sadar", "Bariyarpur", "Chandan", "Sangrampur", "Tarapur", "Jamalpur", "Kharagpur", "Hathidah"],
-    "Muzaffarpur": ["Muzaffarpur Sadar", "Musahari", "Marwan", "Bochahan", "Katra", "Saraiya", "Paroo", "Sakra", "Gorhara", "Motipur", "Barahiya", "Minapur", "Meenapur", "Aurai", "Piprahi", "Aurai", "Saraiya", "Bochahan"],
-    "Nalanda": ["Bihar Sharif", "Rajgir", "Harnaut", "Islampur", "Hilsa", "Noorsarai", "Ekangarsarai", "Asthawan", "Katri", "Silao", "Nalanda Sadar"],
-    "Nawada": ["Nawada Sadar", "Akbarpur", "Narhat", "Pakribarawan", "Hisua", "Warisaliganj", "Kawakol", "Roh", "Rajauli"],
-    "Patna": ["Patna Sadar", "Daniyaw", "Bakhtiyarpur", "Fatuha", "Paliganj", "Danapur", "Maner", "Naubatpur", "Sampatchak", "Masaurhi", "Khusrupur", "Bihta", "Punpun", "Barh", "Phulwari", "Dhanarua"],
-    "Purnia": ["Purnia Sadar", "Banmankhi", "Dhamdaha", "Rupauli", "Baisi", "Kasba", "Bhawanipur", "Barhara Kothi", "Sukhasan", "Amour", "Krityanand Nagar", "Jalalgarh", "Bhagalpur", "Purnia City"],
-    "Rohtas": ["Rohtas Sadar", "Sasaram", "Nokha", "Dehri", "Akbarpur", "Nauhatta", "Rajpur", "Chenari", "Tilouthu", "Rohtas", "Dumraon"],
-    "Saharsa": ["Saharsa Sadar", "Mahishi", "Simri Bakhtiyarpur", "Sonbarsa", "Madhepur", "Pipra", "Salkhua", "Patarghat", "Alamnagar"],
-    "Samastipur": ["Samastipur Sadar", "Ujiarpur", "Morwa", "Sarairanjan", "Warisnagar", "Kalyanpur", "Dalsinghsarai", "Hasanpur", "Patori", "Vidyapati Nagar", "Tajpur", "Makhdumpur", "Musrigharari", "Shivajinagar", "Goriakothi"],
-    "Saran": ["Chapra Sadar", "Marhaura", "Dighwara", "Parsa", "Sonpur", "Garkha", "Amnour", "Dariapur", "Taraiya", "Manjhi", "Sonepur", "Masrakh", "Parsauni"],
-    "Sheikhpura": ["Sheikhpura Sadar", "Chewara", "Ariari", "Barbigha", "Hasanpur", "Pirpainti", "Sheikhpura", "Nathnagar"],
-    "Sheohar": ["Sheohar Sadar", "Purnahiya", "Dumri Katsari", "Piprarhi", "Mehsi"],
-    "Sitamarhi": ["Sitamarhi Sadar", "Belsand", "Bajpatti", "Choraut", "Bathnaha", "Suppi", "Riga", "Runnisaidpur", "Pupri", "Sursand", "Bairgania", "Nanpur"],
-    "Siwan": ["Siwan Sadar", "Barharia", "Bhagwanpur Hat", "Daraundha", "Goriakothi", "Guthani", "Hussainganj", "Lakri Nabiganj", "Maharajganj", "Nautan", "Pachrukhi", "Raghunathpur", "Mairwa"],
-    "Vaishali": ["Hajipur", "Lalganj", "Mahua", "Mahnar", "Patepur", "Rajapakar", "Bidupur", "Chehrakala", "Desari", "Goraul", "Jandaha", "Sahdei Buzurg"],
-    "Forbesganj": ["Forbesganj", "Araria", "Bhargama", "Raniganj", "Palasi", "Sikti", "Jokihat", "Kursakatta", "Narpatganj"],
-    "Mokama": ["Mokama", "Ghoswari", "Pandarak", "Barh", "Daniyawan", "Bikramganj", "Kharagpur"],
-    "Bettiah": ["Bettiah Sadar", "Nautan", "Chanpatia", "Sikta", "Majhauli", "Dumra", "Shikarpur", "Ramnagar"],
-}
+     # ---------------- Prepare Dropdowns ----------------
+    states = sorted(locations.keys())
 
+    if state_query and state_query in locations:
+        districts = sorted(locations[state_query].keys())
+
+        if district_query:
+            district_query_clean = next(
+                (d for d in locations[state_query] if d.lower() == district_query.lower()), None
+            )
+            if district_query_clean:
+                blocks = sorted(locations[state_query][district_query_clean])
+            else:
+                blocks = []
+        else:
+            blocks = []
+    else:
+        districts = []
+        blocks = []
+
+
+    # ---------------- Prepare dropdown data ----------------
+    states = sorted(locations.keys())
+    districts = sorted(locations[state_query].keys()) if state_query and state_query in locations else []
+    blocks = sorted(locations[state_query][district_query]) if state_query and district_query and district_query in locations[state_query] else []
 
     return render(request, 'core/admin/manage_block_member.html', {
         'members': members,
-        'query': block_query or "",
+        'states': states,
+        'districts': districts,
+        'blocks': blocks,
+        'state': state_query or "",
+        'district': district_query or "",
+        'block': block_query or "",
         'username': username_query or "",
-        'districts_blocks': districts_blocks
+        'locations_json': json.dumps(locations)
     })
-
-
 
 @superuser_required
 def edit_block_member(request, member_id):

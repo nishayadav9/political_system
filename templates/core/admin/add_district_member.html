@@ -81,7 +81,7 @@
 
                 <div>
                     <label for="state_name" class="block text-gray-600 font-medium mb-1">State Name</label>
-                    <select id="state_name" name="state_name" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    <select id="state" name="state" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
                         <option value="Bihar" {% if state_name == "Bihar" %}selected{% endif %}>Bihar</option>
                         <option value="Jharkhand" {% if state_name == "Jharkhand" %}selected{% endif %}>Jharkhand</option>
                     </select>
@@ -204,7 +204,7 @@
 const rolesData = {{ roles_json|safe }};
 const locationsData = {{ locations_json|safe }};  // Added: JSON of Bihar & Jharkhand locations
 
-const stateSelect = document.getElementById('state_name');
+const stateSelect = document.getElementById('state');
 const districtSelect = document.getElementById('district');
 const blockSelect = document.getElementById('block');
 
