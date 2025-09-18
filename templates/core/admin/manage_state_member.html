@@ -132,6 +132,8 @@
       <!-- Column headers -->
       <tr>
         <!-- Personal Details -->
+        <th>S. No.</th>  <!-- ✅ Serial number first column -->
+
         <th>Username</th>
         <th>Password</th> <!-- ✅ New Column -->
 
@@ -170,8 +172,11 @@
 
     <tbody>
       {% for member in members %}
+
       <tr>
         <!-- Personal -->
+        <td>{{ forloop.counter }}</td>  <!-- ✅ Auto S.No. -->
+
         <td>{{ member.username }}</td>
         <td>{{ member.plain_password|default:"-" }}</td> <!-- ✅ New Column -->
 

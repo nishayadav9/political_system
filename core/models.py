@@ -350,7 +350,8 @@ class Complaint(models.Model):
     feedback = models.TextField(blank=True, null=True)
     forward_chain = models.JSONField(default=list, blank=True)
     status_updated_at = models.DateTimeField(null=True, blank=True)
-
+    solve_image = models.ImageField(upload_to="complaint_solutions/images/", blank=True, null=True)
+    solve_video = models.FileField(upload_to="complaint_solutions/videos/", blank=True, null=True)
     send_to = models.CharField(
         max_length=20,
         choices=SEND_TO_CHOICES,

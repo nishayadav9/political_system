@@ -136,6 +136,8 @@
         <th colspan="8">Official Details</th>
       </tr>
       <tr>
+                <th>S. No.</th>  <!-- ✅ Serial number first column -->
+
         <th>Username</th>
         <th>Password</th>
         <th>Full Name</th>
@@ -166,6 +168,8 @@
     <tbody>
       {% for member in members %}
       <tr>
+              <td>{{ forloop.counter }}</td>  <!-- ✅ Auto S.No. -->
+
         <td>{{ member.username }}</td>
         <td>{{ member.plain_password|default:"-" }}</td>
         <td>{{ member.full_name|default:"-" }}</td>

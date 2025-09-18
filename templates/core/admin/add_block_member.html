@@ -87,32 +87,36 @@
       </div>
 
       <!-- 🔥 STATE DROPDOWN (Bihar/Jharkhand) -->
-      <div class="col-6 col-md-4">
-        <label>State</label>
-        <select name="state_name" id="state" class="form-select" required>
-          <option value="">-- Select State --</option>
-          {% for state in states %}
-            <option value="{{ state }}" {% if state == selected_state %}selected{% endif %}>{{ state }}</option>
-          {% endfor %}
-        </select>
-      </div>
+<div class="col-6 col-md-4">
+  <label>State</label>
+  <select name="state_name" id="state" class="form-select" required>
+    <option value="">-- Select State --</option>
+    {% for state in states %}
+      <option value="{{ state }}" {% if state == state_query %}selected{% endif %}>{{ state }}</option>
+    {% endfor %}
+  </select>
+</div>
 
-      <div class="col-6 col-md-4">
-        <label>District</label>
-        <select name="district" id="district" class="form-select" required>
-          <option value="">-- Select District --</option>
-          {% for district in districts %}
-            <option value="{{ district }}">{{ district }}</option>
-          {% endfor %}
-        </select>
-      </div>
+<div class="col-6 col-md-4">
+  <label>District</label>
+  <select name="district" id="district" class="form-select" required>
+    <option value="">-- Select District --</option>
+    {% for district in districts %}
+      <option value="{{ district }}" {% if district == district_query %}selected{% endif %}>{{ district }}</option>
+    {% endfor %}
+  </select>
+</div>
 
-      <div class="col-6 col-md-4">
-        <label>Block / Tehsil / Taluka</label>
-        <select name="block_tehsil_taluka" id="block" class="form-select" required>
-          <option value="">-- Select Block --</option>
-        </select>
-      </div>
+<div class="col-6 col-md-4">
+  <label>Block / Tehsil / Taluka</label>
+  <select name="block_tehsil_taluka" id="block" class="form-select" required>
+    <option value="">-- Select Block --</option>
+    {% for b in blocks %}
+      <option value="{{ b }}" {% if b == block %}selected{% endif %}>{{ b }}</option>
+    {% endfor %}
+  </select>
+</div>
+
 
       <div class="col-6 col-md-4">
         <label>Village / Town / City</label>
@@ -224,12 +228,10 @@
 
 <script>
 $(document).ready(function(){
-
     const stateSelect = $('#state');
     const districtSelect = $('#district');
     const blockSelect = $('#block');
 
-    // Official detail fields
     const assignedState = $('input[name="assigned_state"]');
     const assignedDistrict = $('input[name="assigned_district"]');
     const assignedBlock = $('input[name="assigned_block"]');
@@ -243,12 +245,49 @@ $(document).ready(function(){
         }
         $('#password').val(password);
     }
-    generatePassword();  // generate initial password
+    generatePassword();
+
+    const stateQuery = "{{ state_query }}";
+    const districtQuery = "{{ district_query }}";
+    const blockQuery = "{{ block }}";
+
+    // Pre-select state, district, block on page load
+    if(stateQuery){
+        stateSelect.val(stateQuery).trigger('change');
+
+        if(districtQuery){
+            $.ajax({
+                url: "{% url 'ajax_get_districts' %}",
+                data: {'state': stateQuery},
+                success: function(data){
+                    districtSelect.empty().append('<option value="">-- Select District --</option>');
+                    data.districts.forEach(function(d){
+                        let selected = d === districtQuery ? 'selected' : '';
+                        districtSelect.append('<option value="'+d+'" '+selected+'>'+d+'</option>');
+                    });
+
+                    if(blockQuery){
+                        $.ajax({
+                            url: "{% url 'ajax_get_blocks' %}",
+                            data: {'district': districtQuery},
+                            success: function(data){
+                                blockSelect.empty().append('<option value="">-- Select Block --</option>');
+                                data.blocks.forEach(function(b){
+                                    let selected = b === blockQuery ? 'selected' : '';
+                                    blockSelect.append('<option value="'+b+'" '+selected+'>'+b+'</option>');
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
 
     // Load districts when state changes
     stateSelect.on('change', function(){
         let state = $(this).val();
-        assignedState.val(state);  // auto-fill Official field
+        assignedState.val(state);
 
         $.ajax({
             url: "{% url 'ajax_get_districts' %}",
@@ -270,7 +309,7 @@ $(document).ready(function(){
     // Load blocks when district changes
     districtSelect.on('change', function(){
         let district = $(this).val();
-        assignedDistrict.val(district);  // auto-fill Official field
+        assignedDistrict.val(district);
 
         blockSelect.empty().append('<option value="">-- Loading --</option>');
         $.ajax({
@@ -288,13 +327,12 @@ $(document).ready(function(){
         });
     });
 
-    // When block is selected
     blockSelect.on('change', function(){
         let block = $(this).val();
-        assignedBlock.val(block);  // auto-fill Official field
+        assignedBlock.val(block);
     });
-
 });
+
 </script>
 
 {% endblock %}

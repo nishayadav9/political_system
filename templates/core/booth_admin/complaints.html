@@ -168,13 +168,44 @@
                             {% endif %}
 
                             {% if complaint.status == 'Accepted' and not complaint.resolved_at %}
-                            <form action="{% url 'booth_complaints_solve' complaint.pk %}" method="POST" style="display:inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-info">Solve</button>
-                            </form>
+                            <!-- ✅ Solve Button with Modal -->
+                            <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#solveModal{{ complaint.pk }}">
+                                Solve
+                            </button>
+
+                            <!-- Solve Modal -->
+                            <div class="modal fade" id="solveModal{{ complaint.pk }}" tabindex="-1">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <form method="POST" action="{% url 'booth_complaints_solve' complaint.pk %}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="modal-header">
+                                      <h5 class="modal-title">Solve Complaint #{{ complaint.pk }}</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <p class="text-muted small">Upload image/video as proof of resolution (optional).</p>
+                                      <div class="mb-3">
+                                        <label class="form-label">Upload Image</label>
+                                        <input type="file" name="solve_image" accept="image/*" class="form-control">
+                                      </div>
+                                      <div class="mb-3">
+                                        <label class="form-label">Upload Video</label>
+                                        <input type="file" name="solve_video" accept="video/*" class="form-control">
+                                      </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                      <button type="submit" class="btn btn-primary">Submit & Solve</button>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
                             {% endif %}
                         </div>
                     </td>
+
 
                     <td>{{ complaint.forward_to|default:"-" }}</td>
                     <td>{{ complaint.forward_reason|default:"-" }}</td>

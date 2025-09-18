@@ -6,10 +6,15 @@
 
   <!-- Filter Form -->
   <!-- Filter Form -->
+<!-- Filter Form -->
 <form method="get" class="row mb-3">
-  <!-- State Fixed -->
+  <!-- State Dropdown -->
   <div class="col">
-    <input type="text" name="state" class="form-control" value="Bihar" readonly>
+    <select id="state" name="state" class="form-control">
+      <option value="">Select State</option>
+      <option value="Bihar" {% if request.GET.state == "Bihar" %}selected{% endif %}>Bihar</option>
+      <option value="Jharkhand" {% if request.GET.state == "Jharkhand" %}selected{% endif %}>Jharkhand</option>
+    </select>
   </div>
 
   <!-- District Dropdown -->
@@ -22,7 +27,7 @@
     </select>
   </div>
 
-  <!-- Block Dropdown (Dynamic based on District) -->
+  <!-- Block Dropdown -->
   <div class="col">
     <select id="block" name="block" class="form-control">
       <option value="">Select Block</option>
@@ -42,6 +47,7 @@
     <a href="{% url 'view_complaints' %}" class="btn btn-secondary">Reset</a>
   </div>
 </form>
+
 
   {% if complaints %}
     <div class="table-responsive">
@@ -71,8 +77,9 @@
             <th>Actions</th>
             <th>Forwarded To (Username)</th>
             <th>Forward Reason</th>
-                        <th>Forward History</th> <!-- Added -->
-
+            <th>Forward History</th> <!-- Added -->
+            <th>Solved Image</th>
+            <th>Solved Video</th>
             <th>Public Notice</th>
           </tr>
         </thead>
@@ -333,6 +340,29 @@
 </td>
 
 
+<!-- ✅ Solved Image -->
+  <td class="text-center">
+    {% if complaint.solve_image %}
+      <a href="{{ complaint.solve_image.url }}" target="_blank">
+        <img src="{{ complaint.solve_image.url }}" style="max-width:50px; max-height:50px; border-radius:4px;">
+      </a>
+    {% else %}
+      <span class="text-muted small">-</span>
+    {% endif %}
+  </td>
+
+  <!-- ✅ Solved Video -->
+  <td class="text-center">
+    {% if complaint.solve_video %}
+      <a href="{{ complaint.solve_video.url }}" target="_blank" class="text-primary fs-5">
+        <i class="bi bi-camera-video"></i>
+      </a>
+    {% else %}
+      <span class="text-muted small">-</span>
+    {% endif %}
+  </td>
+
+
 <!-- Public Notice Column -->
 <td class="text-center">
   {% if complaint.public_notice %}
@@ -380,36 +410,64 @@
 
 <script>
 const districtBlocks = {{ district_blocks|safe }};
+const stateSelect = document.getElementById('state');
 const districtSelect = document.getElementById('district');
 const blockSelect = document.getElementById('block');
 
-function populateBlocks(selectedDistrict, selectedBlock=null) {
+// ✅ Districts load karne ka function (State ke hisaab se)
+function populateDistricts(selectedState, selectedDistrict = null) {
+    districtSelect.innerHTML = '<option value="">Select District</option>';
+    const stateData = districtBlocks.filter(d => d.state === selectedState);
+
+    stateData.forEach(district => {
+        const option = document.createElement('option');
+        option.value = district.district_name;
+        option.text = district.district_name;
+        if (district.district_name === selectedDistrict) option.selected = true;
+        districtSelect.appendChild(option);
+    });
+
+    blockSelect.innerHTML = '<option value="">Select Block</option>';
+}
+
+// ✅ Blocks load karne ka function (District ke hisaab se)
+function populateBlocks(selectedDistrict, selectedBlock = null) {
     blockSelect.innerHTML = '<option value="">Select Block</option>';
     const district = districtBlocks.find(d => d.district_name === selectedDistrict);
-    if(district) {
-        const blocks = district.block_name.split(',').map(b => b.trim());
-        blocks.forEach(block => {
+
+    if (district) {
+        district.blocks.forEach(block => {   // ✅ ab direct array se loop kar rahe hai
             const option = document.createElement('option');
             option.value = block;
             option.text = block;
-            if(block === selectedBlock) option.selected = true;
+            if (block === selectedBlock) option.selected = true;
             blockSelect.appendChild(option);
         });
     }
 }
 
-// On district change
-districtSelect.addEventListener('change', function() {
+// ✅ Event: State change → Districts load
+stateSelect.addEventListener('change', function () {
+    populateDistricts(this.value);
+});
+
+// ✅ Event: District change → Blocks load
+districtSelect.addEventListener('change', function () {
     populateBlocks(this.value);
 });
 
-// On page load (to set previously selected block)
-window.addEventListener('load', function() {
-    if(districtSelect.value) {
-        populateBlocks(districtSelect.value, "{{ request.GET.block }}");
+// ✅ Page Load par previous selection restore kare
+window.addEventListener('load', function () {
+    if (stateSelect.value) {
+        populateDistricts(stateSelect.value, "{{ request.GET.district }}");
+
+        if (districtSelect.value) {
+            populateBlocks(districtSelect.value, "{{ request.GET.block }}");
+        }
     }
 });
 </script>
+
 
 
 {% endblock %}

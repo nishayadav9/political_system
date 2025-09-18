@@ -61,6 +61,7 @@
         {% if booth_members %}
           {% for member in booth_members %}
             <tr>
+              
               <td>{{ forloop.counter }}</td>
               <td>{{ member.username }}</td>
               <td>{{ member.plain_password|default:"N/A" }}</td>

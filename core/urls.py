@@ -44,8 +44,7 @@ path('complaint-form/', views.complaint_form_view, name='complaint_form'),
 
     # HOD
 # For HOD
-path('complaints/edit/<int:complaint_id>/', views.complaint_edit, name='complaint_edit'),
-    path('complaints/delete/<int:complaint_id>/', views.complaint_delete, name='complaint_delete'),
+path('complaints/delete/<int:complaint_id>/', views.complaint_delete, name='complaint_delete'),
 # For State Level Party Member
 path('state-member/add/', views.add_state_member, name='add_state_member'),
 path('state-member/manage/', views.manage_state_member, name='manage_state_member'),

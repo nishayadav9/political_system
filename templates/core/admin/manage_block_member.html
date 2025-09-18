@@ -88,26 +88,42 @@
 <h2>Manage Block Level Party Members</h2>
 
 <!-- Filter Form -->
-<form method="get" class="d-flex align-items-center gap-2 mb-3" style="flex-wrap: wrap; max-width: 700px;">
-  <select name="block" class="form-control form-control-sm" style="max-width: 250px;">
-    <option value="">-- Select Block --</option>
-    {% for district, blocks in districts_blocks.items %}
-      <optgroup label="{{ district }}">
-        {% for block in blocks %}
-          <option value="{{ block }}" {% if query == block %}selected{% endif %}>{{ block }}</option>
-        {% endfor %}
-      </optgroup>
+<form method="get" id="filterForm" class="d-flex align-items-center gap-2 mb-3" style="flex-wrap: wrap; max-width: 700px;">
+  
+  <!-- State Dropdown -->
+  <select name="state" id="state" class="form-control form-control-sm" style="max-width: 200px;">
+    <option value="">-- Select State --</option>
+    {% for s in states %}
+      <option value="{{ s }}" {% if s == state %}selected{% endif %}>{{ s }}</option>
     {% endfor %}
   </select>
 
+  <!-- District Dropdown -->
+  <select name="district" id="district" class="form-control form-control-sm" style="max-width: 200px;">
+    <option value="">-- Select District --</option>
+    {% for d in districts %}
+      <option value="{{ d }}" {% if d == district %}selected{% endif %}>{{ d }}</option>
+    {% endfor %}
+  </select>
+
+  <!-- Block Dropdown -->
+  <select name="block" id="block" class="form-control form-control-sm" style="max-width: 200px;">
+    <option value="">-- Select Block --</option>
+    {% for b in blocks %}
+      <option value="{{ b }}" {% if b == block %}selected{% endif %}>{{ b }}</option>
+    {% endfor %}
+  </select>
+
+  <!-- Username Search -->
   <input type="text" name="username" class="form-control form-control-sm"
-         placeholder="Enter Username" value="{{ username }}" style="max-width: 250px;">
+         placeholder="Enter Username" value="{{ username }}" style="max-width: 200px;">
 
   <div class="d-flex gap-2">
     <button type="submit" class="btn btn-sm btn-primary">Search</button>
     <a href="{% url 'manage_block_member' %}" class="btn btn-sm btn-secondary">Reset</a>
   </div>
 </form>
+
 
 <a href="{% url 'add_block_member' %}" class="btn btn-success mb-3">Add Block Member</a>
 
@@ -119,6 +135,8 @@
         <th colspan="13">Official Details</th>
       </tr>
       <tr>
+                <th>S. No.</th>  <!-- ✅ Serial number first column -->
+
         <th>Username</th>
         <th>Password</th>
         <th>Full Name</th>
@@ -154,6 +172,8 @@
     <tbody>
       {% for member in members %}
       <tr>
+                      <td>{{ forloop.counter }}</td>  <!-- ✅ Auto S.No. -->
+
         <td>{{ member.username }}</td>
         <td>{{ member.plain_password|default:"N/A" }}</td>
 
@@ -219,15 +239,15 @@
 <input type="hidden" id="csrf-token" value="{{ csrf_token }}">
 
 <script>
-  const csrfToken = document.getElementById('csrf-token').value;
+  // ---------------- CSRF + Toggle Active Functionality ----------------
+  const csrfToken = document.getElementById('csrf-token')?.value;
 
   document.querySelectorAll('.toggle-active').forEach(checkbox => {
     checkbox.addEventListener('change', function () {
-      const modelName = this.dataset.model;
       const memberId = this.dataset.id;
       const isActive = this.checked;
 
-        fetch(`/toggle-active/${memberId}/`, { ... })
+      fetch(`/toggle-active/${memberId}/`, {
         method: 'POST',
         headers: {
           'X-CSRFToken': csrfToken,
@@ -242,7 +262,7 @@
       .then(data => {
         if (!data.success) {
           alert('Failed: ' + (data.error || 'Unknown error'));
-          this.checked = !isActive;
+          this.checked = !isActive; // rollback checkbox if failed
         }
       })
       .catch(err => {
@@ -251,6 +271,47 @@
       });
     });
   });
+
+  // ---------------- State → District → Block Dropdown ----------------
+  const locations = {{ locations_json|safe }};
+  const stateSelect = document.getElementById("state");
+  const districtSelect = document.getElementById("district");
+  const blockSelect = document.getElementById("block");
+
+  if (stateSelect && districtSelect && blockSelect) {
+    // When state changes -> populate districts
+    stateSelect.addEventListener("change", function () {
+      const state = this.value;
+      districtSelect.innerHTML = `<option value="">-- Select District --</option>`;
+      blockSelect.innerHTML = `<option value="">-- Select Block --</option>`; // reset blocks
+
+      if (state && locations[state]) {
+        Object.keys(locations[state]).forEach(district => {
+          const option = document.createElement("option");
+          option.value = district;
+          option.textContent = district;
+          districtSelect.appendChild(option);
+        });
+      }
+    });
+
+    // When district changes -> populate blocks
+    districtSelect.addEventListener("change", function () {
+      const state = stateSelect.value;
+      const district = this.value;
+      blockSelect.innerHTML = `<option value="">-- Select Block --</option>`;
+
+      if (state && district && locations[state][district]) {
+        locations[state][district].forEach(block => {
+          const option = document.createElement("option");
+          option.value = block;
+          option.textContent = block;
+          blockSelect.appendChild(option);
+        });
+      }
+    });
+  }
 </script>
+
 
 {% endblock %}
