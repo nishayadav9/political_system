@@ -3730,64 +3730,94 @@ def add_forward_chain(complaint, to_user, from_panel):
 
 @login_required
 def send_admin_message(request):
-    if request.method == "POST":
-        form = AdminMessageForm(request.POST)
-        if form.is_valid():
-            receiver_username = form.cleaned_data.get("receiver_username")  # custom field
-            group_choice = form.cleaned_data.get("group_choice")            # custom field
-            message_text = form.cleaned_data.get("message")                # model field
+    form = AdminMessageForm(request.POST or None)
+    levels_selected = request.POST.getlist("level[]") if request.method == "POST" else []
 
-            users = []
+    if request.method == "POST" and form.is_valid():
+        receiver_username = form.cleaned_data.get("receiver_username")
+        group_choice = form.cleaned_data.get("group_choice")
+        state = request.POST.get("state_filter")
+        district = request.POST.get("district_filter")
+        levels = levels_selected
+        message_text = form.cleaned_data.get("message")
 
-            # Single user case
-            if receiver_username:
-                try:
-                    receiver = User.objects.get(username=receiver_username)
-                    users = [receiver]
-                except User.DoesNotExist:
-                    messages.error(request, f"User '{receiver_username}' does not exist!")
-                    return redirect("send_admin_message")
-            # Group
-            if group_choice:
-                if group_choice == "state":
-                    users.extend(User.objects.filter(state__isnull=False).exclude(assigned_district__isnull=False))
-                elif group_choice == "district":
-                    users.extend(User.objects.filter(assigned_district__isnull=False).exclude(assigned_block__isnull=False))
-                elif group_choice == "block":
-                    users.extend(User.objects.filter(assigned_block__isnull=False).exclude(booth_number__isnull=False))
-                elif group_choice == "booth":
-                    users.extend(User.objects.filter(booth_number__isnull=False))
+        users = User.objects.none()  # final queryset
 
-            if not users:
-                messages.error(request, "Enter a username or select a group.")
-                return redirect("send_admin_message")
-                
-            # Agar koi receiver hai
-            if users:
-                for u in users:
-                    AdminMessage.objects.create(
-                        sender=request.user,
-                        receiver=u,
-                        message=message_text
-                    )
-                messages.success(
-                    request, 
-                    f"Message sent to {len(users)} user(s) successfully!"
-                )
-            else:
-                messages.error(request, "Enter a username or select a group.")
+        # --- 1. Single user ---
+        if receiver_username:
+            try:
+                receiver = User.objects.get(username=receiver_username)
+                users |= User.objects.filter(id=receiver.id)
+            except User.DoesNotExist:
+                messages.error(request, f"User '{receiver_username}' does not exist!")
 
+        # --- 2. Group choice ---
+        if group_choice:
+            if group_choice == "state":
+                users |= User.objects.filter(state__isnull=False)
+            elif group_choice == "district":
+                users |= User.objects.filter(assigned_district__isnull=False)
+            elif group_choice == "block":
+                users |= User.objects.filter(assigned_block__isnull=False)
+            elif group_choice == "booth":
+                users |= User.objects.filter(booth_number__isnull=False)
+
+        # --- 3. State & District filter + checkboxes ---
+        if state and district and levels:
+            filtered_users = User.objects.none()
+            
+            for lvl in levels:
+                if lvl == "district":
+                    filtered_users |= User.objects.filter(state=state, assigned_district=district)
+                elif lvl == "block":
+                    filtered_users |= User.objects.filter(state=state, assigned_district=district, assigned_block__isnull=False)
+                elif lvl == "booth":
+                    filtered_users |= User.objects.filter(state=state, assigned_district=district, booth_number__isnull=False)
+
+            users |= filtered_users
+
+
+        # --- 4. Agar koi user nahi mila ---
+        if not users.exists():
+            messages.error(request, "No users found for the selected option or filter.")
             return redirect("send_admin_message")
 
-    else:
-        form = AdminMessageForm()
+        # --- 5. Send messages ---
+        for u in users.distinct():
+            AdminMessage.objects.create(sender=request.user, receiver=u, message=message_text)
 
+        messages.success(request, f"Message sent to {users.distinct().count()} user(s) successfully!")
+        return redirect("send_admin_message")
+
+    # --- Sent messages ---
     sent_msgs = AdminMessage.objects.filter(sender=request.user).order_by("-created_at")
-    return render(
-        request, 
-        "core/admin/send_admin_message.html", 
-        {"form": form, "sent_msgs": sent_msgs}
-    )
+
+    # --- State & district choices ---
+    state_choices = ["Bihar", "Jharkhand"]
+    district_choices = {
+        "Bihar": [
+            "Araria","Arwal","Aurangabad","Banka","Begusarai","Bhagalpur","Bhojpur","Buxar",
+            "Darbhanga","Gaya","Gopalganj","Jamui","Jehanabad","Kaimur","Katihar","Khagaria",
+            "Kishanganj","Lakhisarai","Madhepura","Madhubani","Munger","Muzaffarpur","Nalanda",
+            "Nawada","Patna","Purnia","Rohtas","Saharsa","Samastipur","Saran","Sheikhpura",
+            "Sheohar","Sitamarhi","Siwan","Supaul","Vaishali","West Champaran","East Champaran"
+        ],
+        "Jharkhand": [
+            "Bokaro","Chatra","Deoghar","Dhanbad","Dumka","East Singhbhum","Garhwa","Giridih",
+            "Godda","Gumla","Hazaribagh","Jamtara","Khunti","Koderma","Latehar","Lohardaga",
+            "Pakur","Palamu","Ramgarh","Ranchi","Sahibganj","Saraikela-Kharsawan","Simdega","West Singhbhum"
+        ]
+    }
+
+    return render(request, "core/admin/send_admin_message.html", {
+        "form": form,
+        "sent_msgs": sent_msgs,
+        "state_choices": state_choices,
+        "district_choices": district_choices,
+        "levels_selected": levels_selected,       # ✅ template me checked dikhe
+        "selected_state": state if request.method == "POST" else "",
+        "selected_district": district if request.method == "POST" else "",
+    })
 
 
 @login_required
@@ -12260,3 +12290,29 @@ def admin_complaints(request):
 
 
 
+from django.http import JsonResponse
+@login_required
+def get_districts(request):
+    state = request.GET.get('state')
+    bihar_districts = [
+        "Araria","Arwal","Aurangabad","Banka","Begusarai","Bhagalpur","Bhojpur","Buxar",
+        "Darbhanga","Gaya","Gopalganj","Jamui","Jehanabad","Kaimur","Katihar","Khagaria",
+        "Kishanganj","Lakhisarai","Madhepura","Madhubani","Munger","Muzaffarpur","Nalanda",
+        "Nawada","Patna","Purnia","Rohtas","Saharsa","Samastipur","Saran","Sheikhpura",
+        "Sheohar","Sitamarhi","Siwan","Supaul","Vaishali","West Champaran","East Champaran"
+    ]
+    
+    jharkhand_districts = [
+        "Bokaro","Chatra","Deoghar","Dhanbad","Dumka","East Singhbhum","Garhwa","Giridih",
+        "Godda","Gumla","Hazaribagh","Jamtara","Khunti","Koderma","Latehar","Lohardaga",
+        "Pakur","Palamu","Ramgarh","Ranchi","Sahibganj","Saraikela-Kharsawan","Simdega","West Singhbhum"
+    ]
+
+    if state == "Bihar":
+        districts = bihar_districts
+    elif state == "Jharkhand":
+        districts = jharkhand_districts
+    else:
+        districts = []
+
+    return JsonResponse({"districts": districts})

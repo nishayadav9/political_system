@@ -14,42 +14,79 @@
         {% endfor %}
     {% endif %}
 
-<!-- Send Message Form -->
-<div class="mb-5">
     <form method="POST">
         {% csrf_token %}
+
         <div class="row g-4">
-            <!-- Single User Message -->
+            <!-- Single User -->
             <div class="col-md-6">
                 <div class="card shadow-sm border-primary h-100">
-                    <div class="card-header bg-primary text-white fw-bold">
-                        Send to Single User
-                    </div>
+                    <div class="card-header bg-primary text-white fw-bold">Send to Single User</div>
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="id_receiver_username" class="form-label fw-semibold">Receiver Username</label>
                             {{ form.receiver_username }}
-                            <small class="text-muted d-block mt-1">
-                                Enter the exact username of the member.
-                            </small>
+                            <small class="text-muted d-block mt-1">Enter exact username of member.</small>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Group Message -->
+            <!-- Group Message Section -->
             <div class="col-md-6">
                 <div class="card shadow-sm border-success h-100">
-                    <div class="card-header bg-success text-white fw-bold">
-                        Send to Group
-                    </div>
+                    <div class="card-header bg-success text-white fw-bold">Send to Group</div>
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="id_group_choice" class="form-label fw-semibold">Select Group</label>
                             {{ form.group_choice }}
-                            <small class="text-muted d-block mt-1">
-                                Select a group (all state/district/block/booth members).
-                            </small>
+                            <small class="text-muted d-block mt-1">Select group (state/district/block/booth members).</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Horizontal Filter Card: State, District & Levels in one row -->
+        <div class="card mt-4 shadow-sm">
+            <div class="card-header bg-warning text-dark fw-bold">Send by Filter</div>
+            <div class="card-body">
+                <div class="row g-3 align-items-end">
+                    <!-- State -->
+                    <div class="col-md-4">
+                        <label for="id_state_filter" class="form-label fw-semibold">State</label>
+                        <select id="id_state_filter" name="state_filter" class="form-select">
+                            <option value="">--- Select State ---</option>
+                            <option value="Bihar" {% if request.POST.state_filter == "Bihar" %}selected{% endif %}>Bihar</option>
+                            <option value="Jharkhand" {% if request.POST.state_filter == "Jharkhand" %}selected{% endif %}>Jharkhand</option>
+                        </select>
+                    </div>
+
+                    <!-- District -->
+                    <div class="col-md-4">
+                        <label for="id_district_filter" class="form-label fw-semibold">District</label>
+                        <select id="id_district_filter" name="district_filter" class="form-select">
+                            <option value="">--- Select District ---</option>
+                        </select>
+                    </div>
+
+                    <!-- Levels -->
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Send to Levels</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="district" id="chk_district" name="level[]"
+                            {% if 'district' in levels_selected %} checked {% endif %}>
+                            <label class="form-check-label" for="chk_district">Assigned District</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="block" id="chk_block" name="level[]"
+                            {% if 'block' in levels_selected %} checked {% endif %}>
+                            <label class="form-check-label" for="chk_block">Assigned Block</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="booth" id="chk_booth" name="level[]"
+                            {% if 'booth' in levels_selected %} checked {% endif %}>
+                            <label class="form-check-label" for="chk_booth">Assigned Booth</label>
                         </div>
                     </div>
                 </div>
@@ -67,10 +104,9 @@
             </div>
         </div>
     </form>
-</div>
 
     <!-- Sent Messages Table -->
-    <h3 class="mb-3 text-secondary">Sent Messages</h3>
+    <h3 class="mb-3 text-secondary mt-4">Sent Messages</h3>
     {% if sent_msgs %}
         <div class="table-responsive shadow-sm rounded">
             <table class="table table-bordered table-striped align-middle text-center mb-0">
@@ -110,7 +146,7 @@
                                 <a href="{% url 'message_edit' msg.id %}" class="btn btn-sm btn-warning mb-1">Edit</a>
                                 <form method="POST" action="{% url 'message_delete' msg.id %}" class="d-inline">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this message?');">Delete</button>
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?');">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -122,4 +158,33 @@
         <p class="text-center text-muted mt-3">No messages sent yet.</p>
     {% endif %}
 </div>
+
+<!-- JS for dynamic district population -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const stateSelect = document.getElementById('id_state_filter');
+    const districtSelect = document.getElementById('id_district_filter');
+    const districts = {{ district_choices|safe }};
+    const selectedDistrict = "{{ request.POST.district_filter|default:'' }}";
+
+    function populateDistrict(state) {
+        districtSelect.innerHTML = '<option value="">--- Select District ---</option>';
+        if (state && districts[state]) {
+            districts[state].forEach(d => {
+                const option = document.createElement('option');
+                option.value = d;
+                option.text = d;
+                if (d === selectedDistrict) option.selected = true;
+                districtSelect.appendChild(option);
+            });
+        }
+    }
+
+    stateSelect.addEventListener('change', function() {
+        populateDistrict(this.value);
+    });
+
+    if (stateSelect.value) populateDistrict(stateSelect.value);
+});
+</script>
 {% endblock %}

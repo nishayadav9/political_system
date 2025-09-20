@@ -257,14 +257,28 @@ class RoleForm(forms.ModelForm):
 
 
 
+STATE_CHOICES = [
+    ("Bihar", "Bihar"),
+    ("Jharkhand", "Jharkhand"),
+]
+
+USER_TYPE_CHOICES = [
+    ("district", "District Member"),
+    ("block", "Block Member"),
+    ("booth", "Booth Member"),
+]
+
 class AdminMessageForm(forms.ModelForm):
+    # Single user field
     receiver_username = forms.CharField(
-        required=False,   # single user ke liye
+        required=False,
         label="Receiver Username",
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter username'})
     )
+
+    # Group selection
     group_choice = forms.ChoiceField(
-        required=False,   # group ke liye
+        required=False,
         choices=[
             ('', '--- Select Group ---'),
             ('state', 'All State Members'),
@@ -275,6 +289,28 @@ class AdminMessageForm(forms.ModelForm):
         label="Send to Group",
         widget=forms.Select(attrs={'class': 'form-select'})
     )
+
+    # Dynamic fields
+    state = forms.ChoiceField(
+        required=False,
+        choices=STATE_CHOICES,
+        label="Select State",
+        widget=forms.Select(attrs={'class': 'form-select', 'id':'id_state'})
+    )
+    district = forms.ChoiceField(
+        required=False,
+        choices=[],  # dynamic via JS/AJAX
+        label="Select District",
+        widget=forms.Select(attrs={'class': 'form-select', 'id':'id_district'})
+    )
+    user_type = forms.MultipleChoiceField(
+        required=False,
+        choices=USER_TYPE_CHOICES,
+        label="Select Members",
+        widget=forms.CheckboxSelectMultiple
+    )
+
+    # Message field
     message = forms.CharField(
         label="Message",
         widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Type your message'})
@@ -282,8 +318,7 @@ class AdminMessageForm(forms.ModelForm):
 
     class Meta:
         model = AdminMessage
-        fields = ['message']   # <-- sirf model field hi rakhna
-
+        fields = ['message']  # only model field, baaki custom
 
 class AdminSendMessageForm(forms.ModelForm):
     message = forms.CharField(
